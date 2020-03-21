@@ -1,0 +1,36 @@
+#include "task_meneger.h"
+#include "global_attributes.h"
+#include "model.h"
+
+code_t task_meneger(command_t command)
+{
+    static model_t model = init_model();
+    static point_t view_point = init_view_point();
+    code_t code;
+    
+    switch (command.action)
+    {
+        case READ_FILE:
+            code = read_file(model, command.rf);
+            break;
+        case MOVE_MODEL:
+            code = move_model(model, command.m);
+            break;
+        case ROTATE_MODEL:
+            code = rotate_model(model, command.r);
+            break;
+        case SCALE_MODEL:
+            code = scale_model(model, command.s);
+            break;
+        case DRAW_MODEL:
+            code = draw_model(model, command.d);
+            break;
+        case DELETE_MODEL:
+            code = delete_model(model, command.dlt);
+            break;
+        default:
+            code = INCORRECT_COMMAND;
+    }
+    
+    return code;
+}
