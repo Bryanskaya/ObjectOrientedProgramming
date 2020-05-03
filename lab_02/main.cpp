@@ -6,10 +6,10 @@ using namespace std;
 
 int main()
 {
-    float a;
+    //float a;
     try
     {
-        a = 5 / 0;
+        //a = 5 / 0;
         //cout << "Hello World!";
     }
     catch (BaseError& error)

@@ -39,12 +39,83 @@ public:
 
     virtual const char* what() const noexcept override
     {
-        const_cast<ErrorIndex*>(this)->errormsg = errormsg + msg + to_string(ind);
+        const_cast<ErrorIndex*>(this)->errormsg = msg + to_string(ind);
 
         return errormsg.c_str();
     }
 };
 
+class ErrorMemory : public BaseError
+{
+private:
+    string msg = "Memory error";
+public:
+    ErrorMemory(string filename, string classname, int num_line,
+                const char *time, string msg) :
+        BaseError(filename, classname, num_line, time, msg){};
+    virtual ~ErrorMemory(){} // не уверена
 
+    virtual const char* what() const noexcept override
+    {
+        const_cast<ErrorMemory*>(this)->errormsg = msg;
+
+        return errormsg.c_str();
+    }
+};
+
+class ErrorElem : public BaseError
+{
+private:
+    string msg = "Error: wrong element";
+public:
+    ErrorElem(string filename, string classname, int num_line,
+                const char *time, string msg) :
+        BaseError(filename, classname, num_line, time, msg){};
+    virtual ~ErrorElem(){} // не уверена
+
+    virtual const char* what() const noexcept override
+    {
+        const_cast<ErrorElem*>(this)->errormsg = msg;
+
+        return errormsg.c_str();
+    }
+};
+
+class ErrorSize : public BaseError
+{
+private:
+    string msg = "Wrong size";
+    int size;
+public:
+    ErrorSize(string filename, string classname, int num_line,
+               const char *time, string msg, int num) :
+        BaseError(filename, classname, num_line, time, msg), size(num){};
+    virtual ~ErrorSize(){} // не уверена
+
+    virtual const char* what() const noexcept override
+    {
+        const_cast<ErrorSize*>(this)->errormsg = msg + to_string(size);
+
+        return errormsg.c_str();
+    }
+};
+
+class ErrorEmpty : public BaseError
+{
+private:
+    string msg = "Vector is empty";
+public:
+    ErrorEmpty(string filename, string classname, int num_line,
+               const char *time, string msg) :
+        BaseError(filename, classname, num_line, time, msg){};
+    virtual ~ErrorEmpty(){} // не уверена
+
+    virtual const char* what() const noexcept override
+    {
+        const_cast<ErrorEmpty*>(this)->errormsg = msg;
+
+        return errormsg.c_str();
+    }
+};
 
 #endif // MY_ERRORS_H
