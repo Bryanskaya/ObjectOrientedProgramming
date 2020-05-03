@@ -118,4 +118,6 @@ public:
     }
 };
 
+// add ErrorDivZero
+
 #endif // MY_ERRORS_H
