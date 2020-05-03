@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        basevector.cpp \
         main.cpp
 
 HEADERS += \
+    basevector.h \
     my_errors.h

@@ -6,14 +6,19 @@ using namespace std;
 
 int main()
 {
-    //float a;
+    float a;
     try
     {
-        //a = 5 / 0;
+        a = 5 / 0;
         //cout << "Hello World!";
+
+        cout << "Testing" << endl;
+
+        //Vector<>
     }
     catch (BaseError& error)
     {
+        cout << 9 << endl;
         cout << error.what() << endl;
     }
     catch (...)
