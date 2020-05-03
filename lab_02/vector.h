@@ -10,6 +10,8 @@ public:
     Vector();
     ~Vector();
 
+    // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
+    // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
     /*Vector(int length);
     Vector(const Vector<type>& vector);
     explicit Vector(initializer_list<type> list);
