@@ -5,8 +5,10 @@ CONFIG -= qt
 
 SOURCES += \
         basevector.cpp \
-        main.cpp
+        main.cpp \
+        vector.cpp
 
 HEADERS += \
     basevector.h \
-    my_errors.h
+    my_errors.h \
+    vector.h

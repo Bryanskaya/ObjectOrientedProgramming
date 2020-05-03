@@ -1,6 +1,8 @@
 #ifndef BASEVECTOR_H
 #define BASEVECTOR_H
 
+#include "iostream"
+
 class BaseVector
 {
 protected:
