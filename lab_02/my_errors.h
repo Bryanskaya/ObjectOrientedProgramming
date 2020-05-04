@@ -118,6 +118,22 @@ public:
     }
 };
 
-// add ErrorDivZero
+class ErrorDivZero : public BaseError
+{
+private:
+    string msg = "Division by zero";
+public:
+    ErrorDivZero(string filename, string classname, int num_line,
+               const char *time, string msg) :
+        BaseError(filename, classname, num_line, time, msg){};
+    virtual ~ErrorDivZero(){} // не уверена
+
+    virtual const char* what() const noexcept override
+    {
+        const_cast<ErrorDivZero*>(this)->errormsg = errormsg +  msg;
+
+        return errormsg.c_str();
+    }
+};
 
 #endif // MY_ERRORS_H
