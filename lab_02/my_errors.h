@@ -33,9 +33,8 @@ private:
     int ind;
 public:
     ErrorIndex(string filename, string classname, int num_line,
-               const char *time, string msg, int index) :
+               const char *time, int index) :
         BaseError(filename, classname, num_line, time, msg), ind(index){};
-    virtual ~ErrorIndex(){} // не уверена
 
     virtual const char* what() const noexcept override
     {
@@ -51,9 +50,8 @@ private:
     string msg = "Memory error";
 public:
     ErrorMemory(string filename, string classname, int num_line,
-                const char *time, string msg) :
+                const char *time) :
         BaseError(filename, classname, num_line, time, msg){};
-    virtual ~ErrorMemory(){} // не уверена
 
     virtual const char* what() const noexcept override
     {
@@ -71,7 +69,6 @@ public:
     ErrorElem(string filename, string classname, int num_line,
                 const char *time, string msg) :
         BaseError(filename, classname, num_line, time, msg){};
-    virtual ~ErrorElem(){} // не уверена
 
     virtual const char* what() const noexcept override
     {
@@ -90,7 +87,6 @@ public:
     ErrorSize(string filename, string classname, int num_line,
                const char *time, string msg, int num) :
         BaseError(filename, classname, num_line, time, msg), size(num){};
-    virtual ~ErrorSize(){} // не уверена
 
     virtual const char* what() const noexcept override
     {
@@ -108,7 +104,6 @@ public:
     ErrorEmpty(string filename, string classname, int num_line,
                const char *time, string msg) :
         BaseError(filename, classname, num_line, time, msg){};
-    virtual ~ErrorEmpty(){} // не уверена
 
     virtual const char* what() const noexcept override
     {
@@ -126,7 +121,6 @@ public:
     ErrorDivZero(string filename, string classname, int num_line,
                const char *time, string msg) :
         BaseError(filename, classname, num_line, time, msg){};
-    virtual ~ErrorDivZero(){} // не уверена
 
     virtual const char* what() const noexcept override
     {
