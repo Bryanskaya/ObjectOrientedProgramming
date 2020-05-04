@@ -2,6 +2,8 @@
 #define VECTOR_H
 
 #include <memory>
+#include <time.h>
+
 #include "basevector.h"
 
 using namespace std;

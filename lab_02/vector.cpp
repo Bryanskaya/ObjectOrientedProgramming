@@ -1,6 +1,7 @@
 #include "vector.h"
 #include "my_errors.h"
 
+
 using namespace std;
 
 template<typename Type>
@@ -13,12 +14,11 @@ Vector<Type>::Vector()
 template<typename Type>
 Vector<Type>::Vector(int num)
 {
-    if (num_elem <= 0)
+    if (num <= 0)
         throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__,
                         ctime(&time), num);
     num_elem = num;
-
-
+    allocate_memory(num_elem);
 }
 
 template<typename Type>
