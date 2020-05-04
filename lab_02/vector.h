@@ -1,13 +1,23 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <memory>
 #include "basevector.h"
 
+using namespace std;
 
+template<typename Type>
 class Vector : public BaseVector
 {
+private:
+    shared_ptr<Type> list_elem;
+
+protected:
+    void allocate_memory(int num);
+
 public:
     Vector();
+    Vector(int num);
     ~Vector();
 
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
