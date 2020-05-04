@@ -10,9 +10,8 @@ protected:
 
 public:
     BaseVector();
+    BaseVector(const BaseVector&); // разобраться
     ~BaseVector();
-    /* как задать с числом? просто num_elem = num?
-     */
 
     int get_size();
     bool is_empty();
