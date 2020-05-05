@@ -1,8 +1,4 @@
 #include "vector.h"
-#include "my_errors.h"
-
-
-using namespace std;
 
 template<typename Type>
 Vector<Type>::Vector()
@@ -29,6 +25,27 @@ Vector<Type>::Vector(int num)
     // что-то с итератором, пока не поняла что и зачем
 }
 
+/*template<typename Type>
+Vector<Type>::Vector(initializer_list<Type> args)
+{
+    time_t t = time(nullptr);
+
+    if (!args.size())
+        Vector();
+
+    num_elem = int(args.size());
+    allocate_memory(num_elem);
+
+    if (!list_elem)
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__,
+                          ctime(&t));
+
+    for (int i = 0; i < num_elem; i++)
+    {
+        list_elem[i] = args[i];
+    }
+}*/
+
 template<typename Type>
 void Vector<Type>::allocate_memory(int num)
 {
@@ -43,8 +60,11 @@ void Vector<Type>::allocate_memory(int num)
 }
 
 template<typename Type>
-Vector<Type>::~Vector<Type>()
+void Vector<Type>::my_print()
 {
-    if (list_elem)
-        list_elem.reset();
+    cout << endl;
+    for (int i = 0; i < num_elem; i++)
+    {
+        cout << list_elem[i] << ' ';
+    }
 }

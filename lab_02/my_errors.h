@@ -25,45 +25,34 @@ public:
 };
 const char* BaseError::what() const noexcept
 {
-    return errormsg.c_str();
+    //return errormsg.c_str();
+    return "Test";
 }
 
 class ErrorIndex : public BaseError
 {
-private:
-    string err = "Error: wrong index ";
-    int ind;
+/*private:
+    string err = "Error: wrong index ";*/
 public:
     ErrorIndex(string filename, string classname, int num_line,
-               const char *time, string msg, int index) :
-        BaseError(filename, classname, num_line, time, msg), ind(index){}
+               const char *time, int index) :
+        BaseError(filename, classname, num_line, time,
+                  "Error: wrong index " + to_string(index)){}
 
     virtual const char* what() const noexcept override;
 };
-const char* ErrorIndex::what() const noexcept
-{
-    const_cast<ErrorIndex*>(this)->errormsg = err + to_string(ind);
-
-    return errormsg.c_str();
-}
 
 class ErrorMemory : public BaseError
 {
-private:
-    string msg = "Memory error";
+/*private:
+    string msg = "Memory error";*/
 public:
     ErrorMemory(string filename, string classname, int num_line,
                 const char *time) :
-        BaseError(filename, classname, num_line, time, msg){};
+        BaseError(filename, classname, num_line, time, "Memory error"){}
 
     virtual const char* what() const noexcept override;
 };
-const char* ErrorMemory::what() const noexcept
-{
-    const_cast<ErrorMemory*>(this)->errormsg = msg;
-
-    return errormsg.c_str();
-}
 
 class ErrorElem : public BaseError
 {
@@ -71,38 +60,26 @@ private:
     string msg = "Error: wrong element ";
 public:
     ErrorElem(string filename, string classname, int num_line,
-                const char *time, string msg) :
-        BaseError(filename, classname, num_line, time, msg){};
+                const char *time, char elem) :
+        BaseError(filename, classname, num_line, time, "Error: wrong element " + to_string(elem)){}
 
     virtual const char* what() const noexcept override;
 };
-const char* ErrorElem::what() const noexcept
-{
-    const_cast<ErrorElem*>(this)->errormsg = msg;
-
-    return errormsg.c_str();
-}
 
 class ErrorSize : public BaseError
 {
-private:
+/*private:
     string msg = "Error: wrong size ";
-    int size;
+    int size;*/
 public:
     ErrorSize(string filename, string classname, int num_line,
-               const char *time, string msg, int num) :
-        BaseError(filename, classname, num_line, time, msg), size(num){};
+               const char *time, int num) :
+        BaseError(filename, classname, num_line, time, "Error: wrong size " + to_string(num)){}
 
     virtual const char* what() const noexcept override;
 };
-const char* ErrorSize::what() const noexcept
-{
-    const_cast<ErrorSize*>(this)->errormsg = msg + to_string(size);
 
-    return errormsg.c_str();
-}
-
-class ErrorEmpty : public BaseError
+/*class ErrorEmpty : public BaseError
 {
 private:
     string msg = "Error: vector is empty";
@@ -136,6 +113,6 @@ const char* ErrorDivZero::what() const noexcept
     const_cast<ErrorDivZero*>(this)->errormsg = errormsg +  msg;
 
     return errormsg.c_str();
-}
+}*/
 
 #endif // MY_ERRORS_H

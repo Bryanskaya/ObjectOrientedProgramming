@@ -1,9 +1,6 @@
 #include <iostream>
 
-#include "my_errors.h"
-//#include "vector.h"
-
-using namespace std;
+#include "vector.h"
 
 int main()
 {
@@ -11,16 +8,15 @@ int main()
     {
         cout << "Testing" << endl;
 
-        int *p = new int[0];
-        cout << p;
-        /*Vector<int> v1;
-        Vector<float> v2(-2.0, 1.2, 3.56, -5.5);
+        Vector<int> v1{1, 2, 3};
 
-        cout << ""*/
+
+
+
     }
     catch (BaseError& error)
     {
-        cout << error.what() << endl;
+        //cout << error.what() << endl;
     }
 
     return 0;

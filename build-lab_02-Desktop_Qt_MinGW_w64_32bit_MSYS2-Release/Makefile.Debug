@@ -124,11 +124,14 @@ debug/baseiterator.o: ../lab_02/baseiterator.cpp ../lab_02/baseiterator.h
 debug/basevector.o: ../lab_02/basevector.cpp ../lab_02/basevector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/basevector.o ../lab_02/basevector.cpp
 
-debug/main.o: ../lab_02/main.cpp ../lab_02/my_errors.h
+debug/main.o: ../lab_02/main.cpp ../lab_02/vector.h \
+		../lab_02/basevector.h \
+		../lab_02/my_errors.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/main.o ../lab_02/main.cpp
 
 debug/vector.o: ../lab_02/vector.cpp ../lab_02/vector.h \
-		../lab_02/basevector.h
+		../lab_02/basevector.h \
+		../lab_02/my_errors.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/vector.o ../lab_02/vector.cpp
 
 ####### Install

@@ -5,22 +5,24 @@
 #include <time.h>
 
 #include "basevector.h"
-
-using namespace std;
+#include "my_errors.h"
 
 template<typename Type>
 class Vector : public BaseVector
 {
 private:
-    shared_ptr<Type> list_elem;
+    shared_ptr<Type[]> list_elem;
 
 protected:
     void allocate_memory(int num);
+    void my_print();
 
 public:
     Vector();
     Vector(int num);
-    ~Vector();
+    explicit Vector(initializer_list<Type> args);
+
+    virtual ~Vector() = default;
 
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
     // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
@@ -56,5 +58,28 @@ public:
 
     type[] replace_vector(); // можно наверное назвать copy*/
 };
+
+template<typename Type>
+Vector<Type>::Vector(initializer_list<Type> args)
+{
+    time_t t = time(nullptr);
+
+    if (!args.size())
+        Vector();
+
+    num_elem = int(args.size());
+    allocate_memory(num_elem);
+
+    if (!list_elem)
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__,
+                          ctime(&t));
+
+    int i = 0;
+    for (Type arg : args)
+    {
+        list_elem[i] = arg;
+        i++;
+    }
+}
 
 #endif // VECTOR_H
