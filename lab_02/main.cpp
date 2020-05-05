@@ -8,7 +8,9 @@ int main()
     {
         cout << "Testing" << endl;
 
-        Vector<int> v1{1, 2, 3};
+        Vector<int> v1(1);
+        Vector<int> v2{-5, 1, 2};
+        //v1.my_print();
 
 
 
@@ -16,7 +18,7 @@ int main()
     }
     catch (BaseError& error)
     {
-        //cout << error.what() << endl;
+        cout << error.what() << endl;
     }
 
     return 0;
