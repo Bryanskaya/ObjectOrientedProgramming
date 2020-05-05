@@ -10,7 +10,7 @@ int main()
 
         Vector<int> v1(1);
         Vector<int> v2{-5, 1, 2};
-        //v1.my_print();
+        v2.my_print();
 
 
 

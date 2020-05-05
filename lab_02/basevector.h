@@ -11,7 +11,6 @@ protected:
 public:
     BaseVector();
     BaseVector(const BaseVector&); // разобраться
-    ~BaseVector();
 
     int get_size();
     bool is_empty();

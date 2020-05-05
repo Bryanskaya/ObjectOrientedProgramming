@@ -86,6 +86,16 @@ public:
 };
 ErrorEmpty::~ErrorEmpty() = default;
 
+class ErrorNotExist : public BaseError
+{
+public:
+    ErrorNotExist(string filename, string classname, int num_line,
+               const char *time) :
+        BaseError(filename, classname, num_line, time, "Error: element not exist"){}
+
+    virtual ~ErrorNotExist();
+};
+ErrorNotExist::~ErrorNotExist() = default;
 
 class ErrorDivZero : public BaseError
 {

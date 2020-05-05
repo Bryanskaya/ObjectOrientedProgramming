@@ -15,7 +15,6 @@ private:
 
 protected:
     void allocate_memory(int num);
-    void my_print();
 
 public:
     Vector();
@@ -24,6 +23,7 @@ public:
 
     virtual ~Vector() = default;
 
+    void my_print();
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
     // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
     /*Vector(int length);
