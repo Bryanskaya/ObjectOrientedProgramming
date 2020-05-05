@@ -6,8 +6,7 @@ CONFIG -= qt
 SOURCES += \
         baseiterator.cpp \
         basevector.cpp \
-        main.cpp \
-        vector.cpp
+        main.cpp
 
 HEADERS += \
     baseiterator.h \
