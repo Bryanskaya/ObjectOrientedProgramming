@@ -224,6 +224,7 @@ Makefile: ../lab_02/lab_02.pro ../../../../mingw32/share/qt5/mkspecs/win32-g++/q
 		../../../../mingw32/share/qt5/mkspecs/features/qt_config.prf \
 		../../../../mingw32/share/qt5/mkspecs/win32-g++/qmake.conf \
 		../../../../mingw32/share/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../mingw32/share/qt5/mkspecs/features/exclusive_builds.prf \
 		../../../../mingw32/share/qt5/mkspecs/features/toolchain.prf \
 		../../../../mingw32/share/qt5/mkspecs/features/default_pre.prf \
@@ -405,6 +406,7 @@ Makefile: ../lab_02/lab_02.pro ../../../../mingw32/share/qt5/mkspecs/win32-g++/q
 ../../../../mingw32/share/qt5/mkspecs/features/qt_config.prf:
 ../../../../mingw32/share/qt5/mkspecs/win32-g++/qmake.conf:
 ../../../../mingw32/share/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../../mingw32/share/qt5/mkspecs/features/exclusive_builds.prf:
 ../../../../mingw32/share/qt5/mkspecs/features/toolchain.prf:
 ../../../../mingw32/share/qt5/mkspecs/features/default_pre.prf:
