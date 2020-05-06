@@ -2,17 +2,21 @@
 #define BASEVECTOR_H
 
 #include <iostream>
+#include <memory>
+
+using namespace std;
 
 class BaseVector
 {
 protected:
-    int num_elem = 0;
+    shared_ptr<size_t> num_elem;
 
 public:
     BaseVector();
     BaseVector(const BaseVector&); // разобраться
+    ~BaseVector();
 
-    int get_size();
+    size_t get_size();
     bool is_empty();
 };
 

@@ -2,7 +2,7 @@
 
 BaseVector::BaseVector()
 {
-    num_elem = 0;
+    num_elem = shared_ptr<size_t>(new size_t(0));
 }
 
 // зачем оно
@@ -13,12 +13,11 @@ BaseVector::BaseVector(const BaseVector& base)
 
 BaseVector::~BaseVector()
 {
-    num_elem = 0;
 }
 
-int BaseVector::get_size()
+size_t BaseVector::get_size()
 {
-    return num_elem;
+    return *num_elem;
 }
 
 bool BaseVector::is_empty()
