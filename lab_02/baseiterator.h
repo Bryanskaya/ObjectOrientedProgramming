@@ -1,7 +1,7 @@
 #ifndef BASEITERATOR_H
 #define BASEITERATOR_H
 
-template<typename Type>
+/*template<typename Type>
 class BaseIterator
 {
 protected:
@@ -11,6 +11,6 @@ protected:
 public:
     BaseIterator();
     // фигня с задаванием числа
-};
+};*/
 
 #endif // BASEITERATOR_H
