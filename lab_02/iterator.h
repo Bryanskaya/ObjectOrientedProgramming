@@ -2,9 +2,12 @@
 #define ITERATOR_H
 
 #include <memory>
+#include <time.h>
 
-#include "vector.h"
 #include "my_errors.h"
+
+template<typename Type>
+class Vector;
 
 using namespace std;
 
@@ -12,6 +15,8 @@ template<typename Type>
 class Iterator : public iterator<input_iterator_tag, Type>
 {
     friend class Vector<Type>;
+    Iterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c, size_t ind = 0) :
+        arr(a), count(c), index(ind) {}
 
 private:
     weak_ptr<Type[]> arr;
@@ -19,13 +24,21 @@ private:
     size_t index = 0;
 
 public:
+    /*Iterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c, size_t ind = 0) :
+        arr(a), count(c), index(ind) {}*/
+
     Iterator(const Iterator &iter) = default;
 
     Type& operator*();
-    const Type& operator*() const;
+    const Type& operator*() const; //
 
     Type* operator->();
     const Type* operator->() const; //
+
+    operator bool() const;
+
+    Iterator<Type>& operator+(int n) const; // разобраться с ней
+    Iterator<Type>& operator-(int n) const; // разобраться с ней
 
     Iterator<Type>& operator+=(int n); //
     Iterator<Type>& operator-=(int n); //
@@ -40,6 +53,10 @@ public:
 
     bool operator==(Iterator const& other) const;
     bool operator!=(Iterator const& other) const;
+    bool operator>=(Iterator const& other) const;
+    bool operator>(Iterator const& other) const;
+    bool operator<=(Iterator const& other) const;
+    bool operator<(Iterator const& other) const;
 };
 
 template<typename Type>
@@ -48,7 +65,7 @@ Type& Iterator<Type>::operator*()
     time_t t = time(nullptr);
 
     if (arr.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
     shared_ptr<Type[]> a(arr);
 
     return a[index];
@@ -93,7 +110,7 @@ Iterator<Type>& Iterator<Type>::operator++()
     time_t t = time(nullptr);
 
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
     shared_ptr<size_t> n(count);
     if (index < *n)
         index++;
@@ -107,7 +124,7 @@ Iterator<Type>& Iterator<Type>::operator--()
     time_t t = time(nullptr);
 
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
     shared_ptr<size_t> n(count);
     if (index > *n)
         index--;
@@ -147,6 +164,43 @@ template<typename Type>
 bool Iterator<Type>::operator!=(Iterator const& other) const
 {
     return !(index == other.index);
+}
+
+template<typename Type>
+bool Iterator<Type>::operator>=(Iterator const& other) const
+{
+    return index >= other.index;
+}
+
+template<typename Type>
+bool Iterator<Type>::operator>(Iterator const& other) const
+{
+    return index > other.index;
+}
+
+template<typename Type>
+bool Iterator<Type>::operator<=(Iterator const& other) const
+{
+    return index <= other.index;
+}
+
+template<typename Type>
+bool Iterator<Type>::operator<(Iterator const& other) const
+{
+    return index < other.index;
+}
+
+template<typename Type>
+Iterator<Type>::operator bool() const
+{
+    time_t t = time(nullptr);
+
+    if (count.expired())
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+
+    if (index >= *(count.lock()))
+        return false;
+    return true;
 }
 
 #endif // ITERATOR_H
