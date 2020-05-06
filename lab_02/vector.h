@@ -2,10 +2,12 @@
 #define VECTOR_H
 
 #include <memory>
-#include <time.h>
+#include <cmath>
 
 #include "basevector.h"
-#include "my_errors.h"
+#include "iterator.h"
+
+using namespace std;
 
 template<typename Type>
 class Vector : public BaseVector
@@ -22,6 +24,9 @@ public:
     explicit Vector(initializer_list<Type> args);
 
     virtual ~Vector() = default;
+
+    Iterator<Type> begin() const { return Iterator<Type>(list_elem, num_elem); }
+    Iterator<Type> end() const { return Iterator<Type>(list_elem, num_elem, num_elem); }
 
     void my_print();
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
@@ -44,14 +49,19 @@ public:
                                                             const type& num);  // понять разницу с другой перегрузкой *=
     template<typename _type>friend Vector<_type> operator /(const Vector<_type>& vector,
                                                             const type& num);
+    */
 
-    int get_length(); // есть в базовом: где лучше???
-    void clear(); // аналог есть в базовом, но там только обнуление числа
+    double get_length() const;
+
+    /*void clear(); // аналог есть в базовом, но там только обнуление числа
 
     void set_elem(int ind, const type& elem);
     void set_same_elems(int num, const type &num); // const type &num не уверена, это из книги - проверить. Заполняет вектор одинаковыми числами
-    type& get_elem(int ind);
-    type& get_first_elem();
+
+*/
+    Type& get_elem(int ind);
+
+    /*type& get_first_elem();
     type& get_last_elem();
     type& operator[](int ind); // доступ к элементу аналогично массиву - не нравится
 
@@ -72,14 +82,13 @@ Vector<Type>::Vector(int num)
     time_t t = time(nullptr);
 
     if (num <= 0)
-        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__,
+        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                         ctime(&t), num);
     num_elem = num;
     allocate_memory(num_elem);
 
     if (!list_elem)
-        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__,
-                          ctime(&t));
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
 
     // что-то с итератором, пока не поняла что и зачем
 }
@@ -92,8 +101,8 @@ Vector<Type>::Vector(initializer_list<Type> args)
     if (!args.size())
         Vector();
 
-    num_elem = int(args.size());
-    allocate_memory(num_elem);
+    *num_elem = int(args.size());
+    allocate_memory(*num_elem);
 
     if (!list_elem)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__,
@@ -124,10 +133,37 @@ template<typename Type>
 void Vector<Type>::my_print()
 {
     cout << endl;
-    for (int i = 0; i < num_elem; i++)
+    for (int i = 0; i < *num_elem; i++)
     {
         cout << list_elem[i] << ' ';
     }
 }
 
+template<typename Type>
+double Vector<Type>::get_length() const
+{
+    time_t t = time(nullptr);
+
+    if (*num_elem <= 0)
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                         ctime(&t));
+
+    Iterator<Type> iter = this->begin();
+    double len = 0;
+
+    for (; iter; iter++)
+        len += *iter * *iter;
+
+    return sqrt(len);
+}
+
+template<typename Type>
+Type& Vector<Type>::get_elem(int ind)
+{
+    time_t t = time(nullptr);
+
+    if (ind >= *num_elem)
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                         ctime(&t), ind);
+}
 #endif // VECTOR_H
