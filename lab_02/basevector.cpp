@@ -5,7 +5,6 @@ BaseVector::BaseVector()
     num_elem = shared_ptr<size_t>(new size_t(0));
 }
 
-// зачем оно
 BaseVector::BaseVector(const BaseVector& base)
 {
     num_elem = base.num_elem;

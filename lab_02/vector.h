@@ -7,6 +7,8 @@
 #include "basevector.h"
 #include "iterator.h"
 
+#define EPS 1e-5
+
 using namespace std;
 
 template<typename Type>
@@ -26,22 +28,29 @@ public:
     virtual ~Vector() = default;
 
     Iterator<Type> begin() const { return Iterator<Type>(list_elem, num_elem); }
-    Iterator<Type> end() const { return Iterator<Type>(list_elem, num_elem, num_elem); }
+    Iterator<Type> end() const { return Iterator<Type>(list_elem, num_elem, *num_elem); }
 
     void my_print();
+    void my_print_iter();
+
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
     // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
-    /*Vector(int length);
-    Vector(const Vector<type>& vector);
-    explicit Vector(initializer_list<type> list);
+    /*
+    Vector(const Vector<type>& vector);*/
 
-    Vector<type>& operator =(const Vector<type>& list);
+    Type& operator[](int index);
+
+    /*Vector<type>& operator =(const Vector<type>& list);
     template<typename _type>friend osteam& operator <<(osteam& os, const Vector<_type>& list); // разобраться с этим
     Vector<type>& operator +=(const Vector<type>& vector);
     Vector<type>& operator -=(const Vector<type>& vector);
     Vector<type>& operator *=(const Vector<type>& num);
-    Vector<type>& operator /=(const Vector<type>& num);
-    template<typename _type>friend Vector<_type> operator +(const Vector<_type>& vector1,
+    Vector<type>& operator /=(const Vector<type>& num);*/
+
+    bool operator ==(const Vector<Type>&) const;
+    bool operator !=(const Vector<Type>&) const;
+
+    /*template<typename _type>friend Vector<_type> operator +(const Vector<_type>& vector1,
                                                             const Vector<_type>& vector2);
     template<typename _type>friend Vector<_type> operator -(const Vector<_type>& vector1,
                                                             const Vector<_type>& vector2);
@@ -57,22 +66,19 @@ public:
 
     void set_elem(int ind, const type& elem);
     void set_same_elems(int num, const type &num); // const type &num не уверена, это из книги - проверить. Заполняет вектор одинаковыми числами
-
 */
-    Type& get_elem(int ind);
+    Type& get_elem(size_t index);
 
-    /*type& get_first_elem();
-    type& get_last_elem();
-    type& operator[](int ind); // доступ к элементу аналогично массиву - не нравится
+    Type& get_first_elem();
+    Type& get_last_elem();
 
-
-    type[] replace_vector(); // можно наверное назвать copy*/
+    /*type[] replace_vector(); // можно наверное назвать copy*/
 };
 
 template<typename Type>
 Vector<Type>::Vector()
 {
-    num_elem = 0;
+    num_elem = shared_ptr<size_t>(new size_t(0));
     list_elem = nullptr;
 }
 
@@ -84,8 +90,9 @@ Vector<Type>::Vector(int num)
     if (num <= 0)
         throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                         ctime(&t), num);
-    num_elem = num;
-    allocate_memory(num_elem);
+
+    *num_elem = shared_ptr<size_t>(new size_t(num));
+    allocate_memory(*num_elem);
 
     if (!list_elem)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
@@ -132,11 +139,56 @@ void Vector<Type>::allocate_memory(int num)
 template<typename Type>
 void Vector<Type>::my_print()
 {
-    cout << endl;
     for (int i = 0; i < *num_elem; i++)
-    {
         cout << list_elem[i] << ' ';
-    }
+    cout << endl;
+}
+
+template<typename Type>
+void Vector<Type>::my_print_iter()
+{
+    Iterator<Type> iter = this->begin();
+    for (; iter; iter++)
+        cout << *iter << ' ';
+    cout << endl;
+}
+
+template<typename Type>
+Type& Vector<Type>::operator[](int index)
+{
+    return get_elem(index);
+}
+
+template<typename Type>
+bool Vector<Type>::operator ==(const Vector<Type>& vector) const
+{
+    if (num_elem != vector.num_elem)
+        return false;
+
+    Iterator<Type> iter1(*this), iter2(vector);
+    for (; iter1; iter1++, iter2++)
+        if (fabs(*iter1 - *iter2) > EPS)
+            return false;
+
+    return true;
+}
+
+template<typename Type>
+bool Vector<Type>::operator !=(const Vector<Type>& vector) const
+{
+    if (num_elem != vector.num_elem)
+        return true;
+
+    Iterator<Type> iter1(*this), iter2(vector);
+    for (; iter1; iter1++, iter2++)
+        if (fabs(*iter1 - *iter2) > EPS)
+            return true;
+    /*if (*this == vec) // разобраться
+        return false;
+    else
+        return true;*/
+
+    return false;
 }
 
 template<typename Type>
@@ -158,12 +210,29 @@ double Vector<Type>::get_length() const
 }
 
 template<typename Type>
-Type& Vector<Type>::get_elem(int ind)
+Type& Vector<Type>::get_elem(size_t index)
 {
     time_t t = time(nullptr);
 
-    if (ind >= *num_elem)
+    if (index >= *num_elem)
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                         ctime(&t), ind);
+                         ctime(&t), index);
+
+    return list_elem[index];
 }
+
+template<typename Type>
+Type& Vector<Type>::get_first_elem()
+{
+    //проверка
+    return list_elem[0];
+}
+
+template<typename Type>
+Type& Vector<Type>::get_last_elem()
+{
+    //проверка
+    return list_elem[*num_elem - 1];
+}
+
 #endif // VECTOR_H

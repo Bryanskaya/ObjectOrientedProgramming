@@ -13,7 +13,7 @@ protected:
 
 public:
     BaseVector();
-    BaseVector(const BaseVector&); // разобраться
+    BaseVector(const BaseVector&);
     ~BaseVector();
 
     size_t get_size();
