@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -14,11 +15,15 @@ public:
     BaseError(string filename, string classname, int num_line,
                    const char *time, string msg = "Error")
     {
+        //time_t t = time(nullptr);
         errormsg = "\nFile name: " + filename +
                    "\nClass:     " + classname +
                    "\nIn line:   " + to_string(num_line) +
                    "\nTime:      " + time +
                    msg;
+
+                   /*"\nTime:      " + time +
+                   msg;*/
     }
 
     virtual const char* what() const noexcept override;
