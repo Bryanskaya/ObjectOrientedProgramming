@@ -5,9 +5,6 @@
 
 #include "my_errors.h"
 
-/*template<typename Type>
-class Vector;*/
-
 using namespace std;
 
 template<typename Type>
@@ -15,9 +12,6 @@ class BaseIterator : public iterator<input_iterator_tag, Type>
 {
 public:
     BaseIterator(const BaseIterator &iter) = default;
-
-    BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
-             size_t ind = 0) : arr(a), count(c), index(ind) {}
 
     BaseIterator<Type>& next();
     bool is_end() const;
@@ -42,8 +36,8 @@ public:
     bool operator<(BaseIterator const& other) const;
 
 protected:
-    /*BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
-             size_t ind = 0) : arr(a), count(c), index(ind) {}*/
+    BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
+             size_t ind = 0) : arr(a), count(c), index(ind) {}
 
     weak_ptr<Type[]> arr;
     weak_ptr<size_t> count;
@@ -52,9 +46,6 @@ protected:
     int help_base = 55;
 
 private:
-    /*BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
-             size_t ind = 0) : arr(a), count(c), index(ind) {}*/
-
     BaseIterator<Type>& _next();
     bool _is_end() const;
 };
