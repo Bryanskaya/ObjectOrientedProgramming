@@ -12,8 +12,8 @@ class BaseError : public exception
 protected:
     string errormsg;
 public:
-    BaseError(string filename, string classname, int num_line, string msg = "Error")
-    {
+    BaseError(string filename, string classname, int num_line, string msg);
+    /*{
         time_t t = time(nullptr);
 
         errormsg = "\n\nFile name: " + filename +
@@ -21,16 +21,58 @@ public:
                    "\nIn line:   " + to_string(num_line) +
                    "\nTime:      " + ctime(&t) +
                    msg;
-    }
+    }*/
 
     virtual const char* what() const noexcept override;
 };
-const char* BaseError::what() const noexcept
+/*const char* BaseError::what() const noexcept
 {
     return errormsg.c_str();
-}
+}*/
 
 class ErrorIndex : public BaseError
+{
+public:
+    ErrorIndex(string filename, string classname, int num_line, int index);
+    virtual ~ErrorIndex();
+};
+
+class ErrorMemory : public BaseError
+{
+public:
+    ErrorMemory(string filename, string classname, int num_line);
+    virtual ~ErrorMemory();
+};
+
+class ErrorSize : public BaseError
+{
+public:
+    ErrorSize(string filename, string classname, int num_line, int num);
+    virtual ~ErrorSize();
+};
+
+class ErrorEmpty : public BaseError
+{
+public:
+    ErrorEmpty(string filename, string classname, int num_line);
+    virtual ~ErrorEmpty();
+};
+
+class ErrorNotExist : public BaseError
+{
+public:
+    ErrorNotExist(string filename, string classname, int num_line);
+    virtual ~ErrorNotExist();
+};
+
+class ErrorDivZero : public BaseError
+{
+public:
+    ErrorDivZero(string filename, string classname, int num_line);
+    virtual ~ErrorDivZero();
+};
+
+/*class ErrorIndex : public BaseError
 {
 public:
     ErrorIndex(string filename, string classname, int num_line, int index) :
@@ -90,6 +132,6 @@ public:
 
     virtual ~ErrorDivZero();
 };
-ErrorDivZero::~ErrorDivZero() = default;
+ErrorDivZero::~ErrorDivZero() = default;*/
 
 #endif // MY_ERRORS_H
