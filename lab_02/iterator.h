@@ -24,7 +24,7 @@ private:
     size_t index = 0;
 
     Iterator<Type>& _next();
-    Type get_value();
+    Type& get_value();
     bool _is_end();
 
 public:
@@ -67,13 +67,11 @@ Type& Iterator<Type>::operator*()
 template<typename Type>
 const Type& Iterator<Type>::operator*() const
 {
-    time_t t = time(nullptr);
-
     if (arr.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    if (index >= count)
-        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t), index);
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
 
     shared_ptr<Type[]> a(arr);
 
@@ -83,13 +81,11 @@ const Type& Iterator<Type>::operator*() const
 template<typename Type>
 Type* Iterator<Type>::operator->()
 {
-    time_t t = time(nullptr);
-
     if (arr.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    if (index >= count)
-        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t), index);
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
 
     shared_ptr<Type[]> a(arr);
 
@@ -99,13 +95,11 @@ Type* Iterator<Type>::operator->()
 template<typename Type>
 const Type* Iterator<Type>::operator->() const
 {
-    time_t t = time(nullptr);
-
     if (arr.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    if (index >= count)
-        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t), index);
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
 
     shared_ptr<Type[]> a(arr);
 
@@ -128,10 +122,9 @@ Iterator<Type>& Iterator<Type>::next()
 template<typename Type>
 Iterator<Type>& Iterator<Type>::_next()
 {
-    time_t t = time(nullptr);
-
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
     shared_ptr<size_t> n(count);
     if (index < *n)
         index++;
@@ -146,19 +139,17 @@ Type Iterator<Type>::value()
 }
 
 template<typename Type>
-Type Iterator<Type>::get_value()
+Type& Iterator<Type>::get_value()
 {
-    time_t t = time(nullptr);
-
     if (arr.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    if (index >= count)
-        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t), index);
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
 
     shared_ptr<Type[]> a(arr);
 
-    return (*a)[index];
+    return a[index];
 }
 
 template<typename Type>
@@ -170,7 +161,7 @@ bool Iterator<Type>::is_end()
 template<typename Type>
 bool Iterator<Type>::_is_end()
 {
-    return index == count;
+    return index == *(count.lock());
 }
 
 template<typename Type>
@@ -182,10 +173,9 @@ Iterator<Type>& Iterator<Type>::operator++()
 template<typename Type>
 Iterator<Type>& Iterator<Type>::operator--()
 {
-    time_t t = time(nullptr);
-
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
     shared_ptr<size_t> n(count);
     if (index > *n)
         index--;
@@ -254,10 +244,8 @@ bool Iterator<Type>::operator<(Iterator const& other) const
 template<typename Type>
 Iterator<Type>::operator bool() const
 {
-    time_t t = time(nullptr);
-
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (index >= *(count.lock()))
         return false;
