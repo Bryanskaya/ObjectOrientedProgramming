@@ -85,17 +85,14 @@ Vector<Type>::Vector()
 template<typename Type>
 Vector<Type>::Vector(int num)
 {
-    time_t t = time(nullptr);
-
     if (num <= 0)
-        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                        ctime(&t), num);
+        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
 
     *num_elem = shared_ptr<size_t>(new size_t(num));
     allocate_memory(*num_elem);
 
     if (!list_elem)
-        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1, ctime(&t));
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     // что-то с итератором, пока не поняла что и зачем
 }
@@ -103,8 +100,6 @@ Vector<Type>::Vector(int num)
 template<typename Type>
 Vector<Type>::Vector(initializer_list<Type> args)
 {
-    time_t t = time(nullptr);
-
     if (!args.size())
         Vector();
 
@@ -112,8 +107,7 @@ Vector<Type>::Vector(initializer_list<Type> args)
     allocate_memory(*num_elem);
 
     if (!list_elem)
-        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__,
-                          ctime(&t));
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     int i = 0;
     for (Type arg : args)
@@ -126,12 +120,9 @@ Vector<Type>::Vector(initializer_list<Type> args)
 template<typename Type>
 void Vector<Type>::allocate_memory(int num)
 {
-    time_t t = time(nullptr);
-
     shared_ptr<Type[]> ptr_temp(new Type[num], default_delete<Type[]>());
     if (!ptr_temp)
-        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__,
-                          ctime(&t));
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
     list_elem.reset();
     list_elem = ptr_temp;
 }
@@ -191,14 +182,12 @@ bool Vector<Type>::operator !=(const Vector<Type>& vector) const
     return false;
 }
 
+// попытка перенести время
 template<typename Type>
 double Vector<Type>::get_length() const
 {
-    time_t t = time(nullptr);
-
     if (*num_elem <= 0)
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                         ctime(&t));
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Iterator<Type> iter = this->begin();
     double len = 0;
@@ -212,11 +201,9 @@ double Vector<Type>::get_length() const
 template<typename Type>
 Type& Vector<Type>::get_elem(size_t index)
 {
-    time_t t = time(nullptr);
-
     if (index >= *num_elem)
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                         ctime(&t), index);
+                         index);
 
     return list_elem[index];
 }
