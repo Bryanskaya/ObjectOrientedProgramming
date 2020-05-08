@@ -19,7 +19,11 @@ private:
 
 protected:
     void allocate_memory(int num);
-    void sum_vectors(Vector<Type>& result, Vector<Type>& vector1, Vector<Type>& vector2) const;
+    void sum_vectors(Vector<Type>& result, Vector<Type>& vector1,
+                     Vector<Type>& vector2) const;
+    void diff_vectors(Vector<Type>& result, Vector<Type>& vector1,
+                      Vector<Type>& vector2) const;
+
 
 public:
     Vector();
@@ -44,8 +48,11 @@ public:
     /*Vector<type>& operator =(const Vector<type>& list);
     template<typename _type>friend osteam& operator <<(osteam& os, const Vector<_type>& list); // разобраться с этим*/
     Vector<Type>& operator +=(const Vector<Type>& vector);
-    /*Vector<type>& operator -=(const Vector<type>& vector);
-    Vector<type>& operator *=(const Vector<type>& num);
+    Vector<Type>& operator +(const Vector<Type>& vector) const;
+
+    Vector<Type>& operator -=(const Vector<Type>& vector);
+    Vector<Type>& operator -(const Vector<Type>& vector) const;
+    /*Vector<type>& operator *=(const Vector<type>& num);
     Vector<type>& operator /=(const Vector<type>& num);*/
 
     bool operator ==(const Vector<Type>&) const;
@@ -157,7 +164,7 @@ bool Vector<Type>::operator ==(const Vector<Type>& vector) const
     if (num_elem != vector.num_elem)
         return false;
 
-    Iterator<Type> iter1(*this), iter2(vector);
+    Iterator<Type> iter1 = this->begin(), iter2 = vector.begin();
 
     for (; iter1; iter1++, iter2++)
         if (fabs(*iter1 - *iter2) > EPS)
@@ -172,7 +179,7 @@ bool Vector<Type>::operator !=(const Vector<Type>& vector) const
     if (num_elem != vector.num_elem)
         return true;
 
-    Iterator<Type> iter1(*this), iter2(vector);
+    Iterator<Type> iter1(*this), iter2(vector); // странно, см.выше
     for (; iter1; iter1++, iter2++)
         if (fabs(*iter1 - *iter2) > EPS)
             return true;
@@ -194,7 +201,24 @@ Vector<Type>& Vector<Type>::operator +=(const Vector<Type>& vector)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             num_elem, vector.num_elem);
 
-    //do
+    sum_vectors(*this, *this, vector);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator -=(const Vector<Type>& vector)
+{
+    if (num_elem <= 0 || vector.num_elem <= 0)
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (num_elem != vector.num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            num_elem, vector.num_elem);
+
+    diff_vectors(*this, *this, vector);
+
+    return *this;
 }
 
 template<typename Type>
@@ -237,12 +261,23 @@ Type& Vector<Type>::get_last_elem()
 }
 
 template<typename Type>
-void Vector<Type>::sum_vectors(Vector<Type>& result, Vector<Type>& vector1, Vector<Type>& vector2) const
+void Vector<Type>::sum_vectors(Vector<Type>& result, Vector<Type>& vector1,
+                               Vector<Type>& vector2) const
 {
     Iterator<Type> iter_res(result), iter1(vector1), iter2(vector2);
 
     for (; iter1; iter_res++, iter1++, iter2++)
-        //
+        *iter_res = *iter1 + *iter2;
+}
+
+template<typename Type>
+void Vector<Type>::diff_vectors(Vector<Type>& result, Vector<Type>& vector1,
+                               Vector<Type>& vector2) const
+{
+    Iterator<Type> iter_res(result), iter1(vector1), iter2(vector2);
+
+    for (; iter1; iter_res++, iter1++, iter2++)
+        *iter_res = *iter1 - *iter2;
 }
 
 

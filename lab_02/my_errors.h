@@ -63,7 +63,7 @@ class ErrorDiffSize : public BaseError
 {
 public:
     ErrorDiffSize(string filename, string classname, int num_line,
-                  int size1, int size2);
+                  size_t size1, size_t size2);
     virtual ~ErrorDiffSize();
 };
 

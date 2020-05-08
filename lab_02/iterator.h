@@ -11,12 +11,11 @@ class Iterator : public BaseIterator<Type>
 {
     friend class Vector<Type>;
 
-private:
+/*private:
     Iterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
-             size_t ind = 0) : BaseIterator<Type>(a, c, ind) {}
+             size_t ind = 0) : BaseIterator<Type>(a, c, ind) {}*/
 
 public:
-    // что это за строчка
     Iterator(const Iterator &iter) = default;
 
     // какие-то функции с ptr
@@ -30,10 +29,11 @@ public:
     Type* operator->();
     const Type* operator->() const;
 
-    operator bool() const;
-
 private:
     Type& get_value();
+
+    Iterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
+             size_t ind = 0) : BaseIterator<Type>(a, c, ind) {}
 };
 
 template<typename Type>
@@ -47,6 +47,8 @@ const Type& Iterator<Type>::operator*() const
 {
     if (arr.expired() || count.expired())
         throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    cout << kate;
 
     if (index >= *(count.lock()))
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
@@ -110,16 +112,6 @@ Type& Iterator<Type>::get_value()
     return a[index];
 }
 
-template<typename Type>
-Iterator<Type>::operator bool() const
-{
-    if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
-
-    if (index >= *(count.lock()))
-        return false;
-    return true;
-}
 
 
 

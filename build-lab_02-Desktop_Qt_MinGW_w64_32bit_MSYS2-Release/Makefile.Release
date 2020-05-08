@@ -59,7 +59,6 @@ OBJECTS       = release/baseiterator.o \
 DIST          =  baseiterator.h \
 		basevector.h \
 		iterator.h \
-		iterator.hpp \
 		my_errors.h \
 		vector.h ../lab_02/baseiterator.cpp \
 		../lab_02/basevector.cpp \
@@ -128,6 +127,7 @@ release/basevector.o: ../lab_02/basevector.cpp ../lab_02/basevector.h
 release/main.o: ../lab_02/main.cpp ../lab_02/vector.h \
 		../lab_02/basevector.h \
 		../lab_02/iterator.h \
+		../lab_02/baseiterator.h \
 		../lab_02/my_errors.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../lab_02/main.cpp
 

@@ -44,7 +44,7 @@ ErrorDivZero::ErrorDivZero(string filename, string classname, int num_line) :
 ErrorDivZero::~ErrorDivZero() = default;
 
 ErrorDiffSize::ErrorDiffSize(string filename, string classname, int num_line,
-                             int size1, int size2) :
+                             size_t size1, size_t size2) :
     BaseError(filename, classname, num_line,
               "Error: different sizes:" + to_string(size1) + " " + to_string(size2)){}
 ErrorDiffSize::~ErrorDiffSize() = default;

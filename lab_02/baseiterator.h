@@ -16,8 +16,13 @@ class BaseIterator : public iterator<input_iterator_tag, Type>
 public:
     BaseIterator(const BaseIterator &iter) = default;
 
+    BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
+             size_t ind = 0) : arr(a), count(c), index(ind) {}
+
     BaseIterator<Type>& next();
     bool is_end() const;
+
+    int kate = 10;
 
     operator bool() const;
 
@@ -37,12 +42,14 @@ public:
     bool operator<(BaseIterator const& other) const;
 
 protected:
-    BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
-             size_t ind = 0) : arr(a), count(c), index(ind) {}
+    /*BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
+             size_t ind = 0) : arr(a), count(c), index(ind) {}*/
 
     weak_ptr<Type[]> arr;
     weak_ptr<size_t> count;
     size_t index = 0;
+
+    int help_base = 55;
 
 private:
     /*BaseIterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,

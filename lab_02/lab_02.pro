@@ -13,6 +13,5 @@ HEADERS += \
     baseiterator.h \
     basevector.h \
     iterator.h \
-    iterator.hpp \
     my_errors.h \
     vector.h

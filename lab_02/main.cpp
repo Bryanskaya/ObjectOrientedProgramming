@@ -31,6 +31,12 @@ int main()
              << (v4 == v5 ? "Yes" : "No") << endl;
         cout << "Equal v2{-5, 1, 2} and v6{-5, 1, -2}: "
              << (v2 == v6 ? "Yes" : "No") << endl;
+        /*cout << "{-5, 1, 2} plus {-5, 1, -2}: " << (v2+=v6) << endl;
+        cout << "{-5, 1, 2} plus {-5, 1, -2}: " << (v2+v6) << endl;
+        cout << "{-5, 1, 2} minus {-5, 1, -2}: " << (v2-=v6) << endl;
+        cout << "{-5, 1, 2} minus {-5, 1, -2}: " << (v2-v6) << endl;
+*/
+
 
 
 
