@@ -11,7 +11,12 @@ template<typename Type>
 class BaseIterator : public iterator<input_iterator_tag, Type>
 {
 public:
-    BaseIterator(const BaseIterator &iter) = default;
+    BaseIterator(const BaseIterator &other)
+    {
+        arr = other.arr;
+        count = other.count;
+        index = other.index;
+    }
 
     BaseIterator<Type>& next();
     bool is_end() const;

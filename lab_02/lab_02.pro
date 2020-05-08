@@ -4,14 +4,16 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        baseiterator.cpp \
-        basevector.cpp \
+        base_vector.cpp \
         main.cpp \
         my_errors.cpp
 
 HEADERS += \
-    baseiterator.h \
-    basevector.h \
+    base_iterator.h \
+    base_vector.h \
+    const_iterator.h \
+    const_iterator.hpp \
     iterator.h \
+    iterator.hpp \
     my_errors.h \
     vector.h
