@@ -59,6 +59,7 @@ OBJECTS       = release/baseiterator.o \
 DIST          =  baseiterator.h \
 		basevector.h \
 		iterator.h \
+		iterator.hpp \
 		my_errors.h \
 		vector.h ../lab_02/baseiterator.cpp \
 		../lab_02/basevector.cpp \

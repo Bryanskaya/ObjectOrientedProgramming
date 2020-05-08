@@ -9,26 +9,13 @@ using namespace std;
 
 class BaseError : public exception
 {
-protected:
-    string errormsg;
 public:
     BaseError(string filename, string classname, int num_line, string msg);
-    /*{
-        time_t t = time(nullptr);
-
-        errormsg = "\n\nFile name: " + filename +
-                   "\nClass:     " + classname +
-                   "\nIn line:   " + to_string(num_line) +
-                   "\nTime:      " + ctime(&t) +
-                   msg;
-    }*/
 
     virtual const char* what() const noexcept override;
+protected:
+    string errormsg;
 };
-/*const char* BaseError::what() const noexcept
-{
-    return errormsg.c_str();
-}*/
 
 class ErrorIndex : public BaseError
 {
@@ -70,6 +57,14 @@ class ErrorDivZero : public BaseError
 public:
     ErrorDivZero(string filename, string classname, int num_line);
     virtual ~ErrorDivZero();
+};
+
+class ErrorDiffSize : public BaseError
+{
+public:
+    ErrorDiffSize(string filename, string classname, int num_line,
+                  int size1, int size2);
+    virtual ~ErrorDiffSize();
 };
 
 /*class ErrorIndex : public BaseError

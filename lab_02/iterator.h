@@ -1,17 +1,129 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-#include <memory>
-#include <time.h>
-
-#include "my_errors.h"
+#include "baseiterator.h"
 
 template<typename Type>
 class Vector;
 
-using namespace std;
+template<typename Type>
+class Iterator : public BaseIterator<Type>
+{
+    friend class Vector<Type>;
+
+private:
+    Iterator(const shared_ptr<Type[]>& a, const shared_ptr<size_t>& c,
+             size_t ind = 0) : BaseIterator<Type>(a, c, ind) {}
+
+public:
+    // что это за строчка
+    Iterator(const Iterator &iter) = default;
+
+    // какие-то функции с ptr
+
+    Type& value();
+    const Type& value() const;
+
+    Type& operator*();
+    const Type& operator*() const;
+
+    Type* operator->();
+    const Type* operator->() const;
+
+    operator bool() const;
+
+private:
+    Type& get_value();
+};
 
 template<typename Type>
+Type& Iterator<Type>::operator*()
+{
+    return get_value();
+}
+
+template<typename Type>
+const Type& Iterator<Type>::operator*() const
+{
+    if (arr.expired() || count.expired())
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
+
+    shared_ptr<Type[]> a(arr);
+
+    return (*a)[index];
+}
+
+template<typename Type>
+Type* Iterator<Type>::operator->()
+{
+    if (arr.expired() || count.expired())
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
+
+    shared_ptr<Type[]> a(arr);
+
+    return &(*a)[index];
+}
+
+template<typename Type>
+const Type* Iterator<Type>::operator->() const
+{
+    if (arr.expired() || count.expired())
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
+
+    shared_ptr<Type[]> a(arr);
+
+    return &(*a)[index];
+}
+
+template<typename Type>
+Type& Iterator<Type>::value()
+{
+    return get_value();
+}
+
+template<typename Type>
+const Type& Iterator<Type>::value() const
+{
+    return get_value();
+}
+
+template<typename Type>
+Type& Iterator<Type>::get_value()
+{
+    if (arr.expired() || count.expired())
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (index >= *(count.lock()))
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
+
+    shared_ptr<Type[]> a(arr);
+
+    return a[index];
+}
+
+template<typename Type>
+Iterator<Type>::operator bool() const
+{
+    if (count.expired())
+        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (index >= *(count.lock()))
+        return false;
+    return true;
+}
+
+
+
+/*template<typename Type>
 class Iterator : public iterator<input_iterator_tag, Type>
 {
     friend class Vector<Type>;
@@ -166,7 +278,7 @@ bool Iterator<Type>::_is_end()
 
 template<typename Type>
 Iterator<Type>& Iterator<Type>::operator++()
-{    
+{
     return _next();
 }
 
@@ -251,5 +363,6 @@ Iterator<Type>::operator bool() const
         return false;
     return true;
 }
+*/
 
 #endif // ITERATOR_H
