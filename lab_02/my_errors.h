@@ -12,18 +12,15 @@ class BaseError : public exception
 protected:
     string errormsg;
 public:
-    BaseError(string filename, string classname, int num_line,
-                   const char *time, string msg = "Error")
+    BaseError(string filename, string classname, int num_line, string msg = "Error")
     {
-        //time_t t = time(nullptr);
-        errormsg = "\nFile name: " + filename +
+        time_t t = time(nullptr);
+
+        errormsg = "\n\nFile name: " + filename +
                    "\nClass:     " + classname +
                    "\nIn line:   " + to_string(num_line) +
-                   "\nTime:      " + time +
+                   "\nTime:      " + ctime(&t) +
                    msg;
-
-                   /*"\nTime:      " + time +
-                   msg;*/
     }
 
     virtual const char* what() const noexcept override;
@@ -36,9 +33,8 @@ const char* BaseError::what() const noexcept
 class ErrorIndex : public BaseError
 {
 public:
-    ErrorIndex(string filename, string classname, int num_line,
-               const char *time, int index) :
-        BaseError(filename, classname, num_line, time,
+    ErrorIndex(string filename, string classname, int num_line, int index) :
+        BaseError(filename, classname, num_line,
                   "Error: wrong index " + to_string(index)){}
 
     virtual ~ErrorIndex();
@@ -48,33 +44,19 @@ ErrorIndex::~ErrorIndex() = default;
 class ErrorMemory : public BaseError
 {
 public:
-    ErrorMemory(string filename, string classname, int num_line,
-                const char *time) :
-        BaseError(filename, classname, num_line, time, "Memory error"){}
+    ErrorMemory(string filename, string classname, int num_line) :
+        BaseError(filename, classname, num_line, "Memory error"){}
 
     virtual ~ErrorMemory();
 };
 ErrorMemory::~ErrorMemory() = default;
 
-/*class ErrorElem : public BaseError
-{
-public:
-    ErrorElem(string filename, string classname, int num_line,
-                const char *time, char elem) :
-        BaseError(filename, classname, num_line, time,
-                  "Error: wrong element " + to_string(elem)){}
-
-    virtual ~ErrorElem();
-};
-ErrorElem::~ErrorElem() = default;*/
-
 class ErrorSize : public BaseError
 {
 public:
-    ErrorSize(string filename, string classname, int num_line,
-               const char *time, int num) :
-        BaseError(filename, classname, num_line, time,
-                  "Error: wrong size " + to_string(num)){}
+    ErrorSize(string filename, string classname, int num_line, int num) :
+        BaseError(filename, classname, num_line,
+                   "Error: wrong size " + to_string(num)){}
 
     virtual ~ErrorSize();
 };
@@ -83,9 +65,8 @@ ErrorSize::~ErrorSize() = default;
 class ErrorEmpty : public BaseError
 {
 public:
-    ErrorEmpty(string filename, string classname, int num_line,
-               const char *time) :
-        BaseError(filename, classname, num_line, time, "Error: vector is empty"){}
+    ErrorEmpty(string filename, string classname, int num_line) :
+        BaseError(filename, classname, num_line, "Error: vector is empty"){}
 
     virtual ~ErrorEmpty();
 };
@@ -94,9 +75,8 @@ ErrorEmpty::~ErrorEmpty() = default;
 class ErrorNotExist : public BaseError
 {
 public:
-    ErrorNotExist(string filename, string classname, int num_line,
-               const char *time) :
-        BaseError(filename, classname, num_line, time, "Error: element not exist"){}
+    ErrorNotExist(string filename, string classname, int num_line) :
+        BaseError(filename, classname, num_line, "Error: element not exist"){}
 
     virtual ~ErrorNotExist();
 };
@@ -105,9 +85,8 @@ ErrorNotExist::~ErrorNotExist() = default;
 class ErrorDivZero : public BaseError
 {
 public:
-    ErrorDivZero(string filename, string classname, int num_line,
-               const char *time) :
-        BaseError(filename, classname, num_line, time, "Error: division by zero"){}
+    ErrorDivZero(string filename, string classname, int num_line) :
+        BaseError(filename, classname, num_line, "Error: division by zero"){}
 
     virtual ~ErrorDivZero();
 };
