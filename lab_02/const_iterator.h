@@ -25,4 +25,8 @@ private:
     const Type& get_value() const;
 };
 
+#ifndef CONST_ITERATOR_HPP_ADVANCED
+#include "const_iterator.hpp"
+#endif // CONST_ITERATOR_HPP_ADVANCED
+
 #endif // CONST_ITERATOR_H

@@ -1,5 +1,6 @@
 #ifndef CONST_ITERATOR_HPP
 #define CONST_ITERATOR_HPP
+#define CONST_ITERATOR_HPP_ADVANCED
 
 #include "const_iterator.h"
 
@@ -17,7 +18,7 @@ const Type& ConstIterator<Type>::operator*() const
 
     shared_ptr<Type[]> a(this->arr);
 
-    return (*a)[this->index];
+    return a[this->index];
 }
 
 template<typename Type>
