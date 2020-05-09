@@ -6,6 +6,7 @@
 
 #include "base_vector.h"
 #include "iterator.h"
+#include "const_iterator.h"
 
 #define EPS 1e-5
 
@@ -17,43 +18,51 @@ class Vector : public BaseVector
 private:
     shared_ptr<Type[]> list_elem;
 
-protected:
-    void allocate_memory(int num);
-    void sum_vectors(Vector<Type>& result, Vector<Type>& vector1,
-                     Vector<Type>& vector2) const;
-    void diff_vectors(Vector<Type>& result, Vector<Type>& vector1,
-                      Vector<Type>& vector2) const;
-
+    void _copy_vector(const Vector<Type>& other);
+    bool _is_equal(const Vector<Type>& other) const;
+    void _allocate_memory(int num);
+    Vector<Type> _sum_vectors(const Vector<Type>& vector1,
+                              const Vector<Type>& vector2) const;
+    Vector<Type> _diff_vectors(const Vector<Type>& vector1,
+                       const Vector<Type>& vector2) const;
 
 public:
     Vector();
     Vector(int num);
+    explicit Vector(const Vector<Type>& other); // у тассова тут не  было explicit
     explicit Vector(initializer_list<Type> args);
 
     virtual ~Vector() = default;
 
-    Iterator<Type> begin() const { return Iterator<Type>(list_elem, num_elem); }
-    Iterator<Type> end() const { return Iterator<Type>(list_elem, num_elem, *num_elem); }
+    Iterator<Type> begin() { return Iterator<Type>(list_elem, num_elem); }
+    Iterator<Type> end() { return Iterator<Type>(list_elem, num_elem, *num_elem); }
+    ConstIterator<Type> begin() const { return ConstIterator<Type>(list_elem, num_elem); }
+    ConstIterator<Type> end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
+
+    ConstIterator<Type> const_begin() const { return ConstIterator<Type>(list_elem, num_elem); }
+    ConstIterator<Type> const_end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
+
 
     void my_print();
     void my_print_iter();
 
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
     // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
-    /*
-    Vector(const Vector<type>& vector);*/
+
+    //добавить угол между векторами
 
     Type& operator[](int index);
 
-    /*Vector<type>& operator =(const Vector<type>& list);
-    template<typename _type>friend osteam& operator <<(osteam& os, const Vector<_type>& list); // разобраться с этим*/
+    Vector<Type>& operator =(const Vector<Type>& other);
+    /*template<typename _type>friend osteam& operator <<(osteam& os, const Vector<_type>& list); // разобраться с этим*/
     Vector<Type>& operator +=(const Vector<Type>& vector);
-    Vector<Type>& operator +(const Vector<Type>& vector) const;
+    Vector<Type> operator +(const Vector<Type>& vector);
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
     Vector<Type>& operator -(const Vector<Type>& vector) const;
-    /*Vector<type>& operator *=(const Vector<type>& num);
-    Vector<type>& operator /=(const Vector<type>& num);*/
+
+    Vector<Type>& operator *=(const Vector<Type>& num);
+    Vector<Type>& operator /=(const Vector<Type>& num);
 
     bool operator ==(const Vector<Type>&) const;
     bool operator !=(const Vector<Type>&) const;
@@ -70,9 +79,9 @@ public:
 
     double get_length() const;
 
-    /*void clear(); // аналог есть в базовом, но там только обнуление числа
+    void clear();
 
-    void set_elem(int ind, const type& elem);
+    /*void set_elem(int ind, const type& elem);
     void set_same_elems(int num, const type &num); // const type &num не уверена, это из книги - проверить. Заполняет вектор одинаковыми числами
 */
     Type& get_elem(size_t index);
@@ -80,7 +89,7 @@ public:
     Type& get_first_elem();
     Type& get_last_elem();
 
-    /*type[] replace_vector(); // можно наверное назвать copy*/
+    /*type[] replace_vector(); // можно наверное назвать copy - уточнить с документом тассова*/
 };
 
 template<typename Type>
@@ -96,13 +105,17 @@ Vector<Type>::Vector(int num)
     if (num <= 0)
         throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
 
-    *num_elem = shared_ptr<size_t>(new size_t(num));
-    allocate_memory(*num_elem);
+    num_elem = shared_ptr<size_t>(new size_t(num));
+    _allocate_memory(*num_elem);
 
     if (!list_elem)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
+}
 
-    // что-то с итератором, пока не поняла что и зачем
+template<typename Type>
+Vector<Type>::Vector(const Vector<Type>& other)
+{
+    _copy_vector(other);
 }
 
 template<typename Type>
@@ -112,7 +125,7 @@ Vector<Type>::Vector(initializer_list<Type> args)
         Vector();
 
     *num_elem = int(args.size());
-    allocate_memory(*num_elem);
+    _allocate_memory(*num_elem);
 
     if (!list_elem)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
@@ -126,19 +139,25 @@ Vector<Type>::Vector(initializer_list<Type> args)
 }
 
 template<typename Type>
-void Vector<Type>::allocate_memory(int num)
+void Vector<Type>::_allocate_memory(int num)
 {
-    shared_ptr<Type[]> ptr_temp(new Type[num], default_delete<Type[]>());
-    if (!ptr_temp)
+    try
+    {
+        shared_ptr<Type[]> ptr_temp(new Type[num], default_delete<Type[]>());
+
+        list_elem.reset();
+        list_elem = ptr_temp;
+    }
+    catch (bad_alloc&)
+    {
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
-    list_elem.reset();
-    list_elem = ptr_temp;
+    }
 }
 
 template<typename Type>
 void Vector<Type>::my_print()
 {
-    for (int i = 0; i < *num_elem; i++)
+    for (unsigned int i = 0; i < *num_elem; i++)
         cout << list_elem[i] << ' ';
     cout << endl;
 }
@@ -161,10 +180,34 @@ Type& Vector<Type>::operator[](int index)
 template<typename Type>
 bool Vector<Type>::operator ==(const Vector<Type>& vector) const
 {
-    if (num_elem != vector.num_elem)
+    return _is_equal(vector);
+}
+
+template<typename Type>
+bool Vector<Type>::operator !=(const Vector<Type>& vector) const
+{
+    return !_is_equal(vector);
+}
+
+template<typename Type>
+void Vector<Type>::_copy_vector(const Vector<Type>& other)
+{
+    *num_elem = *other.num_elem;
+    _allocate_memory(*num_elem);
+
+    Iterator<Type> iter_new = this->begin();
+    ConstIterator<Type> iter = other.begin();
+    for (; iter; iter++, iter_new++)
+        *iter_new = *iter;
+}
+
+template<typename Type>
+bool Vector<Type>::_is_equal(const Vector<Type>& other) const
+{
+    if (*num_elem != *other.num_elem)
         return false;
 
-    Iterator<Type> iter1 = this->begin(), iter2 = vector.begin();
+    ConstIterator<Type> iter1 = this->begin(), iter2 = other.begin();
 
     for (; iter1; iter1++, iter2++)
         if (fabs(*iter1 - *iter2) > EPS)
@@ -174,34 +217,17 @@ bool Vector<Type>::operator ==(const Vector<Type>& vector) const
 }
 
 template<typename Type>
-bool Vector<Type>::operator !=(const Vector<Type>& vector) const
+Vector<Type>& Vector<Type>::operator =(const Vector<Type>& other)
 {
-    if (num_elem != vector.num_elem)
-        return true;
+    _copy_vector(other);
 
-    Iterator<Type> iter1(*this), iter2(vector); // странно, см.выше
-    for (; iter1; iter1++, iter2++)
-        if (fabs(*iter1 - *iter2) > EPS)
-            return true;
-    /*if (*this == vec) // разобраться
-        return false;
-    else
-        return true;*/
-
-    return false;
+    return *this;
 }
 
 template<typename Type>
 Vector<Type>& Vector<Type>::operator +=(const Vector<Type>& vector)
 {
-    if (num_elem <= 0 || vector.num_elem <= 0)
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
-
-    if (num_elem != vector.num_elem)
-        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                            num_elem, vector.num_elem);
-
-    sum_vectors(*this, *this, vector);
+    *this = _sum_vectors(*this, vector);
 
     return *this;
 }
@@ -209,14 +235,32 @@ Vector<Type>& Vector<Type>::operator +=(const Vector<Type>& vector)
 template<typename Type>
 Vector<Type>& Vector<Type>::operator -=(const Vector<Type>& vector)
 {
-    if (num_elem <= 0 || vector.num_elem <= 0)
+    *this = _diff_vectors(*this, vector);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator +(const Vector<Type>& vector)
+{
+    return _sum_vectors(*this, vector);
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator -(const Vector<Type>& vector) const
+{
+    return _diff_vectors(*this, vector);
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator *=(const Vector<Type>& num)
+{
+    if (*num_elem <= 0)
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    if (num_elem != vector.num_elem)
-        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                            num_elem, vector.num_elem);
-
-    diff_vectors(*this, *this, vector);
+    Iterator<Type> iter = this->begin();
+    for (; iter; iter++)
+        *iter = (*iter) * num;
 
     return *this;
 }
@@ -227,11 +271,10 @@ double Vector<Type>::get_length() const
     if (*num_elem <= 0)
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    Iterator<Type> iter = this->begin();
     double len = 0;
 
-    for (; iter; iter++)
-        len += *iter * *iter;
+    for (Type val : *this)
+        len += val * val;
 
     return sqrt(len);
 }
@@ -261,24 +304,54 @@ Type& Vector<Type>::get_last_elem()
 }
 
 template<typename Type>
-void Vector<Type>::sum_vectors(Vector<Type>& result, Vector<Type>& vector1,
-                               Vector<Type>& vector2) const
+Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
+                                        const Vector<Type>& vector2) const
 {
-    Iterator<Type> iter_res(result), iter1(vector1), iter2(vector2);
+    if (*vector1.num_elem <= 0 || *vector2.num_elem <= 0)
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (*vector1.num_elem != *vector2.num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, *vector2.num_elem);
+
+    Vector<Type> result(*this);
+    ConstIterator<Type> iter1 = vector1.begin(), iter2 = vector2.begin();
+    Iterator<Type> iter_res = result.begin();
 
     for (; iter1; iter_res++, iter1++, iter2++)
         *iter_res = *iter1 + *iter2;
+
+    return result;
 }
 
 template<typename Type>
-void Vector<Type>::diff_vectors(Vector<Type>& result, Vector<Type>& vector1,
-                               Vector<Type>& vector2) const
+Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
+                                 const Vector<Type>& vector2) const
 {
-    Iterator<Type> iter_res(result), iter1(vector1), iter2(vector2);
+    if (*vector1.num_elem <= 0 || *vector2.num_elem <= 0)
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (*vector1.num_elem != *vector2.num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, *vector2.num_elem);
+
+    Vector<Type> result(*this);
+    ConstIterator<Type> iter1 = vector1->begin(), iter2 = vector2->begin();
+    Iterator<Type> iter_res = result->begin();
 
     for (; iter1; iter_res++, iter1++, iter2++)
         *iter_res = *iter1 - *iter2;
+
+    return result;
 }
 
+template<typename Type>
+void Vector<Type>::clear()
+{
+    if (!*num_elem) return;
+
+    list_elem.reset();
+    *num_elem = 0;
+}
 
 #endif // VECTOR_H
