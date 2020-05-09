@@ -8,9 +8,6 @@ using namespace std;
 
 class BaseVector
 {
-protected:
-    shared_ptr<size_t> num_elem;
-
 public:
     BaseVector();
     BaseVector(const BaseVector&);
@@ -18,6 +15,9 @@ public:
 
     size_t get_size();
     bool is_empty();
+
+protected:
+    shared_ptr<size_t> num_elem;
 };
 
 #endif // BASEVECTOR_H
