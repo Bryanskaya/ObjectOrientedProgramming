@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <cmath>
+#include <ostream>
 
 #include "base_vector.h"
 #include "iterator.h"
@@ -20,17 +21,28 @@ private:
 
     void _copy_vector(const Vector<Type>& other);
     bool _is_equal(const Vector<Type>& other) const;
+    bool _is_empty(const Vector<Type>& vector) const;
     void _allocate_memory(int num);
+    Type _scalar_mult(const Vector<Type>& vector1,
+                      const Vector<Type>& vector2) const;
+    Vector<Type> _vect_num_mult(const Vector<Type>& vector,
+                                const Type& num) const;
+    Vector<Type> _vect_num_div(const Vector<Type>& vector,
+                                const Type& num) const;
+
     Vector<Type> _sum_vectors(const Vector<Type>& vector1,
                               const Vector<Type>& vector2) const;
     Vector<Type> _diff_vectors(const Vector<Type>& vector1,
                                const Vector<Type>& vector2) const;
 
+    void _print() const;
+
 public:
     Vector();
     Vector(int num);
-    explicit Vector(const Vector<Type>& other); // у тассова тут не  было explicit
+    explicit Vector(const Vector<Type>& vector); // у тассова тут не  было explicit
     explicit Vector(initializer_list<Type> args);
+    Vector(Vector<Type>&& vector);
 
     virtual ~Vector() = default;
 
@@ -42,40 +54,35 @@ public:
     ConstIterator<Type> const_begin() const { return ConstIterator<Type>(list_elem, num_elem); }
     ConstIterator<Type> const_end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
 
-
-    void my_print();
-    void my_print_iter();
-
     // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
     // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
 
-    //добавить угол между векторами
-
     Type& operator[](int index);
 
+    friend ostream& operator <<(ostream &os, const Vector<Type>& arr)
+    {
+        arr._print();
+        return os;
+    }
+
     Vector<Type>& operator =(const Vector<Type>& other);
-    /*template<typename _type>friend osteam& operator <<(osteam& os, const Vector<_type>& list); // разобраться с этим*/
+
     Vector<Type>& operator +=(const Vector<Type>& vector);
     Vector<Type> operator +(const Vector<Type>& vector) const;
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
-    Vector<Type>& operator -(const Vector<Type>& vector) const;
+    Vector<Type> operator -(const Vector<Type>& vector) const;
 
-    Vector<Type>& operator *=(const Vector<Type>& num);
-    Vector<Type>& operator /=(const Vector<Type>& num);
+    Vector<Type>& operator *=(const Type& num);
+    Vector<Type> operator *(const Type& num) const;
+
+    Vector<Type>& operator /=(const Type& num);
+    Vector<Type> operator /(const Type& num) const;
+
+    Type operator *(const Vector<Type>& vector) const;
 
     bool operator ==(const Vector<Type>&) const;
     bool operator !=(const Vector<Type>&) const;
-
-    /*template<typename _type>friend Vector<_type> operator +(const Vector<_type>& vector1,
-                                                            const Vector<_type>& vector2);
-    template<typename _type>friend Vector<_type> operator -(const Vector<_type>& vector1,
-                                                            const Vector<_type>& vector2);
-    template<typename _type>friend Vector<_type> operator *(const Vector<_type>& vector,
-                                                            const type& num);  // понять разницу с другой перегрузкой *=
-    template<typename _type>friend Vector<_type> operator /(const Vector<_type>& vector,
-                                                            const type& num);
-    */
 
     double get_length() const;
 
@@ -90,10 +97,15 @@ public:
     Type& get_last_elem();
 
     double angle(const Vector<Type>& vector) const;
-    Type& scalar_mul(const Vector<Type>& vector) const;
+    Type scalar_mul(const Vector<Type>& vector) const;
+    Type vector_mul(const Vector<Type>& vector) const;
 
     /*type[] replace_vector(); // можно наверное назвать copy - уточнить с документом тассова*/
 };
+
+/*template<typename Type>
+friend osteam& operator <<(osteam& os, const Vector<Type>& list)
+*/
 
 template<typename Type>
 Vector<Type>::Vector()
@@ -116,10 +128,17 @@ Vector<Type>::Vector(int num)
 }
 
 template<typename Type>
-Vector<Type>::Vector(const Vector<Type>& other) :
-    BaseVector(other)
+Vector<Type>::Vector(const Vector<Type>& vector) :
+    BaseVector(vector)
 {
-    _copy_vector(other);
+    _copy_vector(vector);
+}
+
+template<typename Type>
+Vector<Type>::Vector(Vector<Type>&& vector)
+{
+    _copy_vector(vector);
+    vector.clear();
 }
 
 template<typename Type>
@@ -158,21 +177,24 @@ void Vector<Type>::_allocate_memory(int num)
     }
 }
 
-template<typename Type>
+/*template<typename Type>
 void Vector<Type>::my_print()
 {
     for (unsigned int i = 0; i < *num_elem; i++)
         cout << list_elem[i] << ' ';
     cout << endl;
-}
+}*/
 
 template<typename Type>
-void Vector<Type>::my_print_iter()
-{
-    Iterator<Type> iter = this->begin();
-    for (; iter; iter++)
-        cout << *iter << ' ';
-    cout << endl;
+void Vector<Type>::_print() const
+{   
+    if (_is_empty(*this))
+        return;
+
+    cout << "( ";
+    for (Type val : *this)
+        cout << val << " ";
+    cout << ")";
 }
 
 template<typename Type>
@@ -221,6 +243,15 @@ bool Vector<Type>::_is_equal(const Vector<Type>& other) const
 }
 
 template<typename Type>
+bool Vector<Type>::_is_empty(const Vector<Type>& vector) const
+{
+    if (!*vector.num_elem)
+        return true;
+
+    return false;
+}
+
+template<typename Type>
 Vector<Type>& Vector<Type>::operator =(const Vector<Type>& other)
 {
     _copy_vector(other);
@@ -248,25 +279,48 @@ template<typename Type>
 Vector<Type> Vector<Type>::operator +(const Vector<Type>& vector) const
 {
     return _sum_vectors(*this, vector);
+    /*Vector<Type> new_vector(_sum_vectors(*this, vector));
+    return new_vector;*/
 }
 
 template<typename Type>
-Vector<Type>& Vector<Type>::operator -(const Vector<Type>& vector) const
+Vector<Type> Vector<Type>::operator -(const Vector<Type>& vector) const
 {
     return _diff_vectors(*this, vector);
 }
 
 template<typename Type>
-Vector<Type>& Vector<Type>::operator *=(const Vector<Type>& num)
+Vector<Type>& Vector<Type>::operator *=(const Type& num)
 {
-    if (*num_elem <= 0)
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
-
-    Iterator<Type> iter = this->begin();
-    for (; iter; iter++)
-        *iter = (*iter) * num;
+    *this = _vect_num_mult(*this, num);
 
     return *this;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator *(const Type& num) const
+{
+    return _vect_num_mult(*this, num);
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator /=(const Type& num)
+{
+    *this = _vect_num_div(*this, num);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator /(const Type& num) const
+{
+    return _vect_num_div(*this, num);
+}
+
+template<typename Type>
+Type Vector<Type>::operator *(const Vector<Type>& vector) const
+{
+    return _scalar_mult(*this, vector);
 }
 
 template<typename Type>
@@ -338,7 +392,9 @@ double Vector<Type>::angle(const Vector<Type>& vector) const
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *num_elem, *vector.num_elem);
 
-    //double angle = /(this->get_length() * vector.get_length());
+    double angle = scalar_mul(vector) / (this->get_length() * vector.get_length());
+
+    return acos(angle);
 }
 
 template<typename Type>
@@ -348,16 +404,67 @@ Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
     if (*vector1.num_elem <= 0 || *vector2.num_elem <= 0)
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    if (*vector1.num_elem != *vector2.num_elem)
-        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                            *vector1.num_elem, *vector2.num_elem);
-
     Vector<Type> result(vector1);
-    ConstIterator<Type> iter1 = vector1->begin(), iter2 = vector2->begin();
+    ConstIterator<Type> iter1 = vector1.begin(), iter2 = vector2.begin();
     Iterator<Type> iter_res = result.begin();
 
     for (; iter1; iter_res++, iter1++, iter2++)
         *iter_res = *iter1 - *iter2;
+
+    return result;
+}
+
+template<typename Type>
+Type Vector<Type>::_scalar_mult(const Vector<Type>& vector1,
+                                const Vector<Type>& vector2) const
+{
+    if (*vector1.num_elem != *vector2.num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, *vector2.num_elem);
+
+    Iterator<Type> iter1 = vector1.begin();
+    ConstIterator<Type> iter2 = vector2.begin();
+
+    Type mul = 0;
+    for (; iter1; iter1++, iter2++)
+        mul += *iter1 * *iter2;
+
+    return mul;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::_vect_num_mult(const Vector<Type>& vector,
+                                          const Type& num) const
+{
+    if (*vector.num_elem <= 0)
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    Vector<Type> result(vector);
+
+    Iterator<Type> iter_res = result.begin();
+    ConstIterator<Type> iter = vector.begin();
+    for (; iter; iter++, iter_res++)
+        *iter_res = (*iter) * num;
+
+    return result;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::_vect_num_div(const Vector<Type>& vector,
+                                          const Type& num) const
+{
+    if (*vector.num_elem <= 0)
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (!num)
+        throw ErrorDivZero(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    Vector<Type> result(vector);
+
+    Iterator<Type> iter_res = result.begin();
+    ConstIterator<Type> iter = vector.begin();
+    for (; iter; iter++, iter_res++)
+        *iter_res = (*iter) / num;
 
     return result;
 }
@@ -372,12 +479,16 @@ void Vector<Type>::clear()
 }
 
 template<typename Type>
-Type& Vector<Type>::scalar_mul(const Vector<Type>& vector) const
+Type Vector<Type>::scalar_mul(const Vector<Type>& vector) const
 {
-    Iterator<Type> iter1 = this->begin();
-    ConstIterator<Type> iter2 = vector.begin();
+    return _scalar_mult(*this, vector);
+}
 
+template<typename Type>
+Type Vector<Type>::vector_mul(const Vector<Type>& vector) const
+{
 
+    return get_length() * vector.get_length() * sin(angle(vector));
 }
 
 #endif // VECTOR_H
