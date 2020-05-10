@@ -61,7 +61,8 @@ DIST          =  base_iterator.h \
 		iterator.h \
 		iterator.hpp \
 		my_errors.h \
-		vector.h ../lab_02/base_vector.cpp \
+		vector.h \
+		vector.hpp ../lab_02/base_vector.cpp \
 		../lab_02/main.cpp \
 		../lab_02/my_errors.cpp
 QMAKE_TARGET  = lab_02
@@ -126,7 +127,9 @@ release/main.o: ../lab_02/main.cpp ../lab_02/vector.h \
 		../lab_02/iterator.h \
 		../lab_02/base_iterator.h \
 		../lab_02/my_errors.h \
-		../lab_02/iterator.hpp
+		../lab_02/iterator.hpp \
+		../lab_02/const_iterator.h \
+		../lab_02/const_iterator.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../lab_02/main.cpp
 
 release/my_errors.o: ../lab_02/my_errors.cpp ../lab_02/my_errors.h
