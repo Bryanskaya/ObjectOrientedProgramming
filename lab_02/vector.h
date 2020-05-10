@@ -19,6 +19,8 @@ class Vector : public BaseVector
 private:
     shared_ptr<Type[]> list_elem;
 
+    void _set_init_list(initializer_list<Type> args);
+
     void _copy_vector(const Vector<Type>& other);
     bool _is_equal(const Vector<Type>& other) const;
     bool _is_empty(const Vector<Type>& vector) const;
@@ -66,11 +68,14 @@ public:
     }
 
     Vector<Type>& operator =(const Vector<Type>& other);
+    Vector<Type>& operator =(initializer_list<Type> args);
 
     Vector<Type>& operator +=(const Vector<Type>& vector);
+    Vector<Type>& operator +=(initializer_list<Type> args);
     Vector<Type> operator +(const Vector<Type>& vector) const;
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
+    Vector<Type>& operator -=(initializer_list<Type> args);
     Vector<Type> operator -(const Vector<Type>& vector) const;
 
     Vector<Type>& operator *=(const Type& num);
@@ -102,10 +107,6 @@ public:
 
     /*type[] replace_vector(); // можно наверное назвать copy - уточнить с документом тассова*/
 };
-
-/*template<typename Type>
-friend osteam& operator <<(osteam& os, const Vector<Type>& list)
-*/
 
 template<typename Type>
 Vector<Type>::Vector()
@@ -144,6 +145,12 @@ Vector<Type>::Vector(Vector<Type>&& vector)
 template<typename Type>
 Vector<Type>::Vector(initializer_list<Type> args)
 {
+    _set_init_list(args);
+}
+
+template<typename Type>
+void Vector<Type>::_set_init_list(initializer_list<Type> args)
+{
     if (!args.size())
         Vector();
 
@@ -153,11 +160,11 @@ Vector<Type>::Vector(initializer_list<Type> args)
     if (!list_elem)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    int i = 0;
+    Iterator<Type> iter = this->begin();
     for (Type arg : args)
     {
-        list_elem[i] = arg;
-        i++;
+        *iter = arg;
+        iter++;
     }
 }
 
@@ -176,14 +183,6 @@ void Vector<Type>::_allocate_memory(int num)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
     }
 }
-
-/*template<typename Type>
-void Vector<Type>::my_print()
-{
-    for (unsigned int i = 0; i < *num_elem; i++)
-        cout << list_elem[i] << ' ';
-    cout << endl;
-}*/
 
 template<typename Type>
 void Vector<Type>::_print() const
@@ -221,6 +220,9 @@ void Vector<Type>::_copy_vector(const Vector<Type>& other)
     *num_elem = *other.num_elem;
     _allocate_memory(*num_elem);
 
+    if (!list_elem)
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
     Iterator<Type> iter_new = this->begin();
     ConstIterator<Type> iter = other.begin();
     for (; iter; iter++, iter_new++)
@@ -234,7 +236,6 @@ bool Vector<Type>::_is_equal(const Vector<Type>& other) const
         return false;
 
     ConstIterator<Type> iter1 = this->begin(), iter2 = other.begin();
-
     for (; iter1; iter1++, iter2++)
         if (fabs(*iter1 - *iter2) > EPS)
             return false;
@@ -260,9 +261,38 @@ Vector<Type>& Vector<Type>::operator =(const Vector<Type>& other)
 }
 
 template<typename Type>
+Vector<Type>& Vector<Type>::operator =(initializer_list<Type> args)
+{
+    if (!_is_empty(*this)) clear();
+
+    _set_init_list(args);
+
+    return *this;
+}
+
+template<typename Type>
 Vector<Type>& Vector<Type>::operator +=(const Vector<Type>& vector)
 {
     *this = _sum_vectors(*this, vector);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator +=(initializer_list<Type> args)
+{
+    if (!args.size())
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (args.size() != *num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
+
+    Iterator<Type> iter = this->begin();
+    for (Type arg : args)
+    {
+        *iter += arg;
+        iter++;
+    }
 
     return *this;
 }
@@ -276,11 +306,28 @@ Vector<Type>& Vector<Type>::operator -=(const Vector<Type>& vector)
 }
 
 template<typename Type>
+Vector<Type>& Vector<Type>::operator -=(initializer_list<Type> args)
+{
+    if (!args.size())
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (args.size() != *num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
+
+    Iterator<Type> iter = this->begin();
+    for (Type arg : args)
+    {
+        *iter -= arg;
+        iter++;
+    }
+
+    return *this;
+}
+
+template<typename Type>
 Vector<Type> Vector<Type>::operator +(const Vector<Type>& vector) const
 {
     return _sum_vectors(*this, vector);
-    /*Vector<Type> new_vector(_sum_vectors(*this, vector));
-    return new_vector;*/
 }
 
 template<typename Type>
@@ -326,7 +373,7 @@ Type Vector<Type>::operator *(const Vector<Type>& vector) const
 template<typename Type>
 double Vector<Type>::get_length() const
 {
-    if (*num_elem <= 0)
+    if (_is_empty(*this))
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     double len = 0;
@@ -365,7 +412,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
                                         const Vector<Type>& vector2) const
 {
-    if (*vector1.num_elem <= 0 || *vector2.num_elem <= 0)
+    if (_is_empty(vector1) || _is_empty(vector2))
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*vector1.num_elem != *vector2.num_elem)
@@ -385,7 +432,7 @@ Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
 template<typename Type>
 double Vector<Type>::angle(const Vector<Type>& vector) const
 {
-    if (!this->get_length() || vector.get_length())
+    if (!this->get_length() || !vector.get_length())
         throw ErrorDivZero(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*num_elem != *vector.num_elem)
@@ -401,7 +448,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
                                  const Vector<Type>& vector2) const
 {
-    if (*vector1.num_elem <= 0 || *vector2.num_elem <= 0)
+    if (_is_empty(vector1) || _is_empty(vector2))
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Vector<Type> result(vector1);
@@ -422,8 +469,8 @@ Type Vector<Type>::_scalar_mult(const Vector<Type>& vector1,
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *vector1.num_elem, *vector2.num_elem);
 
-    Iterator<Type> iter1 = vector1.begin();
-    ConstIterator<Type> iter2 = vector2.begin();
+    ConstIterator<Type> iter1 = vector1.begin(),
+                        iter2 = vector2.begin();
 
     Type mul = 0;
     for (; iter1; iter1++, iter2++)
@@ -436,7 +483,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_vect_num_mult(const Vector<Type>& vector,
                                           const Type& num) const
 {
-    if (*vector.num_elem <= 0)
+    if (_is_empty(vector))
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Vector<Type> result(vector);
@@ -453,7 +500,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_vect_num_div(const Vector<Type>& vector,
                                           const Type& num) const
 {
-    if (*vector.num_elem <= 0)
+    if (_is_empty(vector))
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (!num)
@@ -487,7 +534,6 @@ Type Vector<Type>::scalar_mul(const Vector<Type>& vector) const
 template<typename Type>
 Type Vector<Type>::vector_mul(const Vector<Type>& vector) const
 {
-
     return get_length() * vector.get_length() * sin(angle(vector));
 }
 
