@@ -24,7 +24,7 @@ private:
     Vector<Type> _sum_vectors(const Vector<Type>& vector1,
                               const Vector<Type>& vector2) const;
     Vector<Type> _diff_vectors(const Vector<Type>& vector1,
-                       const Vector<Type>& vector2) const;
+                               const Vector<Type>& vector2) const;
 
 public:
     Vector();
@@ -56,7 +56,7 @@ public:
     Vector<Type>& operator =(const Vector<Type>& other);
     /*template<typename _type>friend osteam& operator <<(osteam& os, const Vector<_type>& list); // разобраться с этим*/
     Vector<Type>& operator +=(const Vector<Type>& vector);
-    Vector<Type> operator +(const Vector<Type>& vector);
+    Vector<Type> operator +(const Vector<Type>& vector) const;
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
     Vector<Type>& operator -(const Vector<Type>& vector) const;
@@ -89,6 +89,9 @@ public:
     Type& get_first_elem();
     Type& get_last_elem();
 
+    double angle(const Vector<Type>& vector) const;
+    Type& scalar_mul(const Vector<Type>& vector) const;
+
     /*type[] replace_vector(); // можно наверное назвать copy - уточнить с документом тассова*/
 };
 
@@ -113,7 +116,8 @@ Vector<Type>::Vector(int num)
 }
 
 template<typename Type>
-Vector<Type>::Vector(const Vector<Type>& other)
+Vector<Type>::Vector(const Vector<Type>& other) :
+    BaseVector(other)
 {
     _copy_vector(other);
 }
@@ -241,7 +245,7 @@ Vector<Type>& Vector<Type>::operator -=(const Vector<Type>& vector)
 }
 
 template<typename Type>
-Vector<Type> Vector<Type>::operator +(const Vector<Type>& vector)
+Vector<Type> Vector<Type>::operator +(const Vector<Type>& vector) const
 {
     return _sum_vectors(*this, vector);
 }
@@ -314,7 +318,7 @@ Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *vector1.num_elem, *vector2.num_elem);
 
-    Vector<Type> result(*this);
+    Vector<Type> result(vector1);
     ConstIterator<Type> iter1 = vector1.begin(), iter2 = vector2.begin();
     Iterator<Type> iter_res = result.begin();
 
@@ -322,6 +326,19 @@ Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
         *iter_res = *iter1 + *iter2;
 
     return result;
+}
+
+template<typename Type>
+double Vector<Type>::angle(const Vector<Type>& vector) const
+{
+    if (!this->get_length() || vector.get_length())
+        throw ErrorDivZero(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (*num_elem != *vector.num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *num_elem, *vector.num_elem);
+
+    //double angle = /(this->get_length() * vector.get_length());
 }
 
 template<typename Type>
@@ -335,9 +352,9 @@ Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *vector1.num_elem, *vector2.num_elem);
 
-    Vector<Type> result(*this);
+    Vector<Type> result(vector1);
     ConstIterator<Type> iter1 = vector1->begin(), iter2 = vector2->begin();
-    Iterator<Type> iter_res = result->begin();
+    Iterator<Type> iter_res = result.begin();
 
     for (; iter1; iter_res++, iter1++, iter2++)
         *iter_res = *iter1 - *iter2;
@@ -352,6 +369,15 @@ void Vector<Type>::clear()
 
     list_elem.reset();
     *num_elem = 0;
+}
+
+template<typename Type>
+Type& Vector<Type>::scalar_mul(const Vector<Type>& vector) const
+{
+    Iterator<Type> iter1 = this->begin();
+    ConstIterator<Type> iter2 = vector.begin();
+
+
 }
 
 #endif // VECTOR_H

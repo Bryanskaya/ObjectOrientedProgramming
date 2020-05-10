@@ -10,7 +10,7 @@ class BaseVector
 {
 public:
     BaseVector();
-    BaseVector(const BaseVector&);
+    explicit BaseVector(const BaseVector& base);
     ~BaseVector();
 
     size_t get_size();
