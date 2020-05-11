@@ -21,8 +21,6 @@ int main()
         Vector<int> v11{0, 5, 0};
         Vector<int> v12{-7, 0, 0};
 
-
-
         cout << "Length v2" << v2 << ", v3" << v3 << ": "
              << v2.get_length() << ' ' << v3.get_length() << endl << endl << endl;
 
@@ -43,11 +41,17 @@ int main()
 
         cout << v2 << " plus " << v6 << ": " << (v2 += v6) << endl << endl;
         cout << v2 << " plus " << v6 << ": " << (v1 = v2 + v6) << endl << endl;
-        cout << v2 << " plus {1, 10, -8}: " << (v2 += {1, 10, -8}) << endl << endl << endl;
+        cout << v2 << " plus {1, 10, -8}: " << (v2 += {1, 10, -8}) << endl << endl;
+        cout << v2 << " plus " << v10 << ": ";
+        v2.add(v10);
+        cout << v2 << endl << endl << endl;
 
         cout << v1 << " minus " << v6 << ": " << (v1 -= v6) << endl << endl;
         cout << v8 << " minus " << v3 << ": " << (v8 = v8 - v3) << endl << endl;
-        cout << v2 << " minus {7, 0, -2}: " << (v2 -= {7, 0, -2}) << endl << endl << endl;
+        cout << v2 << " minus {7, 0, -2}: " << (v2 -= {7, 0, -2}) << endl << endl;
+        cout << v2 << " minus " << v9 << ": ";
+        v2.sub(v9);
+        cout << v2 << endl << endl << endl;
 
         cout << v7 << " * 2: " << (v7 *= 2) << endl << endl;
         cout << v4 << " * -1: " << (v4 *= -1) << endl << endl;
