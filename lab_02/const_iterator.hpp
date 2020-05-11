@@ -4,7 +4,6 @@
 
 #include "const_iterator.h"
 
-
 template<typename Type>
 const Type& ConstIterator<Type>::operator*() const
 {
