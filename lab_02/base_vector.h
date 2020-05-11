@@ -11,7 +11,7 @@ class BaseVector
 public:
     BaseVector();
     explicit BaseVector(const BaseVector& base);
-    ~BaseVector();
+    virtual ~BaseVector() = 0;
 
     size_t get_size();
     bool is_empty();
