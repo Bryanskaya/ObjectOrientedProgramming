@@ -14,19 +14,9 @@ BaseVector::~BaseVector()
 {
 }
 
-size_t BaseVector::get_size()
-{
-    return *num_elem;
-}
-
 size_t BaseVector::get_size() const
 {
     return *num_elem;
-}
-
-bool BaseVector::is_empty()
-{
-    return !num_elem;
 }
 
 bool BaseVector::is_empty() const
