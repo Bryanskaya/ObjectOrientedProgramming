@@ -5,16 +5,17 @@ CONFIG -= qt
 
 SOURCES += \
         base_vector.cpp \
-        main.cpp \
-        my_errors.cpp
+        errors.cpp \
+        main.cpp
 
 HEADERS += \
     base_iterator.h \
+    base_iterator.hpp \
     base_vector.h \
     const_iterator.h \
     const_iterator.hpp \
+    errors.h \
     iterator.h \
     iterator.hpp \
-    my_errors.h \
     vector.h \
     vector.hpp
