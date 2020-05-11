@@ -130,7 +130,7 @@ private:
     void _print() const;
 };
 
-template<typename Type>
+/*template<typename Type>
 void Vector<Type>::add(const Vector<Type>& vector)
 {
     *this = _sum_vectors(*this, vector);
@@ -156,7 +156,7 @@ void Vector<Type>::sub(initializer_list<Type> args)
     *this = _diff_vectors(*this, vector);
 }
 
-/*template<typename Type>
+template<typename Type>
 Vector<Type>::Vector()
 {
     num_elem = shared_ptr<size_t>(new size_t(0));
