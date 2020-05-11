@@ -9,40 +9,16 @@
 #include "iterator.h"
 #include "const_iterator.h"
 
-#define EPS 1e-5
 
 using namespace std;
 
 template<typename Type>
 class Vector : public BaseVector
 {
-private:
-    shared_ptr<Type[]> list_elem;
-
-    void _set_init_list(initializer_list<Type> args);
-
-    void _copy_vector(const Vector<Type>& other);
-    bool _is_equal(const Vector<Type>& other) const;
-    bool _is_empty(const Vector<Type>& vector) const;
-    void _allocate_memory(int num);
-    Type _scalar_mult(const Vector<Type>& vector1,
-                      const Vector<Type>& vector2) const;
-    Vector<Type> _vect_num_mult(const Vector<Type>& vector,
-                                const Type& num) const;
-    Vector<Type> _vect_num_div(const Vector<Type>& vector,
-                                const Type& num) const;
-
-    Vector<Type> _sum_vectors(const Vector<Type>& vector1,
-                              const Vector<Type>& vector2) const;
-    Vector<Type> _diff_vectors(const Vector<Type>& vector1,
-                               const Vector<Type>& vector2) const;
-
-    void _print() const;
-
 public:
     Vector();
     Vector(int num);
-    explicit Vector(const Vector<Type>& vector); // у тассова тут не  было explicit
+    explicit Vector(const Vector<Type>& vector);
     explicit Vector(initializer_list<Type> args);
     Vector(Vector<Type>&& vector);
 
@@ -50,32 +26,32 @@ public:
 
     Iterator<Type> begin() { return Iterator<Type>(list_elem, num_elem); }
     Iterator<Type> end() { return Iterator<Type>(list_elem, num_elem, *num_elem); }
+
     ConstIterator<Type> begin() const { return ConstIterator<Type>(list_elem, num_elem); }
     ConstIterator<Type> end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
 
     ConstIterator<Type> const_begin() const { return ConstIterator<Type>(list_elem, num_elem); }
     ConstIterator<Type> const_end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
 
-    // ВАЖНО!!! нужно слежить за аргументами, здесь не все готовые заголовки, кое-что взято из учебника
-    // + здесь нет функций для итератора!!!!!! ни из документа, ни из учебника
+    bool operator ==(const Vector<Type>&) const;
+    bool operator !=(const Vector<Type>&) const;
 
     Type& operator[](int index);
+    const Type& operator[](int index) const;
 
-    friend ostream& operator <<(ostream &os, const Vector<Type>& arr)
-    {
-        arr._print();
-        return os;
-    }
+    Type* get_arr();
 
     Vector<Type>& operator =(const Vector<Type>& other);
     Vector<Type>& operator =(initializer_list<Type> args);
 
     Vector<Type>& operator +=(const Vector<Type>& vector);
     Vector<Type>& operator +=(initializer_list<Type> args);
+
     Vector<Type> operator +(const Vector<Type>& vector) const;
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
     Vector<Type>& operator -=(initializer_list<Type> args);
+
     Vector<Type> operator -(const Vector<Type>& vector) const;
 
     Vector<Type>& operator *=(const Type& num);
@@ -85,30 +61,70 @@ public:
     Vector<Type> operator /(const Type& num) const;
 
     Type operator *(const Vector<Type>& vector) const;
+    Vector<Type>& operator *=(const Vector<Type>& vector);
 
-    bool operator ==(const Vector<Type>&) const;
-    bool operator !=(const Vector<Type>&) const;
+    friend ostream& operator <<(ostream &os, const Vector<Type>& arr)
+    {
+        arr._print();
+        return os;
+    }
 
     double get_length() const;
 
-    void clear();
+    void set_elem(size_t index, const Type& elem);
 
-    /*void set_elem(int ind, const type& elem);
-    void set_same_elems(int num, const type &num); // const type &num не уверена, это из книги - проверить. Заполняет вектор одинаковыми числами
-*/
-    Type& get_elem(size_t index);
-
-    Type& get_first_elem();
-    Type& get_last_elem();
+    void invert();
 
     double angle(const Vector<Type>& vector) const;
-    Type scalar_mul(const Vector<Type>& vector) const;
-    Type vector_mul(const Vector<Type>& vector) const;
 
-    /*type[] replace_vector(); // можно наверное назвать copy - уточнить с документом тассова*/
+    Type scalar_mult(const Vector<Type>& vector) const;
+    Type scalar_mult(initializer_list<Type> args) const;
+
+    Vector<Type> vector_mult(const Vector<Type>& vector) const;
+    Vector<Type> vector_mult(initializer_list<Type> args) const;
+
+    void clear();
+
+private:
+    double EPS = 1e-5;
+    unsigned int SIZE_3D = 3;
+
+    shared_ptr<Type[]> list_elem;
+
+    void _allocate_memory(int num);
+    void _set_init_list(initializer_list<Type> args);
+
+    void _copy_vector(const Vector<Type>& other);
+
+    bool _is_equal(const Vector<Type>& other) const;
+    bool _is_empty(const Vector<Type>& vector) const;
+
+    Type& _get_elem(size_t index);
+    const Type& _get_elem(size_t index) const;
+
+    Type _scalar_mult(const Vector<Type>& vector1,
+                      const Vector<Type>& vector2) const;
+    Type _scalar_mult(const Vector<Type>& vector,
+                      initializer_list<Type> args) const;
+
+    Vector<Type> _vector_mult(const Vector<Type>& vector1,
+                              const Vector<Type>& vector2) const;
+    Vector<Type> _vector_mult(const Vector<Type>& vector1,
+                              initializer_list<Type> args) const;
+
+    Vector<Type> _vect_num_mult(const Vector<Type>& vector,
+                                const Type& num) const;
+    Vector<Type> _vect_num_div(const Vector<Type>& vector,
+                                const Type& num) const;
+
+    Vector<Type> _sum_vectors(const Vector<Type>& vector1,
+                              const Vector<Type>& vector2) const;
+    Vector<Type> _diff_vectors(const Vector<Type>& vector1,
+                               const Vector<Type>& vector2) const;
+    void _print() const;
 };
 
-template<typename Type>
+/*template<typename Type>
 Vector<Type>::Vector()
 {
     num_elem = shared_ptr<size_t>(new size_t(0));
@@ -200,6 +216,24 @@ template<typename Type>
 Type& Vector<Type>::operator[](int index)
 {
     return get_elem(index);
+}
+
+template<typename Type>
+const Type& Vector<Type>::operator[](int index) const
+{
+    return get_elem(index);
+}
+
+template<typename Type>
+Type* Vector<Type>::get_arr()
+{
+    if (_is_empty(*this)) return nullptr;
+
+    Type* arr = new Type[*num_elem];
+    for (size_t i = 0; i < *num_elem; i++)
+        arr[i] = get_elem(i);
+
+    return arr;
 }
 
 template<typename Type>
@@ -371,6 +405,14 @@ Type Vector<Type>::operator *(const Vector<Type>& vector) const
 }
 
 template<typename Type>
+Vector<Type>& Vector<Type>::operator *=(const Vector<Type>& vector)
+{
+    *this = _vector_mult(*this, vector);
+
+    return *this;
+}
+
+template<typename Type>
 double Vector<Type>::get_length() const
 {
     if (_is_empty(*this))
@@ -385,7 +427,16 @@ double Vector<Type>::get_length() const
 }
 
 template<typename Type>
-Type& Vector<Type>::get_elem(size_t index)
+void Vector<Type>::set_elem(size_t index, const Type& elem)
+{
+    if (index < 0 || index >= *num_elem)
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
+
+    list_elem[index] = elem;
+}
+
+template<typename Type>
+Type& Vector<Type>::_get_elem(size_t index)
 {
     if (index >= *num_elem)
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1,
@@ -395,17 +446,13 @@ Type& Vector<Type>::get_elem(size_t index)
 }
 
 template<typename Type>
-Type& Vector<Type>::get_first_elem()
+const Type& Vector<Type>::_get_elem(size_t index) const
 {
-    //проверка
-    return list_elem[0];
-}
+    if (index >= *num_elem)
+        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                         index);
 
-template<typename Type>
-Type& Vector<Type>::get_last_elem()
-{
-    //проверка
-    return list_elem[*num_elem - 1];
+    return list_elem[index];
 }
 
 template<typename Type>
@@ -430,6 +477,12 @@ Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
 }
 
 template<typename Type>
+void Vector<Type>::invert()
+{
+    *this = _vect_num_mult(*this, -1);
+}
+
+template<typename Type>
 double Vector<Type>::angle(const Vector<Type>& vector) const
 {
     if (!this->get_length() || !vector.get_length())
@@ -439,7 +492,7 @@ double Vector<Type>::angle(const Vector<Type>& vector) const
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *num_elem, *vector.num_elem);
 
-    double angle = scalar_mul(vector) / (this->get_length() * vector.get_length());
+    double angle = scalar_mult(vector) / (this->get_length() * vector.get_length());
 
     return acos(angle);
 }
@@ -477,6 +530,72 @@ Type Vector<Type>::_scalar_mult(const Vector<Type>& vector1,
         mul += *iter1 * *iter2;
 
     return mul;
+}
+
+template<typename Type>
+Type Vector<Type>::_scalar_mult(const Vector<Type>& vector,
+                                initializer_list<Type> args) const
+{
+    if (!args.size())
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (*vector.num_elem != args.size())
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector.num_elem, args.size());
+
+    ConstIterator<Type> iter = vector.begin();
+
+    Type mul = 0;
+    for (Type arg : args)
+    {
+        mul += *iter * arg;
+        iter++;
+    }
+
+    return mul;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::_vector_mult(const Vector<Type>& vector1,
+                                        const Vector<Type>& vector2) const
+{
+    if (*vector1.num_elem != *vector2.num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, *vector2.num_elem);
+
+    if (*vector1.num_elem != SIZE_3D)
+        throw ErrorNotAllowedSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, SIZE_3D);
+
+    Vector<Type> result(vector1);
+
+    result[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+    result[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+    result[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+
+    return result;
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::_vector_mult(const Vector<Type>& vector1,
+                                        initializer_list<Type> args) const
+{
+    if (*vector1.num_elem != args.size())
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, args.size());
+
+    if (*vector1.num_elem != SIZE_3D)
+        throw ErrorNotAllowedSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
+                            *vector1.num_elem, SIZE_3D);
+
+    Vector<Type> result(vector1);
+    Vector<Type> vector2(args);
+
+    result[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+    result[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+    result[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+
+    return result;
 }
 
 template<typename Type>
@@ -526,15 +645,32 @@ void Vector<Type>::clear()
 }
 
 template<typename Type>
-Type Vector<Type>::scalar_mul(const Vector<Type>& vector) const
+Type Vector<Type>::scalar_mult(const Vector<Type>& vector) const
 {
     return _scalar_mult(*this, vector);
 }
 
 template<typename Type>
-Type Vector<Type>::vector_mul(const Vector<Type>& vector) const
+Type Vector<Type>::scalar_mult(initializer_list<Type> args) const
 {
-    return get_length() * vector.get_length() * sin(angle(vector));
+    return _scalar_mult(*this, args);
 }
+
+template<typename Type>
+Vector<Type> Vector<Type>::vector_mult(const Vector<Type>& vector) const
+{
+    return _vector_mult(*this, vector);
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::vector_mult(initializer_list<Type> args) const
+{
+    return _vector_mult(*this, args);
+}*/
+
+
+#ifndef VECTOR_HPP_ADVANCED
+#include "vector.hpp"
+#endif // VECTOR_HPP_ADVANCED
 
 #endif // VECTOR_H
