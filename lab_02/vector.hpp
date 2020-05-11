@@ -476,6 +476,32 @@ Vector<Type>& Vector<Type>::operator *=(const Vector<Type>& vector)
 }
 
 template<typename Type>
+void Vector<Type>::add(const Vector<Type>& vector)
+{
+    *this = _sum_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::add(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+    *this = _sum_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::sub(const Vector<Type>& vector)
+{
+    *this = _diff_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::sub(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+    *this = _diff_vectors(*this, vector);
+}
+
+template<typename Type>
 double Vector<Type>::get_length() const
 {
     if (_is_empty(*this))
