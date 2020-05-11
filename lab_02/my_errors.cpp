@@ -48,3 +48,10 @@ ErrorDiffSize::ErrorDiffSize(string filename, string classname, int num_line,
     BaseError(filename, classname, num_line,
               "Error: different sizes:" + to_string(size1) + " " + to_string(size2)){}
 ErrorDiffSize::~ErrorDiffSize() = default;
+
+ErrorNotAllowedSize::ErrorNotAllowedSize(string filename, string classname, int num_line,
+                             size_t size1, size_t size2) :
+    BaseError(filename, classname, num_line,
+              "Error: prohibited size: " + to_string(size1) +
+              " (allowed " + to_string(size2) + ")"){}
+ErrorNotAllowedSize::~ErrorNotAllowedSize() = default;

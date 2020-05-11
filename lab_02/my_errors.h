@@ -67,6 +67,14 @@ public:
     virtual ~ErrorDiffSize();
 };
 
+class ErrorNotAllowedSize : public BaseError
+{
+public:
+    ErrorNotAllowedSize(string filename, string classname, int num_line,
+                  size_t size1, size_t size2);
+    virtual ~ErrorNotAllowedSize();
+};
+
 /*class ErrorIndex : public BaseError
 {
 public:
