@@ -96,11 +96,9 @@ int main()
         v3.invert();
         cout << v3 << endl << endl << endl;
 
-        cout << v5 << "Invert v5: ";
+        cout << "Invert " << v5 << ": ";
         v5.invert();
         cout << v5 << endl << endl;
-
-
     }
     catch (BaseError& error)
     {
