@@ -27,15 +27,7 @@ int main()
              << v2.get_length() << ' ' << v3.get_length() << endl << endl << endl;
 
         cout << "v4" << v4 << " v4[0], v4[2], v4[4]: " << ' '
-             << v4.get_elem(0) << ' ' << v4.get_elem(2) << ' '
-             << v4.get_elem(4) << endl << endl;
-        cout << "v4" << v4 << " v4[0], v4[2], v4[4]: " << ' '
              << v4[0] << ' ' << v4[2] << ' ' << v4[4] << endl << endl << endl;
-
-        cout << "First elements in v2" << v2 << ", v3" << v3 << ": "
-             << v2.get_first_elem() << ' ' << v3.get_first_elem() << endl << endl;
-        cout << "Last elements in v2" << v2 << ", v3" << v3 << ": "
-             << v2.get_last_elem() << ' ' << v3.get_last_elem() << endl << endl << endl;
 
         cout << "Equal v4" << v4 << " and v5" << v5 << ": "
              << (v4 == v5 ? "True" : "False") << endl << endl;
@@ -68,18 +60,35 @@ int main()
         cout << v10 << " * " << v11 << ": " << (v10 * v11) << endl << endl;
         cout << v10 << " * " << v9 << ": " << (v10 * v9) << endl << endl << endl;
 
-        cout << "Scalar mult " << v10 << " and " << v11 << ": " << (v10.scalar_mul(v11)) << endl << endl;
-        cout << "Scalar mult " << v10 << " and " << v9 << ": " << (v10.scalar_mul(v9)) << endl << endl;
-        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10.vector_mul(v11)) << endl << endl;
-        cout << "Vect mult " << v10 << " and " << v12 << ": " << (v10.vector_mul(v12)) << endl << endl << endl;
+        cout << "Scalar mult " << v10 << " and " << v11 << ": " << (v10.scalar_mult(v11)) << endl << endl;
+        cout << "Scalar mult " << v10 << " and " << v9 << ": " << (v10.scalar_mult(v9)) << endl << endl;
+        cout << "Scalar mult " << v10 << " and {9, 1, -2}: " << (v10.scalar_mult({9, 1, -2})) << endl << endl << endl;
+
+        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10.vector_mult(v11)) << endl << endl;
+        cout << "Vect mult " << v10 << " and " << v12 << ": " << (v10.vector_mult(v12)) << endl << endl;
+        cout << "Vect mult " << v10 << " and {9, 1, -2}: " << (v10.vector_mult({9, 1, -2})) << endl << endl << endl;
 
         cout << "Angle between " << v10 << " and " << v11 << ": " << v10.angle(v11) << " rad" << endl << endl;
-        cout << "Angle between " << v10 << " and " << v12 << ": " << v10.angle(v12) << " rad" << endl << endl;
+        cout << "Angle between " << v10 << " and " << v12 << ": " << v10.angle(v12) << " rad" << endl << endl << endl;
 
+        cout << "Set elem 100 in pos = 2 in " << v7 << ": ";
+        v7.set_elem(2, 100);
+        cout << v7 << endl << endl;
 
-        // вставка элемента
+        cout << "Set elem -5.78 in pos = 0 in " << v4 << ": ";
+        v4.set_elem(0, -5.78);
+        cout << v4 << endl << endl << endl;
 
+        cout << v2 << "* -1: " ;
+        v2.invert();
+        cout << v2 << endl << endl;
+        cout << v3 << "* -1: " ;
+        v3.invert();
+        cout << v3 << endl << endl << endl;
 
+        cout << v5 << "Invert v5: ";
+        v5.invert();
+        cout << v5 << endl << endl;
 
 
     }
