@@ -63,6 +63,10 @@ public:
     Type operator *(const Vector<Type>& vector) const;
     Vector<Type>& operator *=(const Vector<Type>& vector);
 
+    void add(const Vector<Type>& vector);
+
+    void sub(const Vector<Type>& vector);
+
     friend ostream& operator <<(ostream &os, const Vector<Type>& arr)
     {
         arr._print();
@@ -86,8 +90,8 @@ public:
     void clear();
 
 private:
-    double EPS = 1e-5;
-    unsigned int SIZE_3D = 3;
+    const double EPS = 1e-5;
+    const unsigned int SIZE_3D = 3;
 
     shared_ptr<Type[]> list_elem;
 
@@ -123,6 +127,20 @@ private:
                                const Vector<Type>& vector2) const;
     void _print() const;
 };
+
+template<typename Type>
+void Vector<Type>::add(const Vector<Type>& vector)
+{
+    *this = _sum_vectors(*this, vector);
+    //return ???
+}
+
+template<typename Type>
+void Vector<Type>::sub(const Vector<Type>& vector)
+{
+    *this = _diff_vectors(*this, vector);
+    //return ???
+}
 
 /*template<typename Type>
 Vector<Type>::Vector()
