@@ -64,8 +64,10 @@ public:
     Vector<Type>& operator *=(const Vector<Type>& vector);
 
     void add(const Vector<Type>& vector);
+    void add(initializer_list<Type> args);
 
     void sub(const Vector<Type>& vector);
+    void sub(initializer_list<Type> args);
 
     friend ostream& operator <<(ostream &os, const Vector<Type>& arr)
     {
@@ -132,14 +134,26 @@ template<typename Type>
 void Vector<Type>::add(const Vector<Type>& vector)
 {
     *this = _sum_vectors(*this, vector);
-    //return ???
+}
+
+template<typename Type>
+void Vector<Type>::add(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+    *this = _sum_vectors(*this, vector);
 }
 
 template<typename Type>
 void Vector<Type>::sub(const Vector<Type>& vector)
 {
     *this = _diff_vectors(*this, vector);
-    //return ???
+}
+
+template<typename Type>
+void Vector<Type>::sub(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+    *this = _diff_vectors(*this, vector);
 }
 
 /*template<typename Type>

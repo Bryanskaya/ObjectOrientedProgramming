@@ -44,6 +44,9 @@ int main()
         cout << v2 << " plus {1, 10, -8}: " << (v2 += {1, 10, -8}) << endl << endl;
         cout << v2 << " plus " << v10 << ": ";
         v2.add(v10);
+        cout << v2 << endl << endl;
+        cout << v2 << " plus {12, -3, 0}: ";
+        v2.add({12, -3, 0});
         cout << v2 << endl << endl << endl;
 
         cout << v1 << " minus " << v6 << ": " << (v1 -= v6) << endl << endl;
@@ -51,6 +54,9 @@ int main()
         cout << v2 << " minus {7, 0, -2}: " << (v2 -= {7, 0, -2}) << endl << endl;
         cout << v2 << " minus " << v9 << ": ";
         v2.sub(v9);
+        cout << v2 << endl << endl;
+        cout << v2 << " minus {0, -2, 2}: ";
+        v2.sub({0, -2, 2});
         cout << v2 << endl << endl << endl;
 
         cout << v7 << " * 2: " << (v7 *= 2) << endl << endl;
