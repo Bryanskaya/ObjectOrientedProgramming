@@ -1,0 +1,4 @@
+#ifndef BASE_ITERATOR_HPP
+#define BASE_ITERATOR_HPP
+
+#endif // BASE_ITERATOR_HPP
