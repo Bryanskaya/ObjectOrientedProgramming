@@ -24,7 +24,10 @@ template<typename Type>
 void Vector<Type>::_set_init_list(initializer_list<Type> args)
 {
     if (!args.size())
-        Vector();
+    {
+        *this = Vector();
+        return;
+    }
 
     *num_elem = int(args.size());
     _allocate_memory(*num_elem);
@@ -67,15 +70,6 @@ bool Vector<Type>::_is_equal(const Vector<Type>& other) const
             return false;
 
     return true;
-}
-
-template<typename Type>
-bool Vector<Type>::_is_empty(const Vector<Type>& vector) const
-{
-    if (!*vector.num_elem)
-        return true;
-
-    return false;
 }
 
 template<typename Type>
@@ -186,7 +180,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_vect_num_mult(const Vector<Type>& vector,
                                           const Type& num) const
 {
-    if (_is_empty(vector))
+    if (is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Vector<Type> result(vector);
@@ -203,7 +197,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_vect_num_div(const Vector<Type>& vector,
                                           const Type& num) const
 {
-    if (_is_empty(vector))
+    if (is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (!num)
@@ -223,7 +217,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
                                         const Vector<Type>& vector2) const
 {
-    if (_is_empty(vector1) || _is_empty(vector2))
+    if (is_empty() || is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*vector1.num_elem != *vector2.num_elem)
@@ -244,7 +238,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
                                  const Vector<Type>& vector2) const
 {
-    if (_is_empty(vector1) || _is_empty(vector2))
+    if (is_empty() || is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Vector<Type> result(vector1);
@@ -260,7 +254,7 @@ Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
 template<typename Type>
 void Vector<Type>::_print() const
 {
-    if (_is_empty(*this))
+    if (is_empty())
         return;
 
     cout << "( ";
@@ -360,7 +354,7 @@ Vector<Type>& Vector<Type>::operator =(const Vector<Type>& other)
 template<typename Type>
 Vector<Type>& Vector<Type>::operator =(initializer_list<Type> args)
 {
-    if (!_is_empty(*this)) clear();
+    if (!is_empty()) clear();
 
     _set_init_list(args);
 
@@ -504,7 +498,7 @@ void Vector<Type>::sub(initializer_list<Type> args)
 template<typename Type>
 double Vector<Type>::get_length() const
 {
-    if (_is_empty(*this))
+    if (is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     double len = 0;

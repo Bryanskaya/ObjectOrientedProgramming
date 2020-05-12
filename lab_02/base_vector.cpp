@@ -21,5 +21,8 @@ size_t BaseVector::get_size() const
 
 bool BaseVector::is_empty() const
 {
-    return !num_elem;
+    if (!*num_elem)
+        return true;
+
+    return false;
 }

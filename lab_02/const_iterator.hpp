@@ -7,17 +7,7 @@
 template<typename Type>
 const Type& ConstIterator<Type>::operator*() const
 {
-    if (this->arr.expired() || this->count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
-
-    this->is_end();
-
-    if (this->index >= *(this->count.lock()))
-        throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, this->index);
-
-    shared_ptr<Type[]> a(this->arr);
-
-    return a[this->index];
+    return get_value();
 }
 
 template<typename Type>
