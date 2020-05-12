@@ -18,8 +18,9 @@ class Vector : public BaseVector
 public:
     Vector();
     Vector(int num);
-    explicit Vector(const Vector<Type>& vector);
+    Vector(int num, Type vector[]);
     explicit Vector(initializer_list<Type> args);
+    explicit Vector(const Vector<Type>& vector);
     Vector(Vector<Type>&& vector);
 
     virtual ~Vector() = default;
@@ -93,7 +94,6 @@ public:
 
 private:
     const double EPS = 1e-5;
-    const unsigned int SIZE_3D = 3;
 
     shared_ptr<Type[]> list_elem;
 

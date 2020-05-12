@@ -141,9 +141,9 @@ Vector<Type> Vector<Type>::_vector_mult(const Vector<Type>& vector1,
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *vector1.num_elem, *vector2.num_elem);
 
-    if (*vector1.num_elem != SIZE_3D)
+    if (*vector1.num_elem != 3)
         throw ErrorNotAllowedSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                            *vector1.num_elem, SIZE_3D);
+                            *vector1.num_elem, 3);
 
     Vector<Type> result(vector1);
 
@@ -162,9 +162,9 @@ Vector<Type> Vector<Type>::_vector_mult(const Vector<Type>& vector1,
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
                             *vector1.num_elem, args.size());
 
-    if (*vector1.num_elem != SIZE_3D)
+    if (*vector1.num_elem != 3)
         throw ErrorNotAllowedSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
-                            *vector1.num_elem, SIZE_3D);
+                            *vector1.num_elem, 3);
 
     Vector<Type> result(vector1);
     Vector<Type> vector2(args);
@@ -283,6 +283,23 @@ Vector<Type>::Vector(int num)
 
     if (!list_elem)
         throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
+}
+
+template<typename Type>
+Vector<Type>::Vector(int num, Type vector[])
+{
+    if (num <= 0)
+        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
+
+    num_elem = shared_ptr<size_t>(new size_t(num));
+    _allocate_memory(*num_elem);
+
+    if (!list_elem)
+        throw ErrorMemory(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    Iterator<Type> iter = this-> begin();
+    for (int i = 0; iter; iter++, i++)
+        *iter = vector[i];
 }
 
 template<typename Type>
