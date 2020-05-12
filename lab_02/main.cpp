@@ -20,6 +20,8 @@ int main()
         Vector<int> v10{5, 0, 0};
         Vector<int> v11{0, 5, 0};
         Vector<int> v12{-7, 0, 0};
+        double arr[3] = {-5.5, 10, 8.72};
+        Vector<double> v13(3, arr);
 
         cout << "Length v2" << v2 << ", v3" << v3 << ": "
              << v2.get_length() << ' ' << v3.get_length() << endl << endl << endl;
@@ -98,7 +100,9 @@ int main()
 
         cout << "Invert " << v5 << ": ";
         v5.invert();
-        cout << v5 << endl << endl;
+        cout << v5 << endl << endl << endl;
+
+        cout << v13 << endl << endl << endl;
     }
     catch (BaseError& error)
     {
