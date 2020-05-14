@@ -35,10 +35,18 @@ public:
     ConstIterator<Type> const_end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
 
     bool operator ==(const Vector<Type>&) const;
+    bool operator ==(Vector<Type>&& vector) const;
     bool is_equal(const Vector<Type>&) const;
+    bool is_equal(initializer_list<Type> args) const;
+    bool is_equal(Vector<Type>&& vector) const;
+
 
     bool operator !=(const Vector<Type>&) const;
+    bool operator !=(Vector<Type>&& vector) const;//
     bool isnt_equal(const Vector<Type>&) const;
+    bool isnt_equal(initializer_list<Type> args) const;
+    bool isnt_equal(Vector<Type>&& vector) const; //
+
 
     Type& operator[](int index);
     const Type& operator[](int index) const;
@@ -53,31 +61,32 @@ public:
     Vector<Type>& operator +=(initializer_list<Type> args);
     Vector<Type>& operator +=(Vector<Type>&& vector);
 
-    Vector<Type> operator +(const Vector<Type>& vector) const;
-    Vector<Type> operator +(Vector<Type>&& vector) const;
-
     void add(const Vector<Type>& vector);
     void add(initializer_list<Type> args);
     void add(Vector<Type>&& vector);
+
+    Vector<Type> operator +(const Vector<Type>& vector) const;
+    Vector<Type> operator +(Vector<Type>&& vector) const;
+
+    //Vector<Type> sum_vect(const Vector<Type>& vector) const;
+    //Vector<Type> sum_vect(initializer_list<Type> args) const;
+    //Vector<Type> sum_vect(Vector<Type>&& vector) const;
 
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
     Vector<Type>& operator -=(initializer_list<Type> args);
     Vector<Type>& operator -=(Vector<Type>&& vector);
 
-    Vector<Type> operator -(const Vector<Type>& vector) const;
-    Vector<Type> operator -(Vector<Type>&& vector) const;
-
     void sub(const Vector<Type>& vector);
     void sub(initializer_list<Type> args);
     void sub(Vector<Type>&& vector);
 
+    Vector<Type> operator -(const Vector<Type>& vector) const;
+    Vector<Type> operator -(Vector<Type>&& vector) const;
 
-    Vector<Type>& operator *=(const Type& num);
-    Vector<Type> operator *(const Type& num) const;
-
-    Vector<Type>& operator /=(const Type& num);
-    Vector<Type> operator /(const Type& num) const;
+    //Vector<Type> diff_vect(const Vector<Type>& vector) const;
+    //Vector<Type> diff_vect(initializer_list<Type> args) const;
+    //Vector<Type> diff_vect(Vector<Type>&& vector) const;
 
     Type operator *(const Vector<Type>& vector) const;
     Type operator *(Vector<Type>&& vector) const;
@@ -89,6 +98,14 @@ public:
     Vector<Type> vector_mult(const Vector<Type>& vector) const;
     Vector<Type> vector_mult(initializer_list<Type> args) const;
     Vector<Type> vector_mult(Vector<Type>&& vector) const;
+
+
+    Vector<Type>& operator *=(const Type& num);
+    Vector<Type> operator *(const Type& num) const;
+
+    Vector<Type>& operator /=(const Type& num);
+    Vector<Type> operator /(const Type& num) const;
+
 
     Vector<Type> operator -();
     void make_negative();

@@ -334,9 +334,45 @@ bool Vector<Type>::operator ==(const Vector<Type>& vector) const
 }
 
 template<typename Type>
+bool Vector<Type>::operator ==(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _is_equal(other);
+}
+
+template<typename Type>
+bool Vector<Type>::is_equal(initializer_list<Type> args) const
+{
+    if (!args.size())
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (args.size() != *num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
+
+    ConstIterator<Type> iter = this->begin();
+    for (Type arg : args)
+    {
+        if (*iter != arg)
+            return false;
+        iter++;
+    }
+
+    return true;
+}
+
+template<typename Type>
 bool Vector<Type>::is_equal(const Vector<Type>& vector) const
 {
     return _is_equal(vector);
+}
+
+template<typename Type>
+bool Vector<Type>::is_equal(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _is_equal(other);
 }
 
 template<typename Type>
@@ -346,9 +382,45 @@ bool Vector<Type>::operator !=(const Vector<Type>& vector) const
 }
 
 template<typename Type>
+bool Vector<Type>::operator !=(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return !_is_equal(other);
+}
+
+template<typename Type>
 bool Vector<Type>::isnt_equal(const Vector<Type>& vector) const
 {
     return !_is_equal(vector);
+}
+
+template<typename Type>
+bool Vector<Type>::isnt_equal(initializer_list<Type> args) const
+{
+    if (!args.size())
+        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (args.size() != *num_elem)
+        throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
+
+    ConstIterator<Type> iter = this->begin();
+    for (Type arg : args)
+    {
+        if (*iter != arg)
+            return true;
+        iter++;
+    }
+
+    return false;
+}
+
+template<typename Type>
+bool Vector<Type>::isnt_equal(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return !_is_equal(other);
 }
 
 template<typename Type>
