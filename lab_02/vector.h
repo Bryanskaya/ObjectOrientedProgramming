@@ -42,10 +42,10 @@ public:
 
 
     bool operator !=(const Vector<Type>&) const;
-    bool operator !=(Vector<Type>&& vector) const;//
+    bool operator !=(Vector<Type>&& vector) const;
     bool isnt_equal(const Vector<Type>&) const;
     bool isnt_equal(initializer_list<Type> args) const;
-    bool isnt_equal(Vector<Type>&& vector) const; //
+    bool isnt_equal(Vector<Type>&& vector) const;
 
 
     Type& operator[](int index);
@@ -68,10 +68,6 @@ public:
     Vector<Type> operator +(const Vector<Type>& vector) const;
     Vector<Type> operator +(Vector<Type>&& vector) const;
 
-    //Vector<Type> sum_vect(const Vector<Type>& vector) const;
-    //Vector<Type> sum_vect(initializer_list<Type> args) const;
-    //Vector<Type> sum_vect(Vector<Type>&& vector) const;
-
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
     Vector<Type>& operator -=(initializer_list<Type> args);
@@ -83,10 +79,6 @@ public:
 
     Vector<Type> operator -(const Vector<Type>& vector) const;
     Vector<Type> operator -(Vector<Type>&& vector) const;
-
-    //Vector<Type> diff_vect(const Vector<Type>& vector) const;
-    //Vector<Type> diff_vect(initializer_list<Type> args) const;
-    //Vector<Type> diff_vect(Vector<Type>&& vector) const;
 
     Type operator *(const Vector<Type>& vector) const;
     Type operator *(Vector<Type>&& vector) const;
@@ -120,7 +112,6 @@ public:
 
     bool is_collinear(const Vector<Type>& vector) const;
     bool is_orthogonal(const Vector<Type>& vector) const;
-
 
     void clear();
 

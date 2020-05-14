@@ -841,4 +841,33 @@ ostream& operator <<(ostream &os, const Vector<Type>& arr)
 
     return os;
 }
+
+template<typename Type>
+Vector<Type> sum_vect(const Vector<Type>& vector1, const Vector<Type>& vector2)
+{
+    return vector1 + vector2;
+}
+
+template<typename Type>
+Vector<Type> sum_vect(const Vector<Type>& vector1, initializer_list<Type> args)
+{
+    Vector<Type> vector2(args);
+
+    return vector1 + vector2;
+}
+
+template<typename Type>
+Vector<Type> diff_vect(const Vector<Type>& vector1, const Vector<Type>& vector2)
+{
+    return vector1 - vector2;
+}
+
+template<typename Type>
+Vector<Type> diff_vect(const Vector<Type>& vector1, initializer_list<Type> args)
+{
+    Vector<Type> vector2(args);
+
+    return vector1 - vector2;
+}
+
 #endif // VECTOR_HPP
