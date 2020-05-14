@@ -77,7 +77,11 @@ int main()
         cout << v2 << endl << endl;
         cout << v2 << " plus " << v12 << ": ";
         v2.add(move(v12));
-        cout << v2 << endl << endl << endl;
+        cout << v2 << endl << endl;
+
+        cout << v10 << " plus " << v11 << ": " << (v10 + v11) << endl << endl;
+        cout << v10 << " plus " << v11 << ": " << (sum_vect(v10, v11)) << endl << endl;
+        cout << v10 << " plus {-5 5 -5}: " << (sum_vect(v10, {-5, 5, -5})) << endl << endl << endl;
 
         cout << v1 << " minus " << v6 << ": " << (v1 -= v6) << endl << endl;
         cout << v8 << " minus " << v3 << ": " << (v8 = v8 - v3) << endl << endl;
@@ -95,7 +99,9 @@ int main()
         cout << -v5 << endl << endl;
         cout << v2 << " minus " << v6 << ": ";
         v2.sub(move(v6));
-        cout << v2 << endl << endl << endl;
+        cout << v2 << endl << endl;
+        cout << v10 << " minus " << v11 << ": " << (diff_vect(v10, v11)) << endl << endl;
+        cout << v10 << " minus {-5 5 -5}: " << (diff_vect(v10, {-5, 5, -5})) << endl << endl << endl;
 
         cout << v7 << " * 2: " << (v7 *= 2) << endl << endl;
         cout << v4 << " * -1: " << (v4 *= -1) << endl << endl;
