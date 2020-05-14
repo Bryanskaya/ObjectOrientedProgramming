@@ -51,6 +51,15 @@ private:
     bool _is_end() const;
 };
 
+
+
+
+
+
+
+
+
+
 #ifndef BASE_ITERATOR_HPP_ADVANCED
 #include "base_iterator.hpp"
 #endif // BASE_ITERATOR_HPP_ADVANCED

@@ -7,60 +7,60 @@
 
 using namespace std;
 
-class BaseError : public exception
+class VectorError : public exception
 {
 public:
-    BaseError(string filename, string classname, int num_line, string msg);
-    virtual ~BaseError() override;
+    VectorError(string filename, string classname, int num_line, string msg);
+    virtual ~VectorError() override;
 
     virtual const char* what() const noexcept override;
 protected:
     string errormsg;
 };
 
-class ErrorIndex : public BaseError
+class ErrorIndex : public VectorError
 {
 public:
     ErrorIndex(string filename, string classname, int num_line, int index);
     virtual ~ErrorIndex();
 };
 
-class ErrorMemory : public BaseError
+class ErrorMemory : public VectorError
 {
 public:
     ErrorMemory(string filename, string classname, int num_line);
     virtual ~ErrorMemory();
 };
 
-class ErrorSize : public BaseError
+class ErrorSize : public VectorError
 {
 public:
     ErrorSize(string filename, string classname, int num_line, int num);
     virtual ~ErrorSize();
 };
 
-class ErrorEmpty : public BaseError
+class ErrorEmpty : public VectorError
 {
 public:
     ErrorEmpty(string filename, string classname, int num_line);
     virtual ~ErrorEmpty();
 };
 
-class ErrorNotExist : public BaseError
+class ErrorNotExist : public VectorError
 {
 public:
     ErrorNotExist(string filename, string classname, int num_line);
     virtual ~ErrorNotExist();
 };
 
-class ErrorDivZero : public BaseError
+class ErrorDivZero : public VectorError
 {
 public:
     ErrorDivZero(string filename, string classname, int num_line);
     virtual ~ErrorDivZero();
 };
 
-class ErrorDiffSize : public BaseError
+class ErrorDiffSize : public VectorError
 {
 public:
     ErrorDiffSize(string filename, string classname, int num_line,
@@ -68,7 +68,7 @@ public:
     virtual ~ErrorDiffSize();
 };
 
-class ErrorNotAllowedSize : public BaseError
+class ErrorNotAllowedSize : public VectorError
 {
 public:
     ErrorNotAllowedSize(string filename, string classname, int num_line,

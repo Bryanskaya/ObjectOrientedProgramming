@@ -17,9 +17,9 @@ class Vector : public BaseVector
 {
 public:
     Vector();
-    Vector(int num);
+    explicit Vector(int num);
     Vector(int num, Type vector[]);
-    explicit Vector(initializer_list<Type> args);
+    Vector(initializer_list<Type> args);
     explicit Vector(const Vector<Type>& vector);
     Vector(Vector<Type>&& vector);
 
@@ -35,7 +35,10 @@ public:
     ConstIterator<Type> const_end() const { return ConstIterator<Type>(list_elem, num_elem, *num_elem); }
 
     bool operator ==(const Vector<Type>&) const;
+    bool is_equal(const Vector<Type>&) const;
+
     bool operator !=(const Vector<Type>&) const;
+    bool isnt_equal(const Vector<Type>&) const;
 
     Type& operator[](int index);
     const Type& operator[](int index) const;
@@ -44,16 +47,31 @@ public:
 
     Vector<Type>& operator =(const Vector<Type>& other);
     Vector<Type>& operator =(initializer_list<Type> args);
+    Vector<Type>& operator =(Vector<Type>&& vector);
 
     Vector<Type>& operator +=(const Vector<Type>& vector);
     Vector<Type>& operator +=(initializer_list<Type> args);
+    Vector<Type>& operator +=(Vector<Type>&& vector);
 
     Vector<Type> operator +(const Vector<Type>& vector) const;
+    Vector<Type> operator +(Vector<Type>&& vector) const;
+
+    void add(const Vector<Type>& vector);
+    void add(initializer_list<Type> args);
+    void add(Vector<Type>&& vector);
+
 
     Vector<Type>& operator -=(const Vector<Type>& vector);
     Vector<Type>& operator -=(initializer_list<Type> args);
+    Vector<Type>& operator -=(Vector<Type>&& vector);
 
     Vector<Type> operator -(const Vector<Type>& vector) const;
+    Vector<Type> operator -(Vector<Type>&& vector) const;
+
+    void sub(const Vector<Type>& vector);
+    void sub(initializer_list<Type> args);
+    void sub(Vector<Type>&& vector);
+
 
     Vector<Type>& operator *=(const Type& num);
     Vector<Type> operator *(const Type& num) const;
@@ -62,39 +80,34 @@ public:
     Vector<Type> operator /(const Type& num) const;
 
     Type operator *(const Vector<Type>& vector) const;
-    Vector<Type>& operator *=(const Vector<Type>& vector);
-
-    void add(const Vector<Type>& vector);
-    void add(initializer_list<Type> args);
-
-    void sub(const Vector<Type>& vector);
-    void sub(initializer_list<Type> args);
-
-    friend ostream& operator <<(ostream &os, const Vector<Type>& arr)
-    {
-        arr._print();
-        return os;
-    }
-
-    double get_length() const;
-
-    void set_elem(size_t index, const Type& elem);
-
-    void invert();
-
-    double angle(const Vector<Type>& vector) const;
+    Type operator *(Vector<Type>&& vector) const;
 
     Type scalar_mult(const Vector<Type>& vector) const;
     Type scalar_mult(initializer_list<Type> args) const;
+    Type scalar_mult(Vector<Type>&& vector) const;
 
     Vector<Type> vector_mult(const Vector<Type>& vector) const;
     Vector<Type> vector_mult(initializer_list<Type> args) const;
+    Vector<Type> vector_mult(Vector<Type>&& vector) const;
+
+    Vector<Type> operator -();
+    void make_negative();
+
+    Type get_length() const;
+
+    void set_elem(size_t index, const Type& elem);
+
+    double angle(const Vector<Type>& vector) const;
+
+    void normalize();
+
+    bool is_collinear(const Vector<Type>& vector) const;
+    bool is_orthogonal(const Vector<Type>& vector) const;
+
 
     void clear();
 
 private:
-    const double EPS = 1e-5;
-
     shared_ptr<Type[]> list_elem;
 
     void _allocate_memory(int num);
@@ -128,6 +141,18 @@ private:
                                const Vector<Type>& vector2) const;
     void _print() const;
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef VECTOR_HPP_ADVANCED

@@ -2,6 +2,7 @@
 #define VECTOR_HPP
 #define VECTOR_HPP_ADVANCED
 
+#include <math.h>
 #include "vector.h"
 
 template<typename Type>
@@ -61,6 +62,8 @@ void Vector<Type>::_copy_vector(const Vector<Type>& other)
 template<typename Type>
 bool Vector<Type>::_is_equal(const Vector<Type>& other) const
 {
+    const double EPS = 1e-5;
+
     if (*num_elem != *other.num_elem)
         return false;
 
@@ -217,7 +220,7 @@ template<typename Type>
 Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
                                         const Vector<Type>& vector2) const
 {
-    if (is_empty() || is_empty())
+    if (vector1.is_empty() || vector2.is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*vector1.num_elem != *vector2.num_elem)
@@ -331,7 +334,19 @@ bool Vector<Type>::operator ==(const Vector<Type>& vector) const
 }
 
 template<typename Type>
+bool Vector<Type>::is_equal(const Vector<Type>& vector) const
+{
+    return _is_equal(vector);
+}
+
+template<typename Type>
 bool Vector<Type>::operator !=(const Vector<Type>& vector) const
+{
+    return !_is_equal(vector);
+}
+
+template<typename Type>
+bool Vector<Type>::isnt_equal(const Vector<Type>& vector) const
 {
     return !_is_equal(vector);
 }
@@ -371,9 +386,17 @@ Vector<Type>& Vector<Type>::operator =(const Vector<Type>& other)
 template<typename Type>
 Vector<Type>& Vector<Type>::operator =(initializer_list<Type> args)
 {
-    if (!is_empty()) clear();
-
     _set_init_list(args);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator =(Vector<Type>&& vector)
+{
+    Vector<Type> other(vector);
+
+    _copy_vector(other);
 
     return *this;
 }
@@ -406,9 +429,48 @@ Vector<Type>& Vector<Type>::operator +=(initializer_list<Type> args)
 }
 
 template<typename Type>
+Vector<Type>& Vector<Type>::operator +=(Vector<Type>&& vector)
+{
+    Vector<Type> other(vector);
+
+    *this = _sum_vectors(*this, other);
+
+    return *this;
+}
+
+template<typename Type>
 Vector<Type> Vector<Type>::operator +(const Vector<Type>& vector) const
 {
     return _sum_vectors(*this, vector);
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator +(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _sum_vectors(*this, other);
+}
+
+template<typename Type>
+void Vector<Type>::add(const Vector<Type>& vector)
+{
+    *this = _sum_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::add(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+    *this = _sum_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::add(Vector<Type>&& vector)
+{
+    Vector<Type> other(vector);
+
+    *this = _sum_vectors(*this, other);
 }
 
 template<typename Type>
@@ -439,9 +501,50 @@ Vector<Type>& Vector<Type>::operator -=(initializer_list<Type> args)
 }
 
 template<typename Type>
+Vector<Type>& Vector<Type>::operator -=(Vector<Type>&& vector)
+{
+    Vector<Type> other(vector);
+
+    *this = _diff_vectors(*this, other);
+
+    return *this;
+}
+
+template<typename Type>
 Vector<Type> Vector<Type>::operator -(const Vector<Type>& vector) const
 {
-    return _diff_vectors(*this, vector);
+    Vector<Type> other(vector);
+
+    return _diff_vectors(*this, other);
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator -(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _diff_vectors(*this, other);
+}
+
+template<typename Type>
+void Vector<Type>::sub(const Vector<Type>& vector)
+{
+    *this = _diff_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::sub(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+    *this = _diff_vectors(*this, vector);
+}
+
+template<typename Type>
+void Vector<Type>::sub(Vector<Type>&& vector)
+{
+    Vector<Type> other(vector);
+
+    *this = _diff_vectors(*this, other);
 }
 
 template<typename Type>
@@ -479,46 +582,28 @@ Type Vector<Type>::operator *(const Vector<Type>& vector) const
 }
 
 template<typename Type>
+Type Vector<Type>::operator *(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _scalar_mult(*this, other);
+}
+
+/*template<typename Type>
 Vector<Type>& Vector<Type>::operator *=(const Vector<Type>& vector)
 {
     *this = _vector_mult(*this, vector);
 
     return *this;
-}
+}*/
 
 template<typename Type>
-void Vector<Type>::add(const Vector<Type>& vector)
-{
-    *this = _sum_vectors(*this, vector);
-}
-
-template<typename Type>
-void Vector<Type>::add(initializer_list<Type> args)
-{
-    Vector<Type> vector(args);
-    *this = _sum_vectors(*this, vector);
-}
-
-template<typename Type>
-void Vector<Type>::sub(const Vector<Type>& vector)
-{
-    *this = _diff_vectors(*this, vector);
-}
-
-template<typename Type>
-void Vector<Type>::sub(initializer_list<Type> args)
-{
-    Vector<Type> vector(args);
-    *this = _diff_vectors(*this, vector);
-}
-
-template<typename Type>
-double Vector<Type>::get_length() const
+Type Vector<Type>::get_length() const
 {
     if (is_empty())
         throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
-    double len = 0;
+    Type len = 0;
 
     for (Type val : *this)
         len += val * val;
@@ -536,9 +621,15 @@ void Vector<Type>::set_elem(size_t index, const Type& elem)
 }
 
 template<typename Type>
-void Vector<Type>::invert()
+void Vector<Type>::make_negative()
 {
     *this = _vect_num_mult(*this, -1);
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator -()
+{
+    return _vect_num_mult(*this, -1);
 }
 
 template<typename Type>
@@ -557,6 +648,17 @@ double Vector<Type>::angle(const Vector<Type>& vector) const
 }
 
 template<typename Type>
+void Vector<Type>::normalize()
+{
+    Type len = get_length();
+
+    if (!len)
+        throw ErrorDivZero(__FILE__,typeid (*this).name(), __LINE__ - 1);
+
+    *this = _vect_num_mult(*this, 1 / len);
+}
+
+template<typename Type>
 Type Vector<Type>::scalar_mult(const Vector<Type>& vector) const
 {
     return _scalar_mult(*this, vector);
@@ -566,6 +668,14 @@ template<typename Type>
 Type Vector<Type>::scalar_mult(initializer_list<Type> args) const
 {
     return _scalar_mult(*this, args);
+}
+
+template<typename Type>
+Type Vector<Type>::scalar_mult(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _scalar_mult(*this, other);
 }
 
 template<typename Type>
@@ -580,11 +690,62 @@ Vector<Type> Vector<Type>::vector_mult(initializer_list<Type> args) const
     return _vector_mult(*this, args);
 }
 
+template<typename Type>
+Vector<Type> Vector<Type>::vector_mult(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
 
+    return _vector_mult(*this, other);
+}
 
+template<typename Type>
+bool Vector<Type>::is_collinear(const Vector<Type>& vector) const
+{
 
+   Vector<Type> v1(*this), v2(vector);
 
+   v1.normalize();
+   v2.normalize();
 
+   if (v1 != v2)
+   {
+       v2 = -v2;
+       if (v1 != v2)
+           return false;
+   }
+
+   return true;
+}
+
+/*template<typename Type>
+bool Vector<Type>::is_collinear(initializer_list<Type> args) const
+{
+
+   Vector<Type> v1(*this), v2(args);
+
+   v1.normalize();
+   v2.normalize();
+
+   if (v1 != v2)
+   {
+       v2 = -v2;
+       if (v1 != v2)
+           return false;
+   }
+
+   return true;
+}*/
+
+template<typename Type>
+bool Vector<Type>::is_orthogonal(const Vector<Type>& vector) const
+{
+    double EPS = 1e-5;
+
+    if (abs(angle(vector) - M_PI / 2) < EPS)
+        return true;
+
+    return false;
+}
 
 template<typename Type>
 void Vector<Type>::clear()
@@ -595,4 +756,17 @@ void Vector<Type>::clear()
     *num_elem = 0;
 }
 
+template<typename Type>
+ostream& operator <<(ostream &os, const Vector<Type>& arr)
+{
+    if (arr.is_empty())
+        return os;
+
+    cout << "( ";
+    for (Type val : arr)
+        cout << val << " ";
+    cout << ")";
+
+    return os;
+}
 #endif // VECTOR_HPP
