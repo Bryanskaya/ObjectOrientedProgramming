@@ -25,6 +25,7 @@ int main()
         Vector<double> v14{0, 5, 0};
         Vector<int> v15{-1, -2};
         Vector<int> v16{2, 4};
+        Vector<double> v17{10, 5, 55, -12.56, -9};
 
 
         cout << "Length v2" << v2 << ", v3" << v3 << ": "
@@ -35,12 +36,27 @@ int main()
 
         cout << "Equal v4" << v4 << " and v5" << v5 << ": "
              << (v4 == v5 ? "True" : "False") << endl << endl;
+        cout << "Equal v4" << v4 << " and v5" << v5 << ": "
+             << (v4 == move(v5) ? "True" : "False") << endl << endl;
         cout << "Equal v2" << v2 << " and v6" << v6 << ": "
-             << (v2 == v6 ? "True" : "False") << endl << endl;
+             << (v2.is_equal(v6) ? "True" : "False") << endl << endl;
+        cout << "Equal v2" << v2 << " and (14, 2, -8): "
+             << (v2.is_equal({14, 2, -8}) ? "True" : "False") << endl << endl;
+        cout << "Equal v2" << v2 << " and v6" << v6 << ": "
+             << (v2.is_equal(move(v6)) ? "True" : "False") << endl << endl << endl;
+
         cout << "Not equal v3" << v3 << " and v8" << v8 << ": "
              << (v3 != v8 ? "True" : "False") << endl << endl;
         cout << "Not equal v4" << v4 << " and v5" << v5 << ": "
-             << (v4 != v5 ? "True" : "False") << endl << endl << endl;
+             << (v4 != v5 ? "True" : "False") << endl << endl;
+        cout << "Not equal v4" << v4 << " and v5" << v5 << ": "
+             << (v4 != move(v5) ? "True" : "False") << endl << endl;
+        cout << "Not equal v4" << v4 << " and v17" << v17 << ": "
+             << (v4.isnt_equal(v17) ? "True" : "False") << endl << endl;
+        cout << "Not equal v4" << v4 << " and {100, 2.36, 0, 56, -1.02}: "
+             << (v4.isnt_equal({100, 2.36, 0, 56, -1.02}) ? "True" : "False") << endl << endl;
+        cout << "Not equal v8" << v8 << " and v3" << v3 << ": "
+             << (v8.isnt_equal(move(v3)) ? "True" : "False") << endl << endl << endl;
 
         cout << "v9{14, 2, -8} v2{-5, 1, 2} v9 = v2 v9: " << (v9 = v2) << endl << endl;
         cout << "v1 = ()" << v1 << " v1 = {1, -5, 3, 4} v1 = " << (v1 = {1, -5, 3, 4}) << endl << endl;
