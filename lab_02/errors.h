@@ -39,11 +39,11 @@ public:
     virtual ~ErrorWrongSize();
 };
 
-class ErrorEmpty : public VectorError
+class ErrorEmptyVector : public VectorError
 {
 public:
-    ErrorEmpty(string filename, string classname, int num_line);
-    virtual ~ErrorEmpty();
+    ErrorEmptyVector(string filename, string classname, int num_line);
+    virtual ~ErrorEmptyVector();
 };
 
 class ErrorArrayExpired : public VectorError

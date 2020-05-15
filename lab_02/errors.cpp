@@ -34,9 +34,9 @@ ErrorWrongSize::ErrorWrongSize(string filename, string classname, int num_line, 
                "Error: wrong size " + to_string(num)){}
 ErrorWrongSize::~ErrorWrongSize() = default;
 
-ErrorEmpty::ErrorEmpty(string filename, string classname, int num_line) :
+ErrorEmptyVector::ErrorEmptyVector(string filename, string classname, int num_line) :
     VectorError(filename, classname, num_line, "Error: vector is empty"){}
-ErrorEmpty::~ErrorEmpty() = default;
+ErrorEmptyVector::~ErrorEmptyVector() = default;
 
 ErrorArrayExpired::ErrorArrayExpired(string filename, string classname, int num_line) :
     VectorError(filename, classname, num_line, "Error: array pointer is deleted"){}

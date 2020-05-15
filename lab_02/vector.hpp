@@ -118,7 +118,7 @@ Type Vector<Type>::_scalar_mult(const Vector<Type>& vector,
                                 initializer_list<Type> args) const
 {
     if (!args.size())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*vector.num_elem != args.size())
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
@@ -184,7 +184,7 @@ Vector<Type> Vector<Type>::_vect_num_mult(const Vector<Type>& vector,
                                           const Type& num) const
 {
     if (is_empty())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Vector<Type> result(vector);
 
@@ -201,7 +201,7 @@ Vector<Type> Vector<Type>::_vect_num_div(const Vector<Type>& vector,
                                           const Type& num) const
 {
     if (is_empty())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (!num)
         throw ErrorDivZero(__FILE__, typeid (*this).name(), __LINE__ - 1);
@@ -221,7 +221,7 @@ Vector<Type> Vector<Type>::_sum_vectors(const Vector<Type>& vector1,
                                         const Vector<Type>& vector2) const
 {
     if (vector1.is_empty() || vector2.is_empty())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*vector1.num_elem != *vector2.num_elem)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
@@ -242,7 +242,7 @@ Vector<Type> Vector<Type>::_diff_vectors(const Vector<Type>& vector1,
                                  const Vector<Type>& vector2) const
 {
     if (is_empty() || is_empty())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Vector<Type> result(vector1);
     ConstIterator<Type> iter1 = vector1.begin(), iter2 = vector2.begin();
@@ -345,7 +345,7 @@ template<typename Type>
 bool Vector<Type>::is_equal(initializer_list<Type> args) const
 {
     if (!args.size())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (args.size() != *num_elem)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
@@ -399,7 +399,7 @@ template<typename Type>
 bool Vector<Type>::isnt_equal(initializer_list<Type> args) const
 {
     if (!args.size())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (args.size() != *num_elem)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
@@ -485,7 +485,7 @@ template<typename Type>
 Vector<Type>& Vector<Type>::operator +=(initializer_list<Type> args)
 {
     if (!args.size())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (args.size() != *num_elem)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
@@ -557,7 +557,7 @@ template<typename Type>
 Vector<Type>& Vector<Type>::operator -=(initializer_list<Type> args)
 {
     if (!args.size())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (args.size() != *num_elem)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1, args.size(), *num_elem);
@@ -677,7 +677,7 @@ template<typename Type>
 Type Vector<Type>::get_length() const
 {
     if (is_empty())
-        throw ErrorEmpty(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorEmptyVector(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     Type len = 0;
 
@@ -712,7 +712,7 @@ template<typename Type>
 double Vector<Type>::angle(const Vector<Type>& vector) const
 {
     if (!this->get_length() || !vector.get_length())
-        throw ErrorDivZero(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorInvalidOperation(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (*num_elem != *vector.num_elem)
         throw ErrorDiffSize(__FILE__, typeid (*this).name(), __LINE__ - 1,
