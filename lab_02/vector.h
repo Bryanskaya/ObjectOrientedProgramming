@@ -80,6 +80,7 @@ public:
     Vector<Type> operator -(const Vector<Type>& vector) const;
     Vector<Type> operator -(Vector<Type>&& vector) const;
 
+
     Type operator *(const Vector<Type>& vector) const;
     Type operator *(Vector<Type>&& vector) const;
 
@@ -102,16 +103,18 @@ public:
 
     Vector<Type>& operator *=(const Type& num);
     void mult_vect_num(const Type& num);
+
     Vector<Type> operator *(const Type& num) const;
 
 
     Vector<Type>& operator /=(const Type& num);
     void div_vect_num(const Type& num);
+
     Vector<Type> operator /(const Type& num) const;
 
 
-    Vector<Type> operator -();
-    void make_negative();
+    Vector<Type> operator -() const;
+    Vector<Type> negative() const;
 
     Type get_length() const;
 
@@ -119,7 +122,8 @@ public:
 
     double angle(const Vector<Type>& vector) const;
 
-    void normalize();
+    //void normalize();
+    Vector<Type> normalize() const;
 
     bool is_collinear(const Vector<Type>& vector) const;
     bool is_orthogonal(const Vector<Type>& vector) const;

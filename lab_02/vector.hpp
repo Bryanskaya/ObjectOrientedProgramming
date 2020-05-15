@@ -697,13 +697,13 @@ void Vector<Type>::set_elem(size_t index, const Type& elem)
 }
 
 template<typename Type>
-void Vector<Type>::make_negative()
+Vector<Type> Vector<Type>::negative() const
 {
-    *this = _vect_num_mult(*this, -1);
+    return _vect_num_mult(*this, -1);
 }
 
 template<typename Type>
-Vector<Type> Vector<Type>::operator -()
+Vector<Type> Vector<Type>::operator -() const
 {
     return _vect_num_mult(*this, -1);
 }
@@ -723,7 +723,7 @@ double Vector<Type>::angle(const Vector<Type>& vector) const
     return acos(angle);
 }
 
-template<typename Type>
+/*template<typename Type>
 void Vector<Type>::normalize()
 {
     Type len = get_length();
@@ -732,6 +732,17 @@ void Vector<Type>::normalize()
         throw ErrorDivZero(__FILE__,typeid (*this).name(), __LINE__ - 1);
 
     *this = _vect_num_mult(*this, 1 / len);
+}*/
+
+template<typename Type>
+Vector<Type> Vector<Type>::normalize() const
+{
+    Type len = get_length();
+
+    if (!len)
+        throw ErrorInvalidOperation(__FILE__,typeid (*this).name(), __LINE__ - 1);
+
+    return _vect_num_mult(*this, 1 / len);
 }
 
 template<typename Type>
@@ -824,8 +835,8 @@ bool Vector<Type>::is_collinear(const Vector<Type>& vector) const
 
    Vector<Type> v1(*this), v2(vector);
 
-   v1.normalize();
-   v2.normalize();
+   v1 = v1.normalize();
+   v2 = v2.normalize();
 
    if (v1 != v2)
    {

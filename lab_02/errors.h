@@ -83,6 +83,13 @@ public:
     virtual ~ErrorNotAllowedSize();
 };
 
+class ErrorInvalidOperation : public VectorError
+{
+public:
+    ErrorInvalidOperation(string filename, string classname, int num_line);
+    virtual ~ErrorInvalidOperation();
+};
+
 
 
 #endif // MY_ERRORS_H

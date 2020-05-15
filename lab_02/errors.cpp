@@ -62,3 +62,8 @@ ErrorNotAllowedSize::ErrorNotAllowedSize(string filename, string classname, int 
               "Error: prohibited size: " + to_string(size1) +
               " (allowed " + to_string(size2) + ")"){}
 ErrorNotAllowedSize::~ErrorNotAllowedSize() = default;
+
+ErrorInvalidOperation::ErrorInvalidOperation(string filename, string classname, int num_line) :
+    VectorError(filename, classname, num_line,
+              "Error: operation is prohibited for vector"){}
+ErrorInvalidOperation::~ErrorInvalidOperation() = default;

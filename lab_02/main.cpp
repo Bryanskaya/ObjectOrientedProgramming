@@ -128,9 +128,15 @@ int main()
         cout << "Scalar mult " << v10 << " and {9, 1, -2}: " << (v10.scalar_mult({9, 1, -2})) << endl << endl;
         cout << "Scalar mult " << v6 << " and " << v9 << ": " << (v6.scalar_mult(move(v9))) << endl << endl << endl;
 
+        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10 & v11) << endl << endl;
+        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10 & move(v11)) << endl << endl;
+        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10 &= v11) << endl << endl;
+        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10 &= {7, 8, -9}) << endl << endl;
+        cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10 &= move(v11)) << endl << endl << endl;
+
         cout << "Vect mult " << v10 << " and " << v11 << ": " << (v10.vector_mult(v11)) << endl << endl;
         cout << "Vect mult " << v10 << " and " << v12 << ": " << (v10.vector_mult(v12)) << endl << endl;
-        cout << "Vect mult " << v10 << " and {9, 1, -2}: " << (v10.vector_mult({9, 1, -2})) << endl << endl << endl;
+        cout << "Vect mult " << v10 << " and {9, 1, -2}: " << (v10.vector_mult({9, 1, -2})) << endl << endl;
         cout << "Vect mult " << v10 << " and " << v9 << ": " << (v10.vector_mult(move(v9))) << endl << endl << endl;
 
         cout << "Angle between " << v10 << " and " << v11 << ": " << v10.angle(v11) << " rad" << endl << endl;
@@ -143,19 +149,13 @@ int main()
         v4.set_elem(0, -5.78);
         cout << v4 << endl << endl << endl;
 
-        cout << "v" << v2 << " -v: ";
-        v2.make_negative();
-        cout << v2 << endl << endl;
-        cout << "v" << v3 << " -v: " ;
-        v3.make_negative();
-        cout << v3 << endl << endl << endl;
+        cout << "v" << v2 << " -v: " << v2.negative() << endl << endl;
+        cout << "v" << v3 << " -v: " << v3.negative() << endl << endl;
         cout << "v" << v5 << " -v: " << -v5 << endl << endl << endl;
 
         cout << v13 << endl << endl << endl;
 
-        cout << "Normalize vector " << v14 << ": ";
-        v14.normalize();
-        cout << v14 << endl << endl << endl;
+        cout << "Normalize vector " << v14 << ": " << v14.normalize()<< endl << endl << endl;
 
         cout <<"Is collinear " << v15 << " and " << v16 << ": "
             << (v15.is_collinear(v16) ? "True" : "False") << endl << endl;
