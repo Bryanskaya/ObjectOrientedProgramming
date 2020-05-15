@@ -32,11 +32,11 @@ public:
     virtual ~ErrorMemory();
 };
 
-class ErrorSize : public VectorError
+class ErrorWrongSize : public VectorError
 {
 public:
-    ErrorSize(string filename, string classname, int num_line, int num);
-    virtual ~ErrorSize();
+    ErrorWrongSize(string filename, string classname, int num_line, int num);
+    virtual ~ErrorWrongSize();
 };
 
 class ErrorEmpty : public VectorError
@@ -46,11 +46,18 @@ public:
     virtual ~ErrorEmpty();
 };
 
-class ErrorNotExist : public VectorError
+class ErrorArrayExpired : public VectorError
 {
 public:
-    ErrorNotExist(string filename, string classname, int num_line);
-    virtual ~ErrorNotExist();
+    ErrorArrayExpired(string filename, string classname, int num_line);
+    virtual ~ErrorArrayExpired();
+};
+
+class ErrorCountExpired : public VectorError
+{
+public:
+    ErrorCountExpired(string filename, string classname, int num_line);
+    virtual ~ErrorCountExpired();
 };
 
 class ErrorDivZero : public VectorError

@@ -29,18 +29,22 @@ ErrorMemory::ErrorMemory(string filename, string classname, int num_line) :
     VectorError(filename, classname, num_line, "Memory error"){}
 ErrorMemory::~ErrorMemory() = default;
 
-ErrorSize::ErrorSize(string filename, string classname, int num_line, int num) :
+ErrorWrongSize::ErrorWrongSize(string filename, string classname, int num_line, int num) :
     VectorError(filename, classname, num_line,
                "Error: wrong size " + to_string(num)){}
-ErrorSize::~ErrorSize() = default;
+ErrorWrongSize::~ErrorWrongSize() = default;
 
 ErrorEmpty::ErrorEmpty(string filename, string classname, int num_line) :
     VectorError(filename, classname, num_line, "Error: vector is empty"){}
 ErrorEmpty::~ErrorEmpty() = default;
 
-ErrorNotExist::ErrorNotExist(string filename, string classname, int num_line) :
-    VectorError(filename, classname, num_line, "Error: element not exist"){}
-ErrorNotExist::~ErrorNotExist() = default;
+ErrorArrayExpired::ErrorArrayExpired(string filename, string classname, int num_line) :
+    VectorError(filename, classname, num_line, "Error: array pointer is deleted"){}
+ErrorArrayExpired::~ErrorArrayExpired() = default;
+
+ErrorCountExpired::ErrorCountExpired(string filename, string classname, int num_line) :
+    VectorError(filename, classname, num_line, "Error: count pointer is deleted"){}
+ErrorCountExpired::~ErrorCountExpired() = default;
 
 ErrorDivZero::ErrorDivZero(string filename, string classname, int num_line) :
     VectorError(filename, classname, num_line, "Error: division by zero"){}

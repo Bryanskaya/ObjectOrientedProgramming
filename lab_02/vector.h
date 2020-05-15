@@ -87,15 +87,26 @@ public:
     Type scalar_mult(initializer_list<Type> args) const;
     Type scalar_mult(Vector<Type>&& vector) const;
 
+
+    Vector<Type> operator &(const Vector<Type>& vector) const;
+    Vector<Type> operator &(Vector<Type>&& vector) const;
+
+    Vector<Type>& operator &=(const Vector<Type>& vector);
+    Vector<Type>& operator &=(initializer_list<Type> args);
+    Vector<Type>& operator &=(Vector<Type>&& vector);
+
     Vector<Type> vector_mult(const Vector<Type>& vector) const;
     Vector<Type> vector_mult(initializer_list<Type> args) const;
     Vector<Type> vector_mult(Vector<Type>&& vector) const;
 
 
     Vector<Type>& operator *=(const Type& num);
+    void mult_vect_num(const Type& num);
     Vector<Type> operator *(const Type& num) const;
 
+
     Vector<Type>& operator /=(const Type& num);
+    void div_vect_num(const Type& num);
     Vector<Type> operator /(const Type& num) const;
 
 

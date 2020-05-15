@@ -21,7 +21,7 @@ template<typename Type>
 BaseIterator<Type>& BaseIterator<Type>::_next()
 {
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     shared_ptr<size_t> n(count);
     if (index < *n)
@@ -40,7 +40,7 @@ template<typename Type>
 bool BaseIterator<Type>::_is_end() const
 {
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     return index == *(count.lock());
 }
@@ -55,7 +55,7 @@ template<typename Type>
 BaseIterator<Type>& BaseIterator<Type>::operator--()
 {
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     shared_ptr<size_t> n(count);
     if (index > *n)
@@ -124,7 +124,7 @@ template<typename Type>
 BaseIterator<Type>::operator bool() const
 {
     if (count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (index >= *(count.lock()))
         return false;

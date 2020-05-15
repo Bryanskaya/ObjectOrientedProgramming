@@ -279,7 +279,7 @@ template<typename Type>
 Vector<Type>::Vector(int num)
 {
     if (num <= 0)
-        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
+        throw ErrorWrongSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
 
     num_elem = shared_ptr<size_t>(new size_t(num));
     _allocate_memory(*num_elem);
@@ -292,7 +292,7 @@ template<typename Type>
 Vector<Type>::Vector(int num, Type vector[])
 {
     if (num <= 0)
-        throw ErrorSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
+        throw ErrorWrongSize(__FILE__, typeid (*this).name(), __LINE__ - 1, num);
 
     num_elem = shared_ptr<size_t>(new size_t(num));
     _allocate_memory(*num_elem);
@@ -628,6 +628,12 @@ Vector<Type>& Vector<Type>::operator *=(const Type& num)
 }
 
 template<typename Type>
+void Vector<Type>::mult_vect_num(const Type& num)
+{
+    *this = _vect_num_mult(*this, num);
+}
+
+template<typename Type>
 Vector<Type> Vector<Type>::operator *(const Type& num) const
 {
     return _vect_num_mult(*this, num);
@@ -639,6 +645,12 @@ Vector<Type>& Vector<Type>::operator /=(const Type& num)
     *this = _vect_num_div(*this, num);
 
     return *this;
+}
+
+template<typename Type>
+void Vector<Type>::div_vect_num(const Type& num)
+{
+    *this = _vect_num_div(*this, num);
 }
 
 template<typename Type>
@@ -660,14 +672,6 @@ Type Vector<Type>::operator *(Vector<Type>&& vector) const
 
     return _scalar_mult(*this, other);
 }
-
-/*template<typename Type>
-Vector<Type>& Vector<Type>::operator *=(const Vector<Type>& vector)
-{
-    *this = _vector_mult(*this, vector);
-
-    return *this;
-}*/
 
 template<typename Type>
 Type Vector<Type>::get_length() const
@@ -751,6 +755,50 @@ Type Vector<Type>::scalar_mult(Vector<Type>&& vector) const
 }
 
 template<typename Type>
+Vector<Type> Vector<Type>::operator &(const Vector<Type>& vector) const
+{
+    return _vector_mult(*this, vector);
+}
+
+template<typename Type>
+Vector<Type> Vector<Type>::operator &(Vector<Type>&& vector) const
+{
+    Vector<Type> other(vector);
+
+    return _vector_mult(*this, other);
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator &=(const Vector<Type>& vector)
+{
+    *this = _vector_mult(*this, vector);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator &=(initializer_list<Type> args)
+{
+    Vector<Type> vector(args);
+
+    *this = _vector_mult(*this, vector);
+
+    return *this;
+}
+
+template<typename Type>
+Vector<Type>& Vector<Type>::operator &=(Vector<Type>&& vector)
+{
+    Vector<Type> other(vector);
+
+    *this = _vector_mult(*this, other);
+
+    return *this;
+}
+
+
+
+template<typename Type>
 Vector<Type> Vector<Type>::vector_mult(const Vector<Type>& vector) const
 {
     return _vector_mult(*this, vector);
@@ -828,6 +876,8 @@ void Vector<Type>::clear()
     *num_elem = 0;
 }
 
+
+
 template<typename Type>
 ostream& operator <<(ostream &os, const Vector<Type>& arr)
 {
@@ -868,6 +918,18 @@ Vector<Type> diff_vect(const Vector<Type>& vector1, initializer_list<Type> args)
     Vector<Type> vector2(args);
 
     return vector1 - vector2;
+}
+
+template<typename Type>
+Vector<Type> mult_vect_num(const Vector<Type>& vector, const Type& num)
+{
+    return vector * num;
+}
+
+template<typename Type>
+Vector<Type> div_vect_num(const Vector<Type>& vector, const Type& num)
+{
+    return vector / num;
 }
 
 #endif // VECTOR_HPP

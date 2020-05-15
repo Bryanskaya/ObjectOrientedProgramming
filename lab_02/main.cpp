@@ -105,11 +105,19 @@ int main()
 
         cout << v7 << " * 2: " << (v7 *= 2) << endl << endl;
         cout << v4 << " * -1: " << (v4 *= -1) << endl << endl;
-        cout << v6 << " * 6: " << (v6 = v6 * 6) << endl << endl << endl;
+        cout << v4 << " * 7: ";
+        v4.mult_vect_num(7);
+        cout << v4 << endl << endl;
+        cout << v6 << " * 6: " << (v6 = v6 * 6) << endl << endl;
+        cout << v6 << " * 10: " << mult_vect_num(v6, 10) << endl << endl << endl;
 
         cout << v7 << " / 2: " << (v7 /= 2) << endl << endl;
         cout << v4 << " / -1: " << (v4 /= -1) << endl << endl;
-        cout << v6 << " / 6: " << (v6 = v6 / 6) << endl << endl << endl;
+        cout << v4 << " / 7: ";
+        v4.div_vect_num(7);
+        cout << v4 << endl << endl;
+        cout << v6 << " / 6: " << (v6 = v6 / 6) << endl << endl;
+        cout << v6 << " / 1: " << div_vect_num(v6, 10) << endl << endl << endl;
 
         cout << v10 << " * " << v11 << ": " << (v10 * v11) << endl << endl;
         cout << v10 << " * " << v9 << ": " << (v10 * v9) << endl << endl << endl;

@@ -20,29 +20,35 @@ const Type& Iterator<Type>::operator*() const
 template<typename Type>
 Type* Iterator<Type>::operator->()
 {
-    if (this->arr.expired() || this->count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+    if (this->arr.expired())
+        throw ErrorArrayExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (this->count.expired())
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (this->index >= *(this->count.lock()))
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, this->index);
 
     shared_ptr<Type[]> a(this->arr);
 
-    return &(*a)[this->index];
+    return a[this->index];
 }
 
 template<typename Type>
 const Type* Iterator<Type>::operator->() const
 {
-    if (this->arr.expired() || this->count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+    if (this->arr.expired())
+        throw ErrorArrayExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (this->count.expired())
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (this->index >= *(this->count.lock()))
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, this->index);
 
     shared_ptr<Type[]> a(this->arr);
 
-    return &(*a)[this->index];
+    return a[this->index];
 }
 
 template<typename Type>
@@ -60,8 +66,11 @@ const Type& Iterator<Type>::value() const
 template<typename Type>
 Type& Iterator<Type>::get_value()
 {
-    if (this->arr.expired() || this->count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+    if (this->arr.expired())
+        throw ErrorArrayExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (this->count.expired())
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (this->index >= *(this->count.lock()))
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, this->index);
@@ -74,8 +83,11 @@ Type& Iterator<Type>::get_value()
 template<typename Type>
 const Type& Iterator<Type>::get_value() const
 {
-    if (this->arr.expired() || this->count.expired())
-        throw ErrorNotExist(__FILE__, typeid (*this).name(), __LINE__ - 1);
+    if (this->arr.expired())
+        throw ErrorArrayExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
+
+    if (this->count.expired())
+        throw ErrorCountExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
     if (this->index >= *(this->count.lock()))
         throw ErrorIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, this->index);
