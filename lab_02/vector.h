@@ -116,6 +116,7 @@ public:
     Vector<Type> operator -() const;
     Vector<Type> negative() const;
 
+
     Type get_length() const;
 
     void set_elem(size_t index, const Type& elem);
