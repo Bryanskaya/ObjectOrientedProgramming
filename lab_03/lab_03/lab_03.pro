@@ -25,10 +25,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Commands/commands.cpp \
+        Errors/ArrayErrors.cpp \
+        Errors/BaseErrors.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        Array/BaseIterator.h \
+        Array/BaseIterator.hpp \
+        Array/ConstIterator.h \
+        Array/ConstIterator.hpp \
+        Array/iterator.h \
+        Array/iterator.hpp \
+        Commands/commands.h \
+        Errors/ArrayErrors.h \
+        Errors/BaseErrors.h \
         mainwindow.h
 
 FORMS += \
