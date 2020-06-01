@@ -33,6 +33,13 @@ public:
     virtual ~ArrayPtrExpired();
 };
 
+class AllocProblem : public BaseError
+{
+public:
+    AllocProblem(string filename, string classname, int num_line);
+    virtual ~AllocProblem();
+};
+
 }
 
 #endif // ARRAYERRORS_H

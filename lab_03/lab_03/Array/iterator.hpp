@@ -2,7 +2,7 @@
 #define ITERATOR_HPP
 #define ITERATOR_HPP_ADVANCED
 
-#include "iterator.h"
+#include "Iterator.h"
 
 
 template<typename Type>

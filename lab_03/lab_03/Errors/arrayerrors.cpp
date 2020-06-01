@@ -19,3 +19,7 @@ ArrayPtrExpired::~ArrayPtrExpired() = default;
 ArrayCountExpired::ArrayCountExpired(string filename, string classname, int num_line) :
     BaseError(filename, classname, num_line, "Array error: count pointer is deleted"){}
 ArrayCountExpired::~ArrayCountExpired() = default;
+
+AllocProblem::AllocProblem(string filename, string classname, int num_line) :
+    BaseError(filename, classname, num_line, "Array error: memory allocation failed"){}
+AllocProblem::~AllocProblem() = default;
