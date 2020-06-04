@@ -30,13 +30,13 @@ public:
 
     Type& operator[](size_t index);
     const Type& operator[](size_t index) const;
-    Type* get_arr();//
+    Type* get_arr();
 
     Array<Type>& operator=(const Array<Type>& other);
-    Array<Type>& operator=(initializer_list<Type> args);//
-    Array<Type>& operator=(Array<Type>&& other);//
+    Array<Type>& operator=(initializer_list<Type> args);
+    Array<Type>& operator=(Array<Type>&& other);
 
-    void append(const Type& elem);//?
+    void append(const Type& elem);
 
     void clear();
 
@@ -49,7 +49,7 @@ private:
     void _realloc(size_t new_size);
     Type& _get_elem(size_t index);
     const Type& _get_elem(size_t index) const;
-    Type& _set_elem(size_t index);//
+    void _set_elem(size_t index, const Type& elem);
 };
 
 #ifndef ARRAY_HPP_ADVANCED

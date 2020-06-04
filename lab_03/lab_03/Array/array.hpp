@@ -4,6 +4,7 @@
 
 #include "array.h"
 
+
 template<typename Type>
 Array<Type>::Array() : BaseArray(0), _arr(nullptr){}
 
@@ -57,17 +58,18 @@ const Type& Array<Type>::operator[](size_t index) const
     return _get_elem(index);
 }
 
-/*template<typename Type>
+template<typename Type>
 Type* Array<Type>::get_arr()
 {
     if (!get_size()) return nullptr;
 
-    Type* arr = new Type[*num_elem];
-    for (size_t i = 0; i < *num_elem; i++)
+    Type* arr = new Type[get_size()];
+
+    for (size_t i = 0; i < get_size(); i++)
         arr[i] = _get_elem(i);
 
     return arr;
-}*/
+}
 
 template<typename Type>
 Array<Type>& Array<Type>::operator =(const Array<Type>& other)
@@ -77,29 +79,31 @@ Array<Type>& Array<Type>::operator =(const Array<Type>& other)
     return *this;
 }
 
-/*template<typename Type>
+template<typename Type>
 Array<Type>& Array<Type>::operator =(initializer_list<Type> args)
 {
-    _set_init_list(args);
+    Array<Type> other(args);
+
+    _copy_array(other);
 
     return *this;
 }
 
 template<typename Type>
-Vector<Type>& Vector<Type>::operator =(Vector<Type>&& vector)
+Array<Type>& Array<Type>::operator =(Array<Type>&& other)
 {
-    Vector<Type> other(vector);
+    Array<Type> arr(other);
 
-    _copy_vector(other);
+    _copy_array(arr);
 
     return *this;
-}*/
+}
 
 template<typename Type>
 void Array<Type>::append(const Type& new_el)
 {
     _realloc(get_size()+1);
-    this[get_size() - 1] = new_el;
+    (*this)[get_size() - 1] = new_el;
 }
 
 template<typename Type>
@@ -143,6 +147,12 @@ const Type& Array<Type>::_get_elem(size_t index) const
     if (index >= get_size())
         throw error::WrongIndex(__FILE__, typeid (*this).name(), __LINE__ - 1, index);
     return _arr[index];
+}
+
+template<typename Type>
+void Array<Type>::_set_elem(size_t index, const Type& elem)
+{
+    (*this)[index] = elem;
 }
 
 template<typename Type>
