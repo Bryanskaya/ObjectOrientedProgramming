@@ -2,6 +2,8 @@
 #define DOORS_H
 
 #include <QObject>
+#include <QWidget>
+#include <QTimer>
 
 #include <iostream>
 
@@ -20,15 +22,18 @@ class Doors : public QObject
     };
 
 public:
-    Doors();
+    Doors(double delay_opening = 1.5, double delay_closing = 1.5,
+          double delay_open = 2);
 
-    virtual ~Doors() {}//
+    virtual ~Doors() {}
+
+    bool is_closed();
 
 public slots:
     void slot_open();
     void slot_close();
 
-private slots: //
+private slots:
     void slot_opening();
     void slot_closing();
 
@@ -38,6 +43,11 @@ signals:
 
 private:
     DoorsStatus _status;
+
+    QTimer time_opening;
+    QTimer time_closing;
+
+    QTimer time_open;
 };
 
 #endif // DOORS_H

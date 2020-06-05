@@ -22,8 +22,6 @@ void LiftButton::slot_pressed()
         _status = PRESSED;
         emit btn_pressed(_floor_num);
     }
-
-    cout << ">> Pressed button " << _floor_num << endl;
 }
 
 void LiftButton::slot_released()

@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         button.cpp \
+        cabine.cpp \
         controller.cpp \
         doors.cpp \
         elevator.cpp \
@@ -34,11 +35,11 @@ SOURCES += \
 
 HEADERS += \
         button.h \
+        cabine.h \
         controller.h \
         doors.h \
         elevator.h \
-        mainwindow.h \
-        timer.h
+        mainwindow.h
 
 FORMS += \
         mainwindow.ui

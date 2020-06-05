@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "button.h"
+#include "cabine.h"
 
 using namespace std;
 
@@ -23,28 +24,28 @@ class Controller : public QWidget
 
 public:
     Controller(size_t floor_num, QWidget *parent = nullptr);
-    virtual ~Controller()
-    {
-        /*for (unsigned int i = 0; i < _amount_floors; i++)
-            delete _btn_arr[i];
+    virtual ~Controller() {}
 
-        delete _btn_box;*/
-    }
+public slots:
+    void achieved_floor(size_t floor_num, Direction dir);
 
-/*public slots:
-    //
+private slots:
+    void get_new_aim(size_t floor_num);
 
-signals:*/
-    //
+signals:
+    void send_aim(size_t floor_num);
+    void next_aim(size_t floor_num);
 
 private:
     ControllerStatus _status;
-    size_t _cur_floor; //
     size_t _amount_floors;
 
-    list<shared_ptr<LiftButton>> _btn_arr;
+    vector<shared_ptr<LiftButton>> _btn_arr;
+    vector<bool> _request_arr;
 
     QVBoxLayout _btn_box;
+
+    size_t find_next_request(size_t floor_num, Direction dir);
 };
 
 #endif // CONTROLLER_H

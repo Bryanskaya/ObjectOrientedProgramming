@@ -18,7 +18,7 @@ class LiftButton : public QPushButton
     };
 
 public:
-    LiftButton(size_t floor_num, QWidget *parent = nullptr);//explicit
+    LiftButton(size_t floor_num, QWidget *parent = nullptr);
     virtual ~LiftButton() {}
 
 public slots:
