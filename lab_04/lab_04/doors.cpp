@@ -5,7 +5,7 @@ Doors::Doors(double delay_opening, double delay_closing,
 {
     _status = CLOSED;
 
-    time_opening.setInterval(int(delay_opening * 1000)); //миллисекунды
+    time_opening.setInterval(int(delay_opening * 1000));
     time_closing.setInterval(int(delay_closing * 1000));
     time_open.setInterval(int(delay_open * 1000));
 

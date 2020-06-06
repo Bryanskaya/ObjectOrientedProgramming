@@ -35,14 +35,15 @@ QT_MOC_LITERAL(0, 0, 5), // "Doors"
 QT_MOC_LITERAL(1, 6, 11), // "DoorsOpened"
 QT_MOC_LITERAL(2, 18, 0), // ""
 QT_MOC_LITERAL(3, 19, 11), // "DoorsClosed"
-QT_MOC_LITERAL(4, 31, 9), // "slot_open"
-QT_MOC_LITERAL(5, 41, 10), // "slot_close"
-QT_MOC_LITERAL(6, 52, 12), // "slot_opening"
-QT_MOC_LITERAL(7, 65, 12) // "slot_closing"
+QT_MOC_LITERAL(4, 31, 12), // "slot_opening"
+QT_MOC_LITERAL(5, 44, 12), // "slot_closing"
+QT_MOC_LITERAL(6, 57, 9), // "slot_open"
+QT_MOC_LITERAL(7, 67, 10) // "slot_close"
 
     },
-    "Doors\0DoorsOpened\0\0DoorsClosed\0slot_open\0"
-    "slot_close\0slot_opening\0slot_closing"
+    "Doors\0DoorsOpened\0\0DoorsClosed\0"
+    "slot_opening\0slot_closing\0slot_open\0"
+    "slot_close"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,7 +66,7 @@ static const uint qt_meta_data_Doors[] = {
 
  // slots: name, argc, parameters, tag, flags
        4,    0,   46,    2, 0x0a /* Public */,
-       5,    0,   47,    2, 0x0a /* Public */,
+       5,    0,   47,    2, 0x08 /* Private */,
        6,    0,   48,    2, 0x08 /* Private */,
        7,    0,   49,    2, 0x08 /* Private */,
 
@@ -90,10 +91,10 @@ void Doors::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         switch (_id) {
         case 0: _t->DoorsOpened(); break;
         case 1: _t->DoorsClosed(); break;
-        case 2: _t->slot_open(); break;
-        case 3: _t->slot_close(); break;
-        case 4: _t->slot_opening(); break;
-        case 5: _t->slot_closing(); break;
+        case 2: _t->slot_opening(); break;
+        case 3: _t->slot_closing(); break;
+        case 4: _t->slot_open(); break;
+        case 5: _t->slot_close(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

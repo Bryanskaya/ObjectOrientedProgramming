@@ -30,12 +30,13 @@ public:
     bool is_closed();
 
 public slots:
-    void slot_open();
-    void slot_close();
+    void slot_opening();
 
 private slots:
-    void slot_opening();
     void slot_closing();
+
+    void slot_open();
+    void slot_close();
 
 signals:
     void DoorsOpened();

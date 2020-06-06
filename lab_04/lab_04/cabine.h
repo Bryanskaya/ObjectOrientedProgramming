@@ -41,7 +41,7 @@ signals:
 
 public slots:
     void slot_close(size_t floor_num);
-    void slot_request(size_t floor_num = 0);
+    void slot_request(size_t floor_num = 1);
 
 private slots:
     void slot_start();
