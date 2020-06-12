@@ -37,6 +37,7 @@ public:
     Array<Type>& operator=(Array<Type>&& other);
 
     void append(const Type& elem);
+    void remove(const Iterator<Type>& iter);
 
     void clear();
 
@@ -47,8 +48,10 @@ private:
     void _clone_array(Array<Type>&& other);
 
     void _realloc(size_t new_size);
+
     Type& _get_elem(size_t index);
     const Type& _get_elem(size_t index) const;
+
     void _set_elem(size_t index, const Type& elem);
 };
 

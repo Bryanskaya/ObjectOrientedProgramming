@@ -29,6 +29,15 @@ SOURCES += \
         Commands/commands.cpp \
         Errors/ArrayErrors.cpp \
         Errors/BaseErrors.cpp \
+        Objects/Camera/BaseCamera.cpp \
+        Objects/Camera/Camera.cpp \
+        Objects/ComplexObject.cpp \
+        Objects/Edge/BaseEdge.cpp \
+        Objects/Edge/Edge.cpp \
+        Objects/Model/BaseModel.cpp \
+        Objects/Model/Model.cpp \
+        Objects/Point/BasePoint.cpp \
+        Objects/Point/Point.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -45,6 +54,17 @@ HEADERS += \
         Commands/commands.h \
         Errors/ArrayErrors.h \
         Errors/BaseErrors.h \
+        Objects/Camera/BaseCamera.h \
+        Objects/Camera/Camera.h \
+        Objects/ComplexObject.h \
+        Objects/Edge/BaseEdge.h \
+        Objects/Edge/Edge.h \
+        Objects/Model/BaseModel.h \
+        Objects/Model/Model.h \
+        Objects/Point/BasePoint.h \
+        Objects/Point/Point.h \
+        Objects/SceneObject.h \
+        Objects/SimpleObject.h \
         mainwindow.h
 
 FORMS += \

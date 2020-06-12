@@ -107,11 +107,26 @@ void Array<Type>::append(const Type& new_el)
 }
 
 template<typename Type>
+void Array<Type>::remove(const Iterator<Type>& iter)
+{
+    if (iter.is_end()) return;
+
+    Iterator<Type> iter_1(iter);
+    Iterator<Type> iter_2(iter_1);
+
+    iter_2++;
+    for (; iter_2; iter_1++, iter_2++)
+        *iter_1 = *iter_2;
+
+    _realloc(get_size() - 1);
+}
+
+template<typename Type>
 void Array<Type>::clear()
 {
     if (!get_size()) return;
 
-    _arr.reset();
+    //_arr.reset();
     _realloc(0);
 }
 
