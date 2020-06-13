@@ -2,8 +2,8 @@
 #define POINT_H
 
 #include "BaseCamera.h"
+#include "Visitors/ObjectVisitor.h"
 
-class ObjectVisitor; //
 
 class Camera : public BaseCamera
 {
@@ -13,7 +13,7 @@ public:
     explicit Camera(const Camera& other);
     virtual ~Camera() {}
 
-    virtual void accept(shared_ptr<ObjectVisitor>); //
+    virtual void accept(shared_ptr<ObjectVisitor>);
     virtual unique_ptr<SceneObject> clone();
 };
 

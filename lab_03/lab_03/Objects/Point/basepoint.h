@@ -8,7 +8,7 @@ class BasePoint : public VisibleObject
 public:
     BasePoint();
     BasePoint(double x, double y, double z);
-    explicit BasePoint(const BasePoint& other);
+    BasePoint(const BasePoint& other);
     virtual ~BasePoint() = default;
 
     double& get_x();

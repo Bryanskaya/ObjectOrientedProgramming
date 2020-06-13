@@ -1,13 +1,14 @@
-#ifndef SCENEOBJECTS_H
-#define SCENEOBJECTS_H
+#ifndef SCENEOBJECT_H
+#define SCENEOBJECT_H
 
 #include <iostream>
 #include <memory>
 
+
+class ObjectVisitor;
+
 using namespace std;
 
-
-class ObjectVisitor; //
 
 class SceneObject
 {
@@ -21,14 +22,13 @@ public:
 
     virtual void accept(shared_ptr<ObjectVisitor>)
     {
-        cout << '*';
-    }  //
+        cout << "*";
+    }
 
     virtual unique_ptr<SceneObject> clone()
     {
-        cout << '+';
         return nullptr;
-    } //
+    }
 };
 
-#endif // SCENEOBJECTS_H
+#endif // SCENEOBJECT_H

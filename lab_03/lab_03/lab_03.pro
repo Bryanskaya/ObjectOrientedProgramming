@@ -26,9 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         Array/BaseArray.cpp \
+        Builder/BaseModelBuilder.cpp \
+        Builder/ModelBuildDirector.cpp \
         Commands/commands.cpp \
         Errors/ArrayErrors.cpp \
         Errors/BaseErrors.cpp \
+        Errors/SceneErrors.cpp \
         Objects/Camera/BaseCamera.cpp \
         Objects/Camera/Camera.cpp \
         Objects/ComplexObject.cpp \
@@ -38,6 +41,13 @@ SOURCES += \
         Objects/Model/Model.cpp \
         Objects/Point/BasePoint.cpp \
         Objects/Point/Point.cpp \
+        Transformation/Transformation.cpp \
+        Viewver/BaseDrawerFactory.cpp \
+        Viewver/Drawer.cpp \
+        Viewver/QDrawerFactory.cpp \
+        Viewver/Viewver.cpp \
+        Visitors/DrawVisitor.cpp \
+        Visitors/ObjectVisitor.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -51,9 +61,19 @@ HEADERS += \
         Array/ConstIterator.hpp \
         Array/Iterator.h \
         Array/Iterator.hpp \
+        Builder/BaseModelBuilder.h \
+        Builder/BuildDirector.h \
+        Builder/Builder.h \
+        Builder/BuilderTxtFile.h \
+        Builder/ModelBuildDirector.h \
         Commands/commands.h \
+        Creator/EdgeCreator.h \
+        Creator/ObjectCreator.h \
+        Creator/PointCreator.h \
+        Creator/cameracreator.h \
         Errors/ArrayErrors.h \
         Errors/BaseErrors.h \
+        Errors/SceneErrors.h \
         Objects/Camera/BaseCamera.h \
         Objects/Camera/Camera.h \
         Objects/ComplexObject.h \
@@ -65,6 +85,15 @@ HEADERS += \
         Objects/Point/Point.h \
         Objects/SceneObject.h \
         Objects/SimpleObject.h \
+        Transformation/Transformation.h \
+        Transformation/Transformator.h \
+        Viewver/BaseDrawer.h \
+        Viewver/BaseDrawerFactory.h \
+        Viewver/Drawer.h \
+        Viewver/QDrawerFactory.h \
+        Viewver/Viewver.h \
+        Visitors/DrawVisitor.h \
+        Visitors/ObjectVisitor.h \
         mainwindow.h
 
 FORMS += \

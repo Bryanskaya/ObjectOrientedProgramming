@@ -1,0 +1,4 @@
+#ifndef BUILDERTXTFILE_H
+#define BUILDERTXTFILE_H
+
+#endif // BUILDERTXTFILE_H

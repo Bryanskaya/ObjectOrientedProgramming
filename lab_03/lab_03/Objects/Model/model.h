@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "BaseModel.h"
+#include "Visitors/ObjectVisitor.h"
 
 
 class Model : public BaseModel

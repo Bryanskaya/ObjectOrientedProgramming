@@ -2,8 +2,7 @@
 #define POINT_H
 
 #include "basepoint.h"
-
-class ObjectVisitor; //
+#include "Visitors/ObjectVisitor.h"
 
 class Point : public BasePoint
 {
@@ -11,9 +10,9 @@ public:
     Point();
     Point(double x, double y, double z);
     explicit Point(const Point& other);
-    virtual ~Point() {}
+    virtual ~Point();
 
-    virtual void accept(shared_ptr<ObjectVisitor>); //
+    virtual void accept(shared_ptr<ObjectVisitor>);
     virtual unique_ptr<SceneObject> clone();
 };
 
