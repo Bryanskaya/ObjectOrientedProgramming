@@ -2,18 +2,13 @@
 
 BaseEdge::BaseEdge() {}
 
-BaseEdge::BaseEdge(const BasePoint& point1, const BasePoint& point2)
-{
-    _point1 = point1;
-    _point2 = point2;
-}
+BaseEdge::BaseEdge(const BasePoint& point1, const BasePoint& point2) :
+    _point1(point1), _point2(point2) {}
 
-BaseEdge::BaseEdge(const BaseEdge& other)
-{
-    _point1 = other.get_point1();
-    _point2 = other.get_point2();
-}
+BaseEdge::BaseEdge(const BaseEdge& other) :
+    _point1(other.get_point1()), _point2(other.get_point2()) {}
 
+BaseEdge::~BaseEdge() {}
 
 BasePoint& BaseEdge::get_point1()
 {
@@ -37,12 +32,12 @@ const BasePoint& BaseEdge::get_point2() const
 }
 
 
-void BaseEdge::set_point1(BasePoint &point)
+void BaseEdge::set_point1(const BasePoint &)
 {
-    _point1 = point;
+    //_point1 = point;
 }
 
-void BaseEdge::set_point2(BasePoint &point)
+void BaseEdge::set_point2(BasePoint &)
 {
-    _point2 = point;
+    //_point2 = point;
 }

@@ -8,11 +8,11 @@ Camera::Camera(const Camera& other) : BaseCamera(other) {}
 
 void Camera::accept(shared_ptr<ObjectVisitor> visitor)
 {
-    //
+    visitor->visit(*this);
 }
 
-unique_ptr<SceneObject> Camera::clone()
+SceneObject *Camera::clone()
 {
-    return unique_ptr<SceneObject>(new Camera(*this));
+    return new Camera(*this);
 }
 

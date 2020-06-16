@@ -11,9 +11,9 @@ public:
     EdgeCreator();
     virtual ~EdgeCreator();
 
-    virtual unique_ptr<SceneObject> create()
+    virtual shared_ptr<SceneObject> create()
     {
-        return unique_ptr<SceneObject>(new Edge(_point1, _point2));
+        return shared_ptr<SceneObject>(new Edge(_point1, _point2));
     }
 
 private:

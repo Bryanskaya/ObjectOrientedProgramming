@@ -2,6 +2,9 @@
 
 BasePoint::BasePoint() {}
 
+BasePoint::~BasePoint() {}
+
+
 BasePoint::BasePoint(double x, double y, double z)
 {
     _x = x;

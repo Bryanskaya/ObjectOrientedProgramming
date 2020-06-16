@@ -1,7 +1,7 @@
 #ifndef TRANSFORMATOR_H
 #define TRANSFORMATOR_H
 
-#include "transformation.h"
+#include "Transformation.h"
 
 
 class Transformator

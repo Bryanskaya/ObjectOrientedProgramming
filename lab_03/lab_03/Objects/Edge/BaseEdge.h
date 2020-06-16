@@ -10,7 +10,7 @@ public:
     BaseEdge();
     BaseEdge(const BasePoint& point1, const BasePoint& point2);
     explicit BaseEdge(const BaseEdge& other);
-    virtual ~BaseEdge() = default;
+    virtual ~BaseEdge() = 0;
 
     BasePoint& get_point1();
     BasePoint& get_point2();
@@ -18,7 +18,7 @@ public:
     const BasePoint& get_point1() const;
     const BasePoint& get_point2() const;
 
-    void set_point1(BasePoint& point);
+    void set_point1(const BasePoint &point);
     void set_point2(BasePoint& point);
 
 

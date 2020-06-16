@@ -10,10 +10,10 @@ using namespace std;
 class BuildDirector
 {
 public:
-    BuildDirector() = default;
-    virtual ~BuildDirector() = default;
+    BuildDirector();
+    virtual ~BuildDirector() = 0;
 
-    virtual shared_ptr<SceneObject> create();
+    virtual shared_ptr<SceneObject> create() = 0;
 };
 
 #endif // BUILDDIRECTOR_H

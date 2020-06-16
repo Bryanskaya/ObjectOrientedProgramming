@@ -11,7 +11,7 @@ public:
     ObjectCreator();
     virtual ~ObjectCreator() = default;
 
-    virtual unique_ptr<SceneObject> create() = 0;
+    virtual shared_ptr<SceneObject> create() = 0;
 };
 
 #endif // OBJECTCREATOR_H

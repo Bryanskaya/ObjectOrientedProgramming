@@ -16,20 +16,20 @@ public:
 
     size_t get_size() const;
 
-    void add_object(const SceneObject&);
-    void remove_object(const Iterator<SceneObject>&);
+    void add_object(shared_ptr<SceneObject>);
+    void remove_object(Iterator<shared_ptr<SceneObject>>&);
 
-    Iterator<SceneObject> begin() { return _object_arr.begin(); }
-    Iterator<SceneObject> end() { return _object_arr.end(); }
+    Iterator<shared_ptr<SceneObject>> begin() { return _object_arr.begin(); }
+    Iterator<shared_ptr<SceneObject>> end() { return _object_arr.end(); }
 
-    ConstIterator<SceneObject> const_begin() { return _object_arr.const_begin(); }
-    ConstIterator<SceneObject> const_end() { return _object_arr.const_end(); }
+    ConstIterator<shared_ptr<SceneObject>> const_begin() { return _object_arr.const_begin(); }
+    ConstIterator<shared_ptr<SceneObject>> const_end() { return _object_arr.const_end(); }
 
-    ConstIterator<SceneObject> begin() const { return _object_arr.begin(); }
-    ConstIterator<SceneObject> end() const { return _object_arr.end(); }
+    ConstIterator<shared_ptr<SceneObject>> begin() const { return _object_arr.begin(); }
+    ConstIterator<shared_ptr<SceneObject>> end() const { return _object_arr.end(); }
 
 protected:
-    Array<SceneObject> _object_arr;
+    Array<shared_ptr<SceneObject>> _object_arr;
 };
 
 #endif // COMPLEXOBJECT_H

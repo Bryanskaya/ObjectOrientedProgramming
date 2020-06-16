@@ -9,7 +9,7 @@ public:
     BasePoint();
     BasePoint(double x, double y, double z);
     BasePoint(const BasePoint& other);
-    virtual ~BasePoint() = default;
+    virtual ~BasePoint();
 
     double& get_x();
     double& get_y();

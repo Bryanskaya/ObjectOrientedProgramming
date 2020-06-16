@@ -5,7 +5,7 @@ QDrawerFactory::QDrawerFactory(weak_ptr<QGraphicsScene> scene, const QPen& point
 
 QDrawerFactory::~QDrawerFactory() {}
 
-unique_ptr<BaseDrawer> QDrawerFactory:: creator()
+shared_ptr<BaseDrawer> QDrawerFactory:: creator()
 {
-    return unique_ptr<BaseDrawer>(new Drawer(_scene, _point_pen, _line_pen));
+    return shared_ptr<BaseDrawer>(new Drawer(_scene, _point_pen, _line_pen));
 }

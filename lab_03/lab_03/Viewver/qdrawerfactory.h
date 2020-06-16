@@ -12,7 +12,7 @@ public:
                    const QPen& line_pen);
     virtual ~QDrawerFactory();
 
-    virtual unique_ptr<BaseDrawer> creator();
+    virtual shared_ptr<BaseDrawer> creator();
 
 private:
     weak_ptr<QGraphicsScene> _scene;

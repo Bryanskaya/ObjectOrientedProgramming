@@ -13,9 +13,9 @@ public:
 
     virtual ~CameraCreator();
 
-    virtual unique_ptr<SceneObject> create()
+    virtual shared_ptr<SceneObject> create()
     {
-        return unique_ptr<SceneObject>(new Camera(_x, _y, _z));
+        return shared_ptr<SceneObject>(new Camera(_x, _y, _z));
     }
 
 private:

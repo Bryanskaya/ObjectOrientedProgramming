@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         Array/BaseArray.cpp \
         Builder/BaseModelBuilder.cpp \
+        Builder/BuildDirector.cpp \
         Builder/ModelBuildDirector.cpp \
         Commands/commands.cpp \
         Errors/ArrayErrors.cpp \
         Errors/BaseErrors.cpp \
         Errors/SceneErrors.cpp \
+        Errors/VisitorErrors.cpp \
         Objects/Camera/BaseCamera.cpp \
         Objects/Camera/Camera.cpp \
         Objects/ComplexObject.cpp \
@@ -41,13 +43,18 @@ SOURCES += \
         Objects/Model/Model.cpp \
         Objects/Point/BasePoint.cpp \
         Objects/Point/Point.cpp \
+        Objects/SceneObject.cpp \
+        Scene/BaseScene.cpp \
+        Scene/Scene.cpp \
         Transformation/Transformation.cpp \
+        Viewver/BaseDrawer.cpp \
         Viewver/BaseDrawerFactory.cpp \
         Viewver/Drawer.cpp \
         Viewver/QDrawerFactory.cpp \
         Viewver/Viewver.cpp \
         Visitors/DrawVisitor.cpp \
         Visitors/ObjectVisitor.cpp \
+        Visitors/TransformVisitor.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -67,13 +74,14 @@ HEADERS += \
         Builder/BuilderTxtFile.h \
         Builder/ModelBuildDirector.h \
         Commands/commands.h \
+        Creator/CameraCreator.h \
         Creator/EdgeCreator.h \
         Creator/ObjectCreator.h \
         Creator/PointCreator.h \
-        Creator/cameracreator.h \
         Errors/ArrayErrors.h \
         Errors/BaseErrors.h \
         Errors/SceneErrors.h \
+        Errors/VisitorErrors.h \
         Objects/Camera/BaseCamera.h \
         Objects/Camera/Camera.h \
         Objects/ComplexObject.h \
@@ -85,6 +93,8 @@ HEADERS += \
         Objects/Point/Point.h \
         Objects/SceneObject.h \
         Objects/SimpleObject.h \
+        Scene/BaseScene.h \
+        Scene/Scene.h \
         Transformation/Transformation.h \
         Transformation/Transformator.h \
         Viewver/BaseDrawer.h \
@@ -94,6 +104,7 @@ HEADERS += \
         Viewver/Viewver.h \
         Visitors/DrawVisitor.h \
         Visitors/ObjectVisitor.h \
+        Visitors/TransformVisitor.h \
         mainwindow.h
 
 FORMS += \
