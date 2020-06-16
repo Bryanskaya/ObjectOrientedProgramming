@@ -44,5 +44,3 @@ void Scene::remove_object(Iterator<shared_ptr<SceneObject>>& iter)
     _arr.remove(iter);
     _cur_camera = _find_camera();
 }
-
-

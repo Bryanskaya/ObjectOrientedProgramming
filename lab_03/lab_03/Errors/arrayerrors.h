@@ -40,6 +40,13 @@ public:
     virtual ~AllocProblem();
 };
 
+class IndexOutRange : public BaseError
+{
+public:
+    IndexOutRange(string filename, string classname, int num_line);
+    virtual ~IndexOutRange();
+};
+
 }
 
 #endif // ARRAYERRORS_H

@@ -23,3 +23,8 @@ ArrayCountExpired::~ArrayCountExpired() = default;
 AllocProblem::AllocProblem(string filename, string classname, int num_line) :
     BaseError(filename, classname, num_line, "Array error: memory allocation is failed"){}
 AllocProblem::~AllocProblem() = default;
+
+IndexOutRange::IndexOutRange(string filename, string classname, int num_line) :
+    BaseError(filename, classname, num_line, "Array error: index out of range"){}
+IndexOutRange::~IndexOutRange() = default;
+

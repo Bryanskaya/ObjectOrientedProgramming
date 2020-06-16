@@ -28,12 +28,16 @@ SOURCES += \
         Array/BaseArray.cpp \
         Builder/BaseModelBuilder.cpp \
         Builder/BuildDirector.cpp \
+        Builder/BuilderTxtFile.cpp \
         Builder/ModelBuildDirector.cpp \
-        Commands/commands.cpp \
+        Commands/BaseCommand.cpp \
+        Commands/Commands.cpp \
         Errors/ArrayErrors.cpp \
         Errors/BaseErrors.cpp \
+        Errors/LoadErrors.cpp \
         Errors/SceneErrors.cpp \
         Errors/VisitorErrors.cpp \
+        Manager/SceneManager.cpp \
         Objects/Camera/BaseCamera.cpp \
         Objects/Camera/Camera.cpp \
         Objects/ComplexObject.cpp \
@@ -73,15 +77,17 @@ HEADERS += \
         Builder/Builder.h \
         Builder/BuilderTxtFile.h \
         Builder/ModelBuildDirector.h \
-        Commands/commands.h \
+        Commands/BaseCommand.h \
         Creator/CameraCreator.h \
         Creator/EdgeCreator.h \
         Creator/ObjectCreator.h \
         Creator/PointCreator.h \
         Errors/ArrayErrors.h \
         Errors/BaseErrors.h \
+        Errors/LoadErrors.h \
         Errors/SceneErrors.h \
         Errors/VisitorErrors.h \
+        Manager/SceneManager.h \
         Objects/Camera/BaseCamera.h \
         Objects/Camera/Camera.h \
         Objects/ComplexObject.h \
@@ -94,6 +100,7 @@ HEADERS += \
         Objects/SceneObject.h \
         Objects/SimpleObject.h \
         Scene/BaseScene.h \
+        Scene/Facade.h \
         Scene/Scene.h \
         Transformation/Transformation.h \
         Transformation/Transformator.h \

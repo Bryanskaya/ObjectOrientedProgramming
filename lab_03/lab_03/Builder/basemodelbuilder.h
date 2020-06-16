@@ -15,7 +15,7 @@ public:
 
     virtual shared_ptr<SceneObject> get_object();
 
-private:
+protected:
     shared_ptr<Model> _model;
 };
 
