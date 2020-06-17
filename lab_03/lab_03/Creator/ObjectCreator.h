@@ -4,12 +4,11 @@
 #include "Objects/SceneObject.h"
 
 
-
 class ObjectCreator
 {
 public:
     ObjectCreator();
-    virtual ~ObjectCreator() = default;
+    virtual ~ObjectCreator() = 0;
 
     virtual shared_ptr<SceneObject> create() = 0;
 };

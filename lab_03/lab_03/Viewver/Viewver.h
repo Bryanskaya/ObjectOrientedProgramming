@@ -5,6 +5,7 @@
 
 #include "Objects/Camera/BaseCamera.h"
 #include "Objects/Point/basepoint.h"
+#include "Objects/Point/Point.h"
 #include "Viewver/basedrawerfactory.h"
 
 
@@ -26,7 +27,7 @@ private:
     shared_ptr<BaseCamera> _camera;
     shared_ptr<BaseDrawer> _draw;
 
-    BasePoint _projecting_point(const BasePoint& point);
+    shared_ptr<BasePoint> _projecting_point(const BasePoint& point);
 };
 
 #endif // VIEWVER_H

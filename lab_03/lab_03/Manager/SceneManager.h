@@ -6,6 +6,10 @@
 #include "Viewver/Viewver.h"
 #include "Builder/BuildDirector.h"
 #include "Creator/ObjectCreator.h"
+#include "Visitors/ObjectVisitor.h"
+#include "Visitors/drawvisitor.h"
+#include "Visitors/transformvisitor.h"
+
 
 class SceneManager
 {

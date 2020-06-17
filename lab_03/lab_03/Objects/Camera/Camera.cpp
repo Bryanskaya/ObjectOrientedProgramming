@@ -2,6 +2,8 @@
 
 Camera::Camera() {}
 
+Camera::~Camera() {}
+
 Camera::Camera(double x, double y, double z) : BaseCamera(x, y, z) {}
 
 Camera::Camera(const Camera& other) : BaseCamera(other) {}

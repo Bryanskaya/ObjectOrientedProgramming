@@ -661,27 +661,6 @@
      <string>Применить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="StartPosition">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>530</y>
-      <width>151</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Times New Roman</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Исходное положение</string>
-    </property>
-   </widget>
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
@@ -904,22 +883,6 @@
     <hint type="sourcelabel">
      <x>205</x>
      <y>84</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>StartPosition</sender>
-   <signal>clicked()</signal>
-   <receiver>actionScanFile</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>125</x>
-     <y>624</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

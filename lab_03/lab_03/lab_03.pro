@@ -30,8 +30,14 @@ SOURCES += \
         Builder/BuildDirector.cpp \
         Builder/BuilderTxtFile.cpp \
         Builder/ModelBuildDirector.cpp \
+        Commands/AddCommand.cpp \
         Commands/BaseCommand.cpp \
-        Commands/Commands.cpp \
+        Commands/ChangeCamera.cpp \
+        Commands/DrawCommand.cpp \
+        Commands/LoadCommand.cpp \
+        Commands/RemoveCommand.cpp \
+        Commands/TransformCommand.cpp \
+        Creator/objectcreator.cpp \
         Errors/ArrayErrors.cpp \
         Errors/BaseErrors.cpp \
         Errors/LoadErrors.cpp \
@@ -77,7 +83,14 @@ HEADERS += \
         Builder/Builder.h \
         Builder/BuilderTxtFile.h \
         Builder/ModelBuildDirector.h \
+        Commands/AddCommand.h \
         Commands/BaseCommand.h \
+        Commands/ChangeCamera.h \
+        Commands/Commands.h \
+        Commands/DrawCommand.h \
+        Commands/LoadCommand.h \
+        Commands/RemoveCommand.h \
+        Commands/TransformCommand.h \
         Creator/CameraCreator.h \
         Creator/EdgeCreator.h \
         Creator/ObjectCreator.h \

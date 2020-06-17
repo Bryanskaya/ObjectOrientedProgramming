@@ -11,7 +11,7 @@ public:
     Camera();
     Camera(double x, double y, double z);
     explicit Camera(const Camera& other);
-    virtual ~Camera() {}
+    virtual ~Camera();
 
     virtual void accept(shared_ptr<ObjectVisitor>);
     virtual SceneObject* clone();
