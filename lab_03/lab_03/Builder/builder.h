@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class  Builder
+class Builder
 {
 public:
     Builder() = default;

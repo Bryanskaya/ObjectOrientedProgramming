@@ -19,15 +19,15 @@ void Viewver::draw_line(const BasePoint &point1, const BasePoint &point2)
     BasePoint p1(*_projecting_point(point1));
     BasePoint p2(*_projecting_point(point2));
 
-    _draw->draw_line(point1.get_x(), point1.get_y(),
-                     point2.get_x(), point2.get_y());
+    _draw->draw_line(p1.get_x(), p1.get_y(),
+                     p2.get_x(), p2.get_y());
 }
 
 void Viewver::draw_point(const BasePoint &point)
 {
     BasePoint p(*_projecting_point(point));
 
-    _draw->draw_point(point.get_x(), point.get_y());
+    _draw->draw_point(p.get_x(), p.get_y());
 }
 
 void Viewver::clear()

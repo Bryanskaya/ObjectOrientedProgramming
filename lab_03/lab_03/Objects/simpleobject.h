@@ -18,7 +18,7 @@ public:
     InvisibleObject() = default;
     virtual ~InvisibleObject() = default;
 
-    virtual bool is_drawable() { return false; } // final
+    virtual bool is_drawable() { return false; }
 };
 
 class VisibleObject : public SimpleObject

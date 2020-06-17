@@ -2,6 +2,7 @@
 #define BASEITERATOR_H
 
 #include <memory>
+#include <iterator>
 
 #include "Errors/arrayerrors.h"
 

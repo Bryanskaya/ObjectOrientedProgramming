@@ -38,7 +38,7 @@ private:
 };
 
 #ifndef ITERATOR_HPP_ADVANCED
-#include "Iterator.hpp"
+#include "iterator.hpp"
 #endif // ITERATOR_HPP_ADVANCED
 
 #endif // ITERATOR_H

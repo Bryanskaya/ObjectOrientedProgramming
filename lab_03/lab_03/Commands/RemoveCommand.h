@@ -3,6 +3,7 @@
 
 #include "BaseCommand.h"
 
+
 class RemoveCommand : public BaseCommand
 {
 public:

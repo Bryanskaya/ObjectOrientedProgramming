@@ -25,19 +25,12 @@ shared_ptr<BaseCamera> Scene::get_camera()
 {
     BaseCamera *ptr;
 
-    cout << "get_camera1" << endl;
-
-    //if (_cur_camera.is_end())
     if (_find_camera().is_end())
         ptr = nullptr;
     else
-        //ptr = reinterpret_cast<BaseCamera*>((*_cur_camera)->clone());
         ptr = reinterpret_cast<BaseCamera*>((*_find_camera())->clone());
 
-    cout << "get_camera2" << endl;
-
-    //return shared_ptr<BaseCamera>(ptr);
-    return shared_ptr<BaseCamera>(new Camera(350, 350, 1000));
+    return shared_ptr<BaseCamera>(ptr);
 }
 
 void Scene::add_object(shared_ptr<SceneObject> object)

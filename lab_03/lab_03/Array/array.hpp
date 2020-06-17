@@ -74,6 +74,7 @@ Type* Array<Type>::get_arr()
 template<typename Type>
 Array<Type>& Array<Type>::operator =(const Array<Type>& other)
 {
+    clear();
     _copy_array(other);
 
     return *this;
@@ -103,7 +104,7 @@ template<typename Type>
 void Array<Type>::append(const Type& new_el)
 {
     _realloc(get_size()+1);
-    (*this)[get_size() - 1] = new_el;
+    _get_elem(get_size() - 1) = new_el;
 }
 
 template<typename Type>
@@ -125,8 +126,6 @@ template<typename Type>
 void Array<Type>::clear()
 {
     if (!get_size()) return;
-
-    //_arr.reset();
     _realloc(0);
 }
 

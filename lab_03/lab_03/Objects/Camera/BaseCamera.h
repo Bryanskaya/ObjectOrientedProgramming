@@ -23,6 +23,7 @@ public:
     void set_y(double elem);
     void set_z(double elem);
 
+    virtual bool is_observer() { return true; }
 
 private:
     double _x, _y, _z;

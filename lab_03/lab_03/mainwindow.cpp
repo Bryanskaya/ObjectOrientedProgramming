@@ -7,7 +7,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), _scene(new QGraphicsScene(-1, -1, 1, 1)),
+    ui(new Ui::MainWindow), _scene(new QGraphicsScene(-10, -10, 10, 10)),
     _facade(new Facade(new Scene()))
 {
     ui->setupUi(this);
@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     try
     {
-        AddCamera add_camera(5, -5, 500);
+        AddCamera add_camera(350, 350, 1000);
         _facade->execute(add_camera);
 
         LoadModel load_model(ui->fileName->text().toStdString());

@@ -8,6 +8,9 @@ template<typename Type>
 BaseIterator<Type>& BaseIterator<Type>::operator=(const BaseIterator<Type>& iter)
 {
     index = iter.index;
+    arr = iter.arr;
+    count = iter.count;
+
     return *this;
 }
 
@@ -128,6 +131,7 @@ BaseIterator<Type>::operator bool() const
 
     if (index >= *(count.lock()))
         return false;
+
     return true;
 }
 
