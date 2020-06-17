@@ -19,6 +19,7 @@ protected:
 
 class QDrawScene : public DrawCommand
 {
+public:
     QDrawScene(weak_ptr<QGraphicsScene> scene,
                const QPen& point, const QPen& line);
 

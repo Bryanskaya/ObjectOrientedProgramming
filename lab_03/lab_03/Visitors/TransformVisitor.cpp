@@ -37,5 +37,5 @@ void TransformVisitor::visit(BaseModel &model)
         throw error::TransformExpired(__FILE__, typeid (*this).name(),__LINE__ - 1);
 
     for (auto obj : model)
-        obj->accept(_self_ptr);
+        obj->accept(_self_ptr.lock());
 }

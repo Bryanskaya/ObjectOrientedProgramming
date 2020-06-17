@@ -5,7 +5,7 @@ ObjectVisitor::ObjectVisitor() {}
 
 ObjectVisitor::~ObjectVisitor() {}
 
-void ObjectVisitor::set_ptr(shared_ptr<ObjectVisitor> &ptr)
+void ObjectVisitor::set_ptr(weak_ptr<ObjectVisitor> ptr)
 {
     _self_ptr = ptr;
 }

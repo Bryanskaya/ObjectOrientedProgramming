@@ -20,8 +20,9 @@ protected:
 };
 
 
-class LoadModel : LoadCommand
+class LoadModel : public LoadCommand
 {
+public:
     LoadModel(string filename);
     virtual ~LoadModel();
 };

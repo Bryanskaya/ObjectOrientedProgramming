@@ -35,8 +35,15 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    void _set_binds_input(void);
+    void _show_error(const char* error);
+
     shared_ptr<QGraphicsScene> _scene;
     shared_ptr<Facade> _facade;
+
+    shared_ptr<BaseCommand> _move(void);
+    shared_ptr<BaseCommand> _scale(void);
+    shared_ptr<BaseCommand> _rotate(void);
 };
 
 #endif // MAINWINDOW_H

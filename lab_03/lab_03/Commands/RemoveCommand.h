@@ -7,7 +7,7 @@ class RemoveCommand : public BaseCommand
 {
 public:
     RemoveCommand(size_t index);
-    virtual ~RemoveCommand() = 0;
+    virtual ~RemoveCommand();
 
     virtual void execute(weak_ptr<BaseScene> scene);
 

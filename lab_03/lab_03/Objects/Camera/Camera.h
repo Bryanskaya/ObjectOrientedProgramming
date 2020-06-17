@@ -1,5 +1,5 @@
-#ifndef POINT_H
-#define POINT_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include "BaseCamera.h"
 #include "Visitors/ObjectVisitor.h"
@@ -17,4 +17,4 @@ public:
     virtual SceneObject* clone();
 };
 
-#endif // POINT_H
+#endif // CAMERA_H

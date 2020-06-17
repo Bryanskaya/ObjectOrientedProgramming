@@ -3,6 +3,8 @@
 
 #include "BaseScene.h"
 
+#include "Objects/Camera/Camera.h"
+
 class Scene: public BaseScene
 {
 public:

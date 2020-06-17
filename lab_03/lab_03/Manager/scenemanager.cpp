@@ -68,16 +68,22 @@ void DrawManager::execute()
     if (_draw.expired())
         throw error::DrawExpired(__FILE__, typeid (*this).name(), __LINE__ - 1);
 
+    cout << "DrawManager1" << endl;
+
     shared_ptr<Viewver> viewver(new Viewver());
     viewver->set_camera(_scene.lock()->get_camera());
     viewver->set_drawer(*_draw.lock());
 
     shared_ptr<ObjectVisitor> visitor(new DrawVisitor(viewver));
 
-    visitor->set_ptr(visitor);
+    visitor->set_ptr(visitor);    
+    viewver->clear();
 
     for (auto object : *_scene.lock())
         object->accept(visitor);
+
+    cout << "DrawManager4" << endl;
+
 }
 
 

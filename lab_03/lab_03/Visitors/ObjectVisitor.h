@@ -17,10 +17,10 @@ public:
     virtual void visit(BaseEdge& edge) = 0;
     virtual void visit(BaseModel& model) = 0;
 
-    void set_ptr(shared_ptr<ObjectVisitor>&);
+    void set_ptr(weak_ptr<ObjectVisitor>);
 
 protected:
-    shared_ptr<ObjectVisitor> _self_ptr;
+    weak_ptr<ObjectVisitor> _self_ptr;
 };
 
 #endif // OBJECTVISITOR_H

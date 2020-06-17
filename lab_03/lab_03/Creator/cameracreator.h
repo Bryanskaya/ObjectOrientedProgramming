@@ -15,9 +15,7 @@ public:
 
     virtual shared_ptr<SceneObject> create()
     {
-        shared_ptr<SceneObject> temp(new Camera(_x, _y, _z));
-        //return shared_ptr<SceneObject>(new Camera(_x, _y, _z));
-        return temp;
+        return shared_ptr<SceneObject>(new Camera(_x, _y, _z));
     }
 
 private:
