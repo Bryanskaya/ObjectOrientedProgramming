@@ -1,0 +1,15 @@
+#ifndef CREATOR_H
+#define CREATOR_H
+
+#include "Objects/SceneObject.h"
+
+
+class ObjectCreator
+{
+    ObjectCreator();
+    virtual ~ObjectCreator() {}
+    
+    virtual unique_ptr<SceneObject> create();
+};
+
+#endif // CREATOR_H
