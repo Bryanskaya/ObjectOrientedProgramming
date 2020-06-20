@@ -68,7 +68,6 @@ public:
     QLineEdit *az;
     QLineEdit *kx;
     QPushButton *ScaleModal;
-    QPushButton *StartPosition;
     QGraphicsView *graphicsView;
     QLabel *label_25;
     QLabel *label_26;
@@ -256,10 +255,6 @@ public:
         ScaleModal->setObjectName(QString::fromUtf8("ScaleModal"));
         ScaleModal->setGeometry(QRect(120, 440, 75, 23));
         ScaleModal->setFont(font2);
-        StartPosition = new QPushButton(centralWidget);
-        StartPosition->setObjectName(QString::fromUtf8("StartPosition"));
-        StartPosition->setGeometry(QRect(50, 530, 151, 23));
-        StartPosition->setFont(font2);
         graphicsView = new QGraphicsView(centralWidget);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
         graphicsView->setGeometry(QRect(260, 40, 641, 581));
@@ -306,7 +301,6 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(pushOk, SIGNAL(clicked()), actionScanFile, SLOT(trigger()));
-        QObject::connect(StartPosition, SIGNAL(clicked()), actionScanFile, SLOT(trigger()));
         QObject::connect(MoveModel, SIGNAL(clicked()), actionMoveModel, SLOT(trigger()));
         QObject::connect(RotateModel, SIGNAL(clicked()), actionRotateModel, SLOT(trigger()));
         QObject::connect(ScaleModal, SIGNAL(clicked()), actionScaleModal, SLOT(trigger()));
@@ -360,7 +354,6 @@ public:
         az->setText(QApplication::translate("MainWindow", "0", nullptr));
         kx->setText(QApplication::translate("MainWindow", "1", nullptr));
         ScaleModal->setText(QApplication::translate("MainWindow", "\320\237\321\200\320\270\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
-        StartPosition->setText(QApplication::translate("MainWindow", "\320\230\321\201\321\205\320\276\320\264\320\275\320\276\320\265 \320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", nullptr));
         label_25->setText(QApplication::translate("MainWindow", "\302\260", nullptr));
         label_26->setText(QApplication::translate("MainWindow", "\302\260", nullptr));
         label_27->setText(QApplication::translate("MainWindow", "ax", nullptr));

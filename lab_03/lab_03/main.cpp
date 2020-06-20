@@ -2,7 +2,6 @@
 #include <QApplication>
 #include <iostream>
 
-#include "Array/array.h"
 
 int main(int argc, char *argv[])
 {

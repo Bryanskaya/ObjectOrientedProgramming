@@ -36,7 +36,7 @@ void Rotate::rotate_x(double&, double &y, double &z)
     double y_temp, z_temp;
 
     y_temp = y * cos(ax) + z * sin(ax);
-    z_temp = z * cos(ax) + y * sin(ax);
+    z_temp = z * cos(ax) - y * sin(ax);
     y = y_temp;
     z = z_temp;
 }
