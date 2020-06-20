@@ -1,2 +1,2 @@
 # ObjectOrientedProgramming
-Labs for Object Oriented Programming
+lab_03/Схема.png
