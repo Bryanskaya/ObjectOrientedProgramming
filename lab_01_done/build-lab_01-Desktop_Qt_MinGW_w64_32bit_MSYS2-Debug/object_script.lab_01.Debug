@@ -1,0 +1,15 @@
+debug/commands.o
+debug/draw_interface.o
+debug/edge.o
+debug/edges.o
+debug/edges_data.o
+debug/main.o
+debug/mainwindow.o
+debug/memory.o
+debug/model.o
+debug/point.o
+debug/points.o
+debug/points_data.o
+debug/task_manager.o
+debug/transform.o
+debug/moc_mainwindow.o
